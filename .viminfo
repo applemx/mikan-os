@@ -11,10 +11,10 @@
 # hlsearch on (H) or off (h):
 ~h
 # Command Line History (newest to oldest):
+:q
+|2,0,1736139056,,"q"
 :wq
 |2,0,1736136003,,"wq"
-:q
-|2,0,1736094758,,"q"
 :q!
 |2,0,1736092587,,"q!"
 :wq!
@@ -31,32 +31,92 @@
 # Registers:
 
 # File marks:
-'0  10  0  ~/.gitignore
-|4,48,10,0,1736136003,"~/.gitignore"
-'1  5  0  ~/osbook/devenv/ansible_provision.yml
-|4,49,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
-'2  1  0  ~/osbook/devenv/ansible_provision.yml
-|4,50,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
-'3  1  0  ~/osbook/devenv/ansible_provision.yml
-|4,51,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
-'4  4  16  /etc/resolv.conf
-|4,52,4,16,1736092587,"/etc/resolv.conf"
-'5  2  21  ~/.wslconfig
-|4,53,2,21,1736089352,"~/.wslconfig"
+'0  24  0  ~/osbook/day01/c/hello.c
+|4,48,24,0,1736139056,"~/osbook/day01/c/hello.c"
+'1  1  0  ~/osbook/day01/c/hello.c
+|4,49,1,0,1736139035,"~/osbook/day01/c/hello.c"
+'2  1  0  ~/osbook/day01/c/hello.c
+|4,50,1,0,1736139035,"~/osbook/day01/c/hello.c"
+'3  10  0  ~/.gitignore
+|4,51,10,0,1736136003,"~/.gitignore"
+'4  5  0  ~/osbook/devenv/ansible_provision.yml
+|4,52,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
+'5  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,53,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
+'6  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,54,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
+'7  4  16  /etc/resolv.conf
+|4,55,4,16,1736092587,"/etc/resolv.conf"
+'8  2  21  ~/.wslconfig
+|4,56,2,21,1736089352,"~/.wslconfig"
 
 # Jumplist (newest first):
+-'  24  0  ~/osbook/day01/c/hello.c
+|4,39,24,0,1736139056,"~/osbook/day01/c/hello.c"
+-'  1  0  ~/osbook/day01/c/hello.c
+|4,39,1,0,1736139037,"~/osbook/day01/c/hello.c"
+-'  1  0  ~/osbook/day01/c/hello.c
+|4,39,1,0,1736139035,"~/osbook/day01/c/hello.c"
 -'  10  0  ~/.gitignore
 |4,39,10,0,1736136003,"~/.gitignore"
+-'  10  0  ~/.gitignore
+|4,39,10,0,1736136003,"~/.gitignore"
+-'  10  0  ~/.gitignore
+|4,39,10,0,1736136003,"~/.gitignore"
+-'  10  0  ~/.gitignore
+|4,39,10,0,1736136003,"~/.gitignore"
+-'  1  0  ~/.gitignore
+|4,39,1,0,1736135961,"~/.gitignore"
+-'  1  0  ~/.gitignore
+|4,39,1,0,1736135961,"~/.gitignore"
+-'  1  0  ~/.gitignore
+|4,39,1,0,1736135961,"~/.gitignore"
 -'  1  0  ~/.gitignore
 |4,39,1,0,1736135961,"~/.gitignore"
 -'  5  0  ~/osbook/devenv/ansible_provision.yml
 |4,39,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
 -'  5  0  ~/osbook/devenv/ansible_provision.yml
 |4,39,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
+-'  5  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
+-'  5  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
+-'  5  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
+-'  5  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
+-'  5  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
+-'  5  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,5,0,1736133464,"~/osbook/devenv/ansible_provision.yml"
 -'  1  0  ~/osbook/devenv/ansible_provision.yml
 |4,39,1,0,1736133322,"~/osbook/devenv/ansible_provision.yml"
 -'  1  0  ~/osbook/devenv/ansible_provision.yml
 |4,39,1,0,1736133322,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736133322,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736133322,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736133322,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736133322,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736133322,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736133322,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
+-'  1  0  ~/osbook/devenv/ansible_provision.yml
+|4,39,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
 -'  1  0  ~/osbook/devenv/ansible_provision.yml
 |4,39,1,0,1736094758,"~/osbook/devenv/ansible_provision.yml"
 -'  1  0  ~/osbook/devenv/ansible_provision.yml
@@ -77,6 +137,102 @@
 |4,39,4,16,1736092587,"/etc/resolv.conf"
 -'  4  16  /etc/resolv.conf
 |4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  4  16  /etc/resolv.conf
+|4,39,4,16,1736092587,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
+-'  1  0  /etc/resolv.conf
+|4,39,1,0,1736092521,"/etc/resolv.conf"
 -'  1  0  /etc/resolv.conf
 |4,39,1,0,1736092521,"/etc/resolv.conf"
 -'  1  0  /etc/resolv.conf
@@ -95,70 +251,12 @@
 |4,39,1,0,1736092521,"/etc/resolv.conf"
 -'  2  21  ~/.wslconfig
 |4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  2  21  ~/.wslconfig
-|4,39,2,21,1736089352,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
--'  1  0  ~/.wslconfig
-|4,39,1,0,1736089318,"~/.wslconfig"
 
 # History of marks within files (newest to oldest):
+
+> ~/osbook/day01/c/hello.c
+	*	1736139052	0
+	"	24	0
 
 > ~/.gitignore
 	*	1736136001	0

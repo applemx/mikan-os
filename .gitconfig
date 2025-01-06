@@ -6,3 +6,5 @@
 [user]
 	name = applemx
 	email = 0db4jx4f2pj162@gmail.com
+[credential]
+	helper = store
