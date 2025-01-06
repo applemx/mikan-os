@@ -15,6 +15,7 @@
   LIBRARY_CLASS                  = ArmHvcLib
 
 [Sources.ARM]
+  Arm/ArmHvc.asm    | RVCT
   Arm/ArmHvc.S      | GCC
 
 [Sources.AARCH64]
@@ -23,3 +24,6 @@
 [Packages]
   MdePkg/MdePkg.dec
   ArmPkg/ArmPkg.dec
+
+[BuildOptions]
+  RVCT:*_*_ARM_PLATFORM_FLAGS == --cpu Cortex-A15

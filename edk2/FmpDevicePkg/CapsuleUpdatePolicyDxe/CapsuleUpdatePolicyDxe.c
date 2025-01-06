@@ -50,6 +50,7 @@ CapsuleUpdatePolicyCheckSystemPower (
   return CheckSystemPower (Good);
 }
 
+
 /**
   Determines if the system thermal state supports a capsule update.
 
@@ -158,13 +159,12 @@ CapsuleUpdatePolicyInitialize (
   IN EFI_SYSTEM_TABLE  *SystemTable
   )
 {
-  EFI_STATUS  Status;
+  EFI_STATUS Status;
 
   ASSERT_PROTOCOL_ALREADY_INSTALLED (NULL, &gEdkiiCapsuleUpdatePolicyProtocolGuid);
   Status = gBS->InstallMultipleProtocolInterfaces (
                   &mHandle,
-                  &gEdkiiCapsuleUpdatePolicyProtocolGuid,
-                  &mCapsuleUpdatePolicy,
+                  &gEdkiiCapsuleUpdatePolicyProtocolGuid, &mCapsuleUpdatePolicy,
                   NULL
                   );
   ASSERT_EFI_ERROR (Status);

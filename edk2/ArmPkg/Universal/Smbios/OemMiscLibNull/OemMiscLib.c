@@ -15,6 +15,7 @@
 #include <Library/HiiLib.h>
 #include <Library/OemMiscLib.h>
 
+
 /** Gets the CPU frequency of the specified processor.
 
   @param ProcessorIndex Index of the processor to get the frequency for.
@@ -24,7 +25,7 @@
 UINTN
 EFIAPI
 OemGetCpuFreq (
-  IN UINT8  ProcessorIndex
+  IN UINT8 ProcessorIndex
   )
 {
   ASSERT (FALSE);
@@ -44,10 +45,10 @@ OemGetCpuFreq (
 BOOLEAN
 EFIAPI
 OemGetProcessorInformation (
-  IN UINTN                               ProcessorIndex,
-  IN OUT PROCESSOR_STATUS_DATA           *ProcessorStatus,
-  IN OUT PROCESSOR_CHARACTERISTIC_FLAGS  *ProcessorCharacteristics,
-  IN OUT OEM_MISC_PROCESSOR_DATA         *MiscProcessorData
+  IN UINTN ProcessorIndex,
+  IN OUT PROCESSOR_STATUS_DATA *ProcessorStatus,
+  IN OUT PROCESSOR_CHARACTERISTIC_FLAGS *ProcessorCharacteristics,
+  IN OUT OEM_MISC_PROCESSOR_DATA *MiscProcessorData
   )
 {
   ASSERT (FALSE);
@@ -67,11 +68,11 @@ OemGetProcessorInformation (
 BOOLEAN
 EFIAPI
 OemGetCacheInformation (
-  IN UINT8                   ProcessorIndex,
-  IN UINT8                   CacheLevel,
-  IN BOOLEAN                 DataCache,
-  IN BOOLEAN                 UnifiedCache,
-  IN OUT SMBIOS_TABLE_TYPE7  *SmbiosCacheTable
+  IN UINT8   ProcessorIndex,
+  IN UINT8   CacheLevel,
+  IN BOOLEAN DataCache,
+  IN BOOLEAN UnifiedCache,
+  IN OUT SMBIOS_TABLE_TYPE7 *SmbiosCacheTable
   )
 {
   ASSERT (FALSE);
@@ -115,7 +116,7 @@ OemGetChassisType (
 BOOLEAN
 EFIAPI
 OemIsProcessorPresent (
-  IN UINTN  ProcessorIndex
+  IN UINTN ProcessorIndex
   )
 {
   ASSERT (FALSE);
@@ -131,108 +132,10 @@ OemIsProcessorPresent (
 VOID
 EFIAPI
 OemUpdateSmbiosInfo (
-  IN EFI_HII_HANDLE                    HiiHandle,
-  IN EFI_STRING_ID                     TokenToUpdate,
-  IN OEM_MISC_SMBIOS_HII_STRING_FIELD  Field
+  IN EFI_HII_HANDLE HiiHandle,
+  IN EFI_STRING_ID TokenToUpdate,
+  IN OEM_MISC_SMBIOS_HII_STRING_FIELD Field
   )
 {
   ASSERT (FALSE);
-}
-
-/** Fetches the Type 32 boot information status.
-
-  @return Boot status.
-**/
-MISC_BOOT_INFORMATION_STATUS_DATA_TYPE
-EFIAPI
-OemGetBootStatus (
-  VOID
-  )
-{
-  ASSERT (FALSE);
-  return BootInformationStatusNoError;
-}
-
-/** Fetches the chassis status when it was last booted.
-
- @return Chassis status.
-**/
-MISC_CHASSIS_STATE
-EFIAPI
-OemGetChassisBootupState (
-  VOID
-  )
-{
-  ASSERT (FALSE);
-  return ChassisStateSafe;
-}
-
-/** Fetches the chassis power supply/supplies status when last booted.
-
- @return Chassis power supply/supplies status.
-**/
-MISC_CHASSIS_STATE
-EFIAPI
-OemGetChassisPowerSupplyState (
-  VOID
-  )
-{
-  ASSERT (FALSE);
-  return ChassisStateSafe;
-}
-
-/** Fetches the chassis thermal status when last booted.
-
- @return Chassis thermal status.
-**/
-MISC_CHASSIS_STATE
-EFIAPI
-OemGetChassisThermalState (
-  VOID
-  )
-{
-  ASSERT (FALSE);
-  return ChassisStateSafe;
-}
-
-/** Fetches the chassis security status when last booted.
-
- @return Chassis security status.
-**/
-MISC_CHASSIS_SECURITY_STATE
-EFIAPI
-OemGetChassisSecurityStatus (
-  VOID
-  )
-{
-  ASSERT (FALSE);
-  return ChassisSecurityStatusNone;
-}
-
-/** Fetches the chassis height in RMUs (Rack Mount Units).
-
-  @return The height of the chassis.
-**/
-UINT8
-EFIAPI
-OemGetChassisHeight (
-  VOID
-  )
-{
-  ASSERT (FALSE);
-  return 1U;
-}
-
-/** Fetches the number of power cords.
-
-  @return The number of power cords.
-**/
-UINT8
-EFIAPI
-OemGetChassisNumPowerCords (
-  VOID
-  )
-{
-  ASSERT (FALSE);
-  return 1;
 }

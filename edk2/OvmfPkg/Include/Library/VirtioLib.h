@@ -16,6 +16,7 @@
 
 #include <IndustryStandard/Virtio.h>
 
+
 /**
 
   Configure a virtio ring.
@@ -46,10 +47,11 @@
 EFI_STATUS
 EFIAPI
 VirtioRingInit (
-  IN  VIRTIO_DEVICE_PROTOCOL  *VirtIo,
-  IN  UINT16                  QueueSize,
-  OUT VRING                   *Ring
+  IN  VIRTIO_DEVICE_PROTOCOL *VirtIo,
+  IN  UINT16                 QueueSize,
+  OUT VRING                  *Ring
   );
+
 
 /**
 
@@ -71,10 +73,10 @@ VirtioRingInit (
 EFI_STATUS
 EFIAPI
 VirtioRingMap (
-  IN  VIRTIO_DEVICE_PROTOCOL  *VirtIo,
-  IN  VRING                   *Ring,
-  OUT UINT64                  *RingBaseShift,
-  OUT VOID                    **Mapping
+  IN  VIRTIO_DEVICE_PROTOCOL *VirtIo,
+  IN  VRING                  *Ring,
+  OUT UINT64                 *RingBaseShift,
+  OUT VOID                   **Mapping
   );
 
 /**
@@ -93,18 +95,20 @@ VirtioRingMap (
 VOID
 EFIAPI
 VirtioRingUninit (
-  IN     VIRTIO_DEVICE_PROTOCOL  *VirtIo,
-  IN OUT VRING                   *Ring
+  IN     VIRTIO_DEVICE_PROTOCOL *VirtIo,
+  IN OUT VRING                  *Ring
   );
+
 
 //
 // Internal use structure for tracking the submission of a multi-descriptor
 // request.
 //
 typedef struct {
-  UINT16    HeadDescIdx;
-  UINT16    NextDescIdx;
+  UINT16 HeadDescIdx;
+  UINT16 NextDescIdx;
 } DESC_INDICES;
+
 
 /**
 
@@ -121,9 +125,10 @@ typedef struct {
 VOID
 EFIAPI
 VirtioPrepare (
-  IN OUT VRING         *Ring,
-  OUT    DESC_INDICES  *Indices
+  IN OUT VRING        *Ring,
+  OUT    DESC_INDICES *Indices
   );
+
 
 /**
 
@@ -166,12 +171,13 @@ VirtioPrepare (
 VOID
 EFIAPI
 VirtioAppendDesc (
-  IN OUT VRING         *Ring,
-  IN     UINT64        BufferDeviceAddress,
-  IN     UINT32        BufferSize,
-  IN     UINT16        Flags,
-  IN OUT DESC_INDICES  *Indices
+  IN OUT VRING        *Ring,
+  IN     UINT64       BufferDeviceAddress,
+  IN     UINT32       BufferSize,
+  IN     UINT16       Flags,
+  IN OUT DESC_INDICES *Indices
   );
+
 
 /**
 
@@ -203,12 +209,13 @@ VirtioAppendDesc (
 EFI_STATUS
 EFIAPI
 VirtioFlush (
-  IN     VIRTIO_DEVICE_PROTOCOL  *VirtIo,
-  IN     UINT16                  VirtQueueId,
-  IN OUT VRING                   *Ring,
-  IN     DESC_INDICES            *Indices,
-  OUT    UINT32                  *UsedLen    OPTIONAL
+  IN     VIRTIO_DEVICE_PROTOCOL *VirtIo,
+  IN     UINT16                 VirtQueueId,
+  IN OUT VRING                  *Ring,
+  IN     DESC_INDICES           *Indices,
+  OUT    UINT32                 *UsedLen    OPTIONAL
   );
+
 
 /**
 
@@ -250,9 +257,9 @@ VirtioFlush (
 EFI_STATUS
 EFIAPI
 Virtio10WriteFeatures (
-  IN     VIRTIO_DEVICE_PROTOCOL  *VirtIo,
-  IN     UINT64                  Features,
-  IN OUT UINT8                   *DeviceStatus
+  IN     VIRTIO_DEVICE_PROTOCOL *VirtIo,
+  IN     UINT64                 Features,
+  IN OUT UINT8                  *DeviceStatus
   );
 
 /**
@@ -306,5 +313,4 @@ VirtioMapAllBytesInSharedBuffer (
   OUT EFI_PHYSICAL_ADDRESS    *DeviceAddress,
   OUT VOID                    **Mapping
   );
-
 #endif // _VIRTIO_LIB_H_

@@ -8,10 +8,8 @@
 
 #include "BaseLibInternals.h"
 
-extern VOID
-RiscVCpuPause (
-  VOID
-  );
+extern VOID RiscVCpuPause (VOID);
+
 
 /**
   Requests CPU to pause for a short period of time.
@@ -28,3 +26,4 @@ CpuPause (
 {
   RiscVCpuPause ();
 }
+

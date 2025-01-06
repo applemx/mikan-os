@@ -1,6 +1,6 @@
 /** @file
 
-  Copyright (c) 2014 - 2022, Intel Corporation. All rights reserved.<BR>
+  Copyright (c) 2014 - 2016, Intel Corporation. All rights reserved.<BR>
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
@@ -30,8 +30,8 @@
   @return                     FSP specific IDT gate descriptor.
 
 **/
-IA32_IDT_GATE_DESCRIPTOR
-FspGetExceptionHandler (
+UINT64
+FspGetExceptionHandler(
   IN  UINT64  IdtEntryTemplate
   );
 
@@ -47,10 +47,11 @@ FspGetExceptionHandler (
 **/
 VOID
 FspGlobalDataInit (
-  IN OUT  FSP_GLOBAL_DATA  *PeiFspData,
-  IN UINTN                 BootLoaderStack,
-  IN UINT8                 ApiIdx
+  IN OUT  FSP_GLOBAL_DATA    *PeiFspData,
+  IN UINT32                   BootLoaderStack,
+  IN UINT8                    ApiIdx
   );
+
 
 /**
 
@@ -61,8 +62,9 @@ FspGlobalDataInit (
 **/
 VOID
 FspDataPointerFixUp (
-  IN UINTN  OffsetGap
+  IN UINT32   OffsetGap
   );
+
 
 /**
   This interface returns the base address of FSP binary.

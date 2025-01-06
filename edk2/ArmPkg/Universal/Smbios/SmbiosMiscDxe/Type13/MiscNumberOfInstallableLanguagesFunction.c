@@ -23,23 +23,23 @@
 /**
   Get next language from language code list (with separator ';').
 
-  @param  LangCode       Input:  point to first language in the list. On
-                         Output: point to next language in the list, or
-                                 NULL if no more language in the list.
+  @param  LangCode       Input: point to first language in the list. On
+                         Otput: point to next language in the list, or
+                                NULL if no more language in the list.
   @param  Lang           The first language in the list.
 
 **/
 VOID
 EFIAPI
 GetNextLanguage (
-  IN OUT CHAR8  **LangCode,
-  OUT CHAR8     *Lang
+  IN OUT CHAR8      **LangCode,
+  OUT CHAR8         *Lang
   )
 {
   UINTN  Index;
   CHAR8  *StringPtr;
 
-  if ((LangCode == NULL) || (*LangCode == NULL) || (Lang == NULL)) {
+  if (LangCode == NULL || *LangCode == NULL || Lang == NULL) {
     return;
   }
 
@@ -55,7 +55,6 @@ GetNextLanguage (
   if (StringPtr[Index] == ';') {
     Index++;
   }
-
   *LangCode = StringPtr + Index;
 }
 
@@ -70,7 +69,7 @@ GetNextLanguage (
 UINT16
 EFIAPI
 GetSupportedLanguageNumber (
-  IN EFI_HII_HANDLE  HiiHandle
+  IN EFI_HII_HANDLE    HiiHandle
   )
 {
   CHAR8   *Lang;
@@ -84,20 +83,19 @@ GetSupportedLanguageNumber (
   }
 
   LangNumber = 0;
-  Lang       = AllocatePool (AsciiStrSize (Languages));
+  Lang = AllocatePool (AsciiStrSize (Languages));
   if (Lang != NULL) {
     LanguageString = Languages;
     while (*LanguageString != 0) {
       GetNextLanguage (&LanguageString, Lang);
       LangNumber++;
     }
-
     FreePool (Lang);
   }
-
   FreePool (Languages);
   return LangNumber;
 }
+
 
 /**
   This function makes boot time changes to the contents of the
@@ -111,13 +109,14 @@ GetSupportedLanguageNumber (
   @retval EFI_OUT_OF_RESOURCES       Failed to allocate required memory.
 
 **/
-SMBIOS_MISC_TABLE_FUNCTION (MiscNumberOfInstallableLanguages) {
-  UINTN                LangStrLen;
-  CHAR8                CurrentLang[SMBIOS_STRING_MAX_LENGTH + 1];
-  CHAR8                *OptionalStrStart;
-  EFI_STATUS           Status;
-  SMBIOS_TABLE_TYPE13  *SmbiosRecord;
-  SMBIOS_TABLE_TYPE13  *InputData;
+SMBIOS_MISC_TABLE_FUNCTION(MiscNumberOfInstallableLanguages)
+{
+  UINTN                                     LangStrLen;
+  CHAR8                                     CurrentLang[SMBIOS_STRING_MAX_LENGTH + 1];
+  CHAR8                                     *OptionalStrStart;
+  EFI_STATUS                                Status;
+  SMBIOS_TABLE_TYPE13                       *SmbiosRecord;
+  SMBIOS_TABLE_TYPE13                       *InputData;
 
   InputData = NULL;
 
@@ -156,15 +155,10 @@ SMBIOS_MISC_TABLE_FUNCTION (MiscNumberOfInstallableLanguages) {
   //
   // Now we have got the full smbios record, call smbios protocol to add this record.
   //
-  Status = SmbiosMiscAddRecord ((UINT8 *)SmbiosRecord, NULL);
+  Status = SmbiosMiscAddRecord ((UINT8*)SmbiosRecord, NULL);
   if (EFI_ERROR (Status)) {
-    DEBUG ((
-      DEBUG_ERROR,
-      "[%a]:[%dL] Smbios Type13 Table Log Failed! %r \n",
-      __FUNCTION__,
-      DEBUG_LINE_NUMBER,
-      Status
-      ));
+    DEBUG ((DEBUG_ERROR, "[%a]:[%dL] Smbios Type13 Table Log Failed! %r \n",
+            __FUNCTION__, __LINE__, Status));
   }
 
   FreePool (SmbiosRecord);

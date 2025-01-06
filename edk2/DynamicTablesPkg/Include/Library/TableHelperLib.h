@@ -1,6 +1,6 @@
 /** @file
 
-  Copyright (c) 2017 - 2021, Arm Limited. All rights reserved.<BR>
+  Copyright (c) 2017 - 2020, Arm Limited. All rights reserved.<BR>
 
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
@@ -11,8 +11,6 @@
 
 #ifndef TABLE_HELPER_LIB_H_
 #define TABLE_HELPER_LIB_H_
-
-#include <Library/AmlLib/AmlLib.h>
 
 /** The GetCgfMgrInfo function gets the CM_STD_OBJ_CONFIGURATION_MANAGER_INFO
     object from the Configuration Manager.
@@ -31,8 +29,8 @@
 EFI_STATUS
 EFIAPI
 GetCgfMgrInfo (
-  IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL      *CONST  CfgMgrProtocol,
-  OUT       CM_STD_OBJ_CONFIGURATION_MANAGER_INFO             **CfgMfrInfo
+  IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL      * CONST  CfgMgrProtocol,
+  OUT       CM_STD_OBJ_CONFIGURATION_MANAGER_INFO    **        CfgMfrInfo
   );
 
 /** The AddAcpiHeader function updates the ACPI header structure. It uses the
@@ -57,44 +55,11 @@ GetCgfMgrInfo (
 EFI_STATUS
 EFIAPI
 AddAcpiHeader (
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  IN      CONST ACPI_TABLE_GENERATOR                  *CONST  Generator,
-  IN OUT  EFI_ACPI_DESCRIPTION_HEADER                 *CONST  AcpiHeader,
-  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO            *CONST  AcpiTableInfo,
+  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST CfgMgrProtocol,
+  IN      CONST ACPI_TABLE_GENERATOR                  * CONST Generator,
+  IN OUT  EFI_ACPI_DESCRIPTION_HEADER                 * CONST AcpiHeader,
+  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO            * CONST AcpiTableInfo,
   IN      CONST UINT32                                        Length
-  );
-
-/** Build a RootNode containing SSDT ACPI header information using the AmlLib.
-
-  The function utilizes the ACPI table Generator and the Configuration
-  Manager protocol to obtain any information required for constructing the
-  header. It then creates a RootNode. The SSDT ACPI header is part of the
-  RootNode.
-
-  This is essentially a wrapper around AmlCodeGenDefinitionBlock ()
-  from the AmlLib.
-
-  @param [in]   CfgMgrProtocol Pointer to the Configuration Manager
-                               protocol interface.
-  @param [in]   Generator      Pointer to the ACPI table Generator.
-  @param [in]   AcpiTableInfo  Pointer to the ACPI table info structure.
-  @param [out]  RootNode       If success, contains the created RootNode.
-                               The SSDT ACPI header is part of the RootNode.
-
-  @retval EFI_SUCCESS           Success.
-  @retval EFI_INVALID_PARAMETER A parameter is invalid.
-  @retval EFI_NOT_FOUND         The required object information is not found.
-  @retval EFI_BAD_BUFFER_SIZE   The size returned by the Configuration
-                                Manager is less than the Object size for the
-                                requested object.
-**/
-EFI_STATUS
-EFIAPI
-AddSsdtAcpiHeader (
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  IN      CONST ACPI_TABLE_GENERATOR                  *CONST  Generator,
-  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO            *CONST  AcpiTableInfo,
-  OUT       AML_ROOT_NODE_HANDLE                              *RootNode
   );
 
 /**
@@ -113,8 +78,8 @@ AddSsdtAcpiHeader (
 typedef
 BOOLEAN
 (EFIAPI *PFN_IS_EQUAL)(
-  IN CONST  VOID            *Object1,
-  IN CONST  VOID            *Object2,
+  IN CONST  VOID            * Object1,
+  IN CONST  VOID            * Object2,
   IN        UINTN             Index1 OPTIONAL,
   IN        UINTN             Index2 OPTIONAL
   );
@@ -136,20 +101,23 @@ BOOLEAN
 BOOLEAN
 EFIAPI
 FindDuplicateValue (
-  IN  CONST VOID          *Array,
-  IN  CONST UINTN         Count,
-  IN  CONST UINTN         ElementSize,
-  IN        PFN_IS_EQUAL  EqualTestFunction
+  IN  CONST VOID          * Array,
+  IN  CONST UINTN           Count,
+  IN  CONST UINTN           ElementSize,
+  IN        PFN_IS_EQUAL    EqualTestFunction
   );
 
-/** Parse and print a CmObjDesc.
+/** Convert a hex number to its ASCII code.
 
-  @param [in]  CmObjDesc  The CmObjDesc to parse and print.
+ @param [in]  x   Hex number to convert.
+                  Must be 0 <= x < 16.
+
+ @return The ASCII code corresponding to x.
 **/
-VOID
+UINT8
 EFIAPI
-ParseCmObjDesc (
-  IN  CONST CM_OBJ_DESCRIPTOR  *CmObjDesc
+AsciiFromHex (
+  IN  UINT8   x
   );
 
 #endif // TABLE_HELPER_LIB_H_

@@ -1,6 +1,6 @@
 ;------------------------------------------------------------------------------
 ;
-; Copyright (c) 2015 - 2022, Intel Corporation. All rights reserved.<BR>
+; Copyright (c) 2015 - 2019, Intel Corporation. All rights reserved.<BR>
 ; SPDX-License-Identifier: BSD-2-Clause-Patent
 ;
 ; Abstract:
@@ -9,20 +9,20 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
 ; EFIAPI
 ; SecSwitchStack (
 ;   UINT32   TemporaryMemoryBase,
-;   UINT32   PermanentMemoryBase
+;   UINT32   PermenentMemoryBase
 ;   );
 ;------------------------------------------------------------------------------
 global ASM_PFX(SecSwitchStack)
 ASM_PFX(SecSwitchStack):
     ;
-    ; Save four register: eax, ebx, ecx, edx
+    ; Save three register: eax, ebx, ecx
     ;
     push  eax
     push  ebx
@@ -55,7 +55,7 @@ ASM_PFX(SecSwitchStack):
     mov   dword [eax + 12], edx
     mov   edx, dword [esp + 16]    ; Update this function's return address into permanent memory
     mov   dword [eax + 16], edx
-    mov   esp, eax                 ; From now, esp is pointed to permanent memory
+    mov   esp, eax                     ; From now, esp is pointed to permanent memory
 
     ;
     ; Fixup the ebp point to permanent memory
@@ -63,7 +63,7 @@ ASM_PFX(SecSwitchStack):
     mov   eax, ebp
     sub   eax, ebx
     add   eax, ecx
-    mov   ebp, eax                 ; From now, ebp is pointed to permanent memory
+    mov   ebp, eax                ; From now, ebp is pointed to permanent memory
 
     pop   edx
     pop   ecx

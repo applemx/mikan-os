@@ -14,28 +14,26 @@
 EFI_STATUS
 EFIAPI
 IoMmuDxeEntryPoint (
-  IN EFI_HANDLE        ImageHandle,
-  IN EFI_SYSTEM_TABLE  *SystemTable
+  IN EFI_HANDLE         ImageHandle,
+  IN EFI_SYSTEM_TABLE   *SystemTable
   )
 {
-  EFI_STATUS  Status;
-  EFI_HANDLE  Handle;
+  EFI_STATUS    Status;
+  EFI_HANDLE    Handle;
 
   //
-  // When SEV or TDX is enabled, install IoMmu protocol otherwise install the
+  // When SEV is enabled, install IoMmu protocol otherwise install the
   // placeholder protocol so that other dependent module can run.
   //
-  if (MemEncryptSevIsEnabled () || MemEncryptTdxIsEnabled ()) {
-    Status = InstallIoMmuProtocol ();
+  if (MemEncryptSevIsEnabled ()) {
+    Status = AmdSevInstallIoMmuProtocol ();
   } else {
     Handle = NULL;
 
     Status = gBS->InstallMultipleProtocolInterfaces (
-                    &Handle,
-                    &gIoMmuAbsentProtocolGuid,
-                    NULL,
-                    NULL
-                    );
+                  &Handle,
+                  &gIoMmuAbsentProtocolGuid,
+                  NULL, NULL);
   }
 
   return Status;

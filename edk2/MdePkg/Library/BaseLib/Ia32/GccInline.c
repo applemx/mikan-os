@@ -7,6 +7,7 @@
 
 **/
 
+
 #include "BaseLibInternals.h"
 
 /**
@@ -76,13 +77,13 @@ AsmReadEflags (
   VOID
   )
 {
-  UINTN  Eflags;
+  UINTN Eflags;
 
   __asm__ __volatile__ (
     "pushfl     \n\t"
     "popl %0        "
     : "=r" (Eflags)
-  );
+    );
 
   return Eflags;
 }
@@ -100,15 +101,16 @@ AsmReadEflags (
 VOID
 EFIAPI
 InternalX86FxSave (
-  OUT     IA32_FX_BUFFER  *Buffer
+  OUT     IA32_FX_BUFFER            *Buffer
   )
 {
   __asm__ __volatile__ (
     "fxsave %0"
     :
     : "m" (*Buffer)  // %0
-  );
+    );
 }
+
 
 /**
   Restores the current floating point/SSE/SSE2 context from a buffer.
@@ -123,15 +125,16 @@ InternalX86FxSave (
 VOID
 EFIAPI
 InternalX86FxRestore (
-  IN      CONST IA32_FX_BUFFER  *Buffer
+  IN      CONST IA32_FX_BUFFER      *Buffer
   )
 {
   __asm__ __volatile__ (
     "fxrstor %0"
     :
     : "m" (*Buffer)  // %0
-  );
+    );
 }
+
 
 /**
   Reads the current value of 64-bit MMX Register #0 (MM0).
@@ -157,10 +160,11 @@ AsmReadMm0 (
     "pop  %%eax          \n\t"
     "pop  %%edx          \n\t"
     : "=A"  (Data)       // %0
-  );
+    );
 
   return Data;
 }
+
 
 /**
   Reads the current value of 64-bit MMX Register #1 (MM1).
@@ -186,10 +190,11 @@ AsmReadMm1 (
     "pop  %%eax          \n\t"
     "pop  %%edx          \n\t"
     : "=A"  (Data)       // %0
-  );
+    );
 
   return Data;
 }
+
 
 /**
   Reads the current value of 64-bit MMX Register #2 (MM2).
@@ -215,10 +220,11 @@ AsmReadMm2 (
     "pop  %%eax          \n\t"
     "pop  %%edx          \n\t"
     : "=A"  (Data)       // %0
-  );
+    );
 
   return Data;
 }
+
 
 /**
   Reads the current value of 64-bit MMX Register #3 (MM3).
@@ -244,10 +250,11 @@ AsmReadMm3 (
     "pop  %%eax          \n\t"
     "pop  %%edx          \n\t"
     : "=A"  (Data)       // %0
-  );
+    );
 
   return Data;
 }
+
 
 /**
   Reads the current value of 64-bit MMX Register #4 (MM4).
@@ -273,10 +280,11 @@ AsmReadMm4 (
     "pop  %%eax          \n\t"
     "pop  %%edx          \n\t"
     : "=A"  (Data)       // %0
-  );
+    );
 
   return Data;
 }
+
 
 /**
   Reads the current value of 64-bit MMX Register #5 (MM5).
@@ -302,10 +310,11 @@ AsmReadMm5 (
     "pop  %%eax          \n\t"
     "pop  %%edx          \n\t"
     : "=A"  (Data)       // %0
-  );
+    );
 
   return Data;
 }
+
 
 /**
   Reads the current value of 64-bit MMX Register #6 (MM6).
@@ -331,10 +340,11 @@ AsmReadMm6 (
     "pop  %%eax          \n\t"
     "pop  %%edx          \n\t"
     : "=A"  (Data)       // %0
-  );
+    );
 
   return Data;
 }
+
 
 /**
   Reads the current value of 64-bit MMX Register #7 (MM7).
@@ -360,10 +370,11 @@ AsmReadMm7 (
     "pop  %%eax          \n\t"
     "pop  %%edx          \n\t"
     : "=A"  (Data)       // %0
-  );
+    );
 
   return Data;
 }
+
 
 /**
   Writes the current value of 64-bit MMX Register #0 (MM0).
@@ -377,15 +388,16 @@ AsmReadMm7 (
 VOID
 EFIAPI
 AsmWriteMm0 (
-  IN      UINT64  Value
+  IN      UINT64                    Value
   )
 {
   __asm__ __volatile__ (
     "movq %0, %%mm0"  // %0
     :
     : "m" (Value)
-  );
+    );
 }
+
 
 /**
   Writes the current value of 64-bit MMX Register #1 (MM1).
@@ -399,15 +411,16 @@ AsmWriteMm0 (
 VOID
 EFIAPI
 AsmWriteMm1 (
-  IN      UINT64  Value
+  IN      UINT64                    Value
   )
 {
   __asm__ __volatile__ (
     "movq %0, %%mm1"  // %0
     :
     : "m" (Value)
-  );
+    );
 }
+
 
 /**
   Writes the current value of 64-bit MMX Register #2 (MM2).
@@ -421,15 +434,16 @@ AsmWriteMm1 (
 VOID
 EFIAPI
 AsmWriteMm2 (
-  IN      UINT64  Value
+  IN      UINT64                    Value
   )
 {
   __asm__ __volatile__ (
     "movq %0, %%mm2"  // %0
     :
     : "m" (Value)
-  );
+    );
 }
+
 
 /**
   Writes the current value of 64-bit MMX Register #3 (MM3).
@@ -443,15 +457,16 @@ AsmWriteMm2 (
 VOID
 EFIAPI
 AsmWriteMm3 (
-  IN      UINT64  Value
+  IN      UINT64                    Value
   )
 {
   __asm__ __volatile__ (
     "movq %0, %%mm3"  // %0
     :
     : "m" (Value)
-  );
+    );
 }
+
 
 /**
   Writes the current value of 64-bit MMX Register #4 (MM4).
@@ -465,15 +480,16 @@ AsmWriteMm3 (
 VOID
 EFIAPI
 AsmWriteMm4 (
-  IN      UINT64  Value
+  IN      UINT64                    Value
   )
 {
   __asm__ __volatile__ (
     "movq %0, %%mm4"  // %0
     :
     : "m" (Value)
-  );
+    );
 }
+
 
 /**
   Writes the current value of 64-bit MMX Register #5 (MM5).
@@ -487,15 +503,16 @@ AsmWriteMm4 (
 VOID
 EFIAPI
 AsmWriteMm5 (
-  IN      UINT64  Value
+  IN      UINT64                    Value
   )
 {
   __asm__ __volatile__ (
     "movq %0, %%mm5"  // %0
     :
     : "m" (Value)
-  );
+    );
 }
+
 
 /**
   Writes the current value of 64-bit MMX Register #6 (MM6).
@@ -509,15 +526,16 @@ AsmWriteMm5 (
 VOID
 EFIAPI
 AsmWriteMm6 (
-  IN      UINT64  Value
+  IN      UINT64                    Value
   )
 {
   __asm__ __volatile__ (
     "movq %0, %%mm6"  // %0
     :
     : "m" (Value)
-  );
+    );
 }
+
 
 /**
   Writes the current value of 64-bit MMX Register #7 (MM7).
@@ -531,15 +549,16 @@ AsmWriteMm6 (
 VOID
 EFIAPI
 AsmWriteMm7 (
-  IN      UINT64  Value
+  IN      UINT64                    Value
   )
 {
   __asm__ __volatile__ (
     "movq %0, %%mm7"  // %0
     :
     : "m" (Value)
-  );
+    );
 }
+
 
 /**
   Reads the current value of Time Stamp Counter (TSC).
@@ -561,7 +580,7 @@ AsmReadTsc (
   __asm__ __volatile__ (
     "rdtsc"
     : "=A" (Data)
-  );
+    );
 
   return Data;
 }

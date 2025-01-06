@@ -61,7 +61,6 @@
   gUefiOvmfPkgTokenSpaceGuid.PcdEmuVariableEvent
   gUefiOvmfPkgTokenSpaceGuid.PcdOvmfFlashVariablesEnable
   gUefiOvmfPkgTokenSpaceGuid.PcdOvmfHostBridgePciDevId
-  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiS3Enable
   gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultBaudRate         ## CONSUMES
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultDataBits         ## CONSUMES

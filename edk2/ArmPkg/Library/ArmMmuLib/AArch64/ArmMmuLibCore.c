@@ -26,32 +26,31 @@ ArmMemoryAttributeToPageAttribute (
   )
 {
   switch (Attributes) {
-    case ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_NONSHAREABLE:
-    case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_WRITE_BACK_NONSHAREABLE:
-      return TT_ATTR_INDX_MEMORY_WRITE_BACK;
+  case ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_NONSHAREABLE:
+  case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_WRITE_BACK_NONSHAREABLE:
+    return TT_ATTR_INDX_MEMORY_WRITE_BACK;
 
-    case ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK:
-    case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_WRITE_BACK:
-      return TT_ATTR_INDX_MEMORY_WRITE_BACK | TT_SH_INNER_SHAREABLE;
+  case ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK:
+  case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_WRITE_BACK:
+    return TT_ATTR_INDX_MEMORY_WRITE_BACK | TT_SH_INNER_SHAREABLE;
 
-    case ARM_MEMORY_REGION_ATTRIBUTE_WRITE_THROUGH:
-    case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_WRITE_THROUGH:
-      return TT_ATTR_INDX_MEMORY_WRITE_THROUGH | TT_SH_INNER_SHAREABLE;
+  case ARM_MEMORY_REGION_ATTRIBUTE_WRITE_THROUGH:
+  case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_WRITE_THROUGH:
+    return TT_ATTR_INDX_MEMORY_WRITE_THROUGH | TT_SH_INNER_SHAREABLE;
 
-    // Uncached and device mappings are treated as outer shareable by default,
-    case ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED:
-    case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_UNCACHED_UNBUFFERED:
-      return TT_ATTR_INDX_MEMORY_NON_CACHEABLE;
+  // Uncached and device mappings are treated as outer shareable by default,
+  case ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED:
+  case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_UNCACHED_UNBUFFERED:
+    return TT_ATTR_INDX_MEMORY_NON_CACHEABLE;
 
-    default:
-      ASSERT (0);
-    case ARM_MEMORY_REGION_ATTRIBUTE_DEVICE:
-    case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE:
-      if (ArmReadCurrentEL () == AARCH64_EL2) {
-        return TT_ATTR_INDX_DEVICE_MEMORY | TT_XN_MASK;
-      } else {
-        return TT_ATTR_INDX_DEVICE_MEMORY | TT_UXN_MASK | TT_PXN_MASK;
-      }
+  default:
+    ASSERT (0);
+  case ARM_MEMORY_REGION_ATTRIBUTE_DEVICE:
+  case ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE:
+    if (ArmReadCurrentEL () == AARCH64_EL2)
+      return TT_ATTR_INDX_DEVICE_MEMORY | TT_XN_MASK;
+    else
+      return TT_ATTR_INDX_DEVICE_MEMORY | TT_UXN_MASK | TT_PXN_MASK;
   }
 }
 
@@ -62,7 +61,7 @@ ArmMemoryAttributeToPageAttribute (
 STATIC
 UINTN
 GetRootTableEntryCount (
-  IN  UINTN  T0SZ
+  IN  UINTN T0SZ
   )
 {
   return TT_ENTRY_COUNT >> (T0SZ - MIN_T0SZ) % BITS_PER_LEVEL;
@@ -71,7 +70,7 @@ GetRootTableEntryCount (
 STATIC
 UINTN
 GetRootTableLevel (
-  IN  UINTN  T0SZ
+  IN  UINTN T0SZ
   )
 {
   return (T0SZ - MIN_T0SZ) / BITS_PER_LEVEL;
@@ -80,10 +79,10 @@ GetRootTableLevel (
 STATIC
 VOID
 ReplaceTableEntry (
-  IN  UINT64   *Entry,
-  IN  UINT64   Value,
-  IN  UINT64   RegionStart,
-  IN  BOOLEAN  IsLiveBlockMapping
+  IN  UINT64  *Entry,
+  IN  UINT64  Value,
+  IN  UINT64  RegionStart,
+  IN  BOOLEAN IsLiveBlockMapping
   )
 {
   if (!ArmMmuEnabled () || !IsLiveBlockMapping) {
@@ -101,22 +100,19 @@ FreePageTablesRecursive (
   IN  UINTN   Level
   )
 {
-  UINTN  Index;
+  UINTN   Index;
 
   ASSERT (Level <= 3);
 
   if (Level < 3) {
     for (Index = 0; Index < TT_ENTRY_COUNT; Index++) {
       if ((TranslationTable[Index] & TT_TYPE_MASK) == TT_TYPE_TABLE_ENTRY) {
-        FreePageTablesRecursive (
-          (VOID *)(UINTN)(TranslationTable[Index] &
-                          TT_ADDRESS_MASK_BLOCK_ENTRY),
-          Level + 1
-          );
+        FreePageTablesRecursive ((VOID *)(UINTN)(TranslationTable[Index] &
+                                                 TT_ADDRESS_MASK_BLOCK_ENTRY),
+                                 Level + 1);
       }
     }
   }
-
   FreePages (TranslationTable, 1);
 }
 
@@ -130,7 +126,6 @@ IsBlockEntry (
   if (Level == 3) {
     return (Entry & TT_TYPE_MASK) == TT_TYPE_BLOCK_ENTRY_LEVEL3;
   }
-
   return (Entry & TT_TYPE_MASK) == TT_TYPE_BLOCK_ENTRY;
 }
 
@@ -148,48 +143,39 @@ IsTableEntry (
     //
     return FALSE;
   }
-
   return (Entry & TT_TYPE_MASK) == TT_TYPE_TABLE_ENTRY;
 }
 
 STATIC
 EFI_STATUS
 UpdateRegionMappingRecursive (
-  IN  UINT64  RegionStart,
-  IN  UINT64  RegionEnd,
-  IN  UINT64  AttributeSetMask,
-  IN  UINT64  AttributeClearMask,
-  IN  UINT64  *PageTable,
-  IN  UINTN   Level
+  IN  UINT64      RegionStart,
+  IN  UINT64      RegionEnd,
+  IN  UINT64      AttributeSetMask,
+  IN  UINT64      AttributeClearMask,
+  IN  UINT64      *PageTable,
+  IN  UINTN       Level
   )
 {
-  UINTN       BlockShift;
-  UINT64      BlockMask;
-  UINT64      BlockEnd;
-  UINT64      *Entry;
-  UINT64      EntryValue;
-  VOID        *TranslationTable;
-  EFI_STATUS  Status;
+  UINTN           BlockShift;
+  UINT64          BlockMask;
+  UINT64          BlockEnd;
+  UINT64          *Entry;
+  UINT64          EntryValue;
+  VOID            *TranslationTable;
+  EFI_STATUS      Status;
 
   ASSERT (((RegionStart | RegionEnd) & EFI_PAGE_MASK) == 0);
 
   BlockShift = (Level + 1) * BITS_PER_LEVEL + MIN_T0SZ;
-  BlockMask  = MAX_UINT64 >> BlockShift;
+  BlockMask = MAX_UINT64 >> BlockShift;
 
-  DEBUG ((
-    DEBUG_VERBOSE,
-    "%a(%d): %llx - %llx set %lx clr %lx\n",
-    __FUNCTION__,
-    Level,
-    RegionStart,
-    RegionEnd,
-    AttributeSetMask,
-    AttributeClearMask
-    ));
+  DEBUG ((DEBUG_VERBOSE, "%a(%d): %llx - %llx set %lx clr %lx\n", __FUNCTION__,
+    Level, RegionStart, RegionEnd, AttributeSetMask, AttributeClearMask));
 
-  for ( ; RegionStart < RegionEnd; RegionStart = BlockEnd) {
+  for (; RegionStart < RegionEnd; RegionStart = BlockEnd) {
     BlockEnd = MIN (RegionEnd, (RegionStart | BlockMask) + 1);
-    Entry    = &PageTable[(RegionStart >> (64 - BlockShift)) & (TT_ENTRY_COUNT - 1)];
+    Entry = &PageTable[(RegionStart >> (64 - BlockShift)) & (TT_ENTRY_COUNT - 1)];
 
     //
     // If RegionStart or BlockEnd is not aligned to the block size at this
@@ -201,9 +187,8 @@ UpdateRegionMappingRecursive (
     // we cannot replace it with a block entry without potentially losing
     // attribute information, so keep the table entry in that case.
     //
-    if ((Level == 0) || (((RegionStart | BlockEnd) & BlockMask) != 0) ||
-        (IsTableEntry (*Entry, Level) && (AttributeClearMask != 0)))
-    {
+    if (Level == 0 || ((RegionStart | BlockEnd) & BlockMask) != 0 ||
+        (IsTableEntry (*Entry, Level) && AttributeClearMask != 0)) {
       ASSERT (Level < 3);
 
       if (!IsTableEntry (*Entry, Level)) {
@@ -231,14 +216,9 @@ UpdateRegionMappingRecursive (
           // We are splitting an existing block entry, so we have to populate
           // the new table with the attributes of the block entry it replaces.
           //
-          Status = UpdateRegionMappingRecursive (
-                     RegionStart & ~BlockMask,
-                     (RegionStart | BlockMask) + 1,
-                     *Entry & TT_ATTRIBUTES_MASK,
-                     0,
-                     TranslationTable,
-                     Level + 1
-                     );
+          Status = UpdateRegionMappingRecursive (RegionStart & ~BlockMask,
+                     (RegionStart | BlockMask) + 1, *Entry & TT_ATTRIBUTES_MASK,
+                     0, TranslationTable, Level + 1);
           if (EFI_ERROR (Status)) {
             //
             // The range we passed to UpdateRegionMappingRecursive () is block
@@ -256,14 +236,9 @@ UpdateRegionMappingRecursive (
       //
       // Recurse to the next level
       //
-      Status = UpdateRegionMappingRecursive (
-                 RegionStart,
-                 BlockEnd,
-                 AttributeSetMask,
-                 AttributeClearMask,
-                 TranslationTable,
-                 Level + 1
-                 );
+      Status = UpdateRegionMappingRecursive (RegionStart, BlockEnd,
+                 AttributeSetMask, AttributeClearMask, TranslationTable,
+                 Level + 1);
       if (EFI_ERROR (Status)) {
         if (!IsTableEntry (*Entry, Level)) {
           //
@@ -275,21 +250,16 @@ UpdateRegionMappingRecursive (
           //
           FreePageTablesRecursive (TranslationTable, Level + 1);
         }
-
         return Status;
       }
 
       if (!IsTableEntry (*Entry, Level)) {
         EntryValue = (UINTN)TranslationTable | TT_TYPE_TABLE_ENTRY;
-        ReplaceTableEntry (
-          Entry,
-          EntryValue,
-          RegionStart,
-          IsBlockEntry (*Entry, Level)
-          );
+        ReplaceTableEntry (Entry, EntryValue, RegionStart,
+          IsBlockEntry (*Entry, Level));
       }
     } else {
-      EntryValue  = (*Entry & AttributeClearMask) | AttributeSetMask;
+      EntryValue = (*Entry & AttributeClearMask) | AttributeSetMask;
       EntryValue |= RegionStart;
       EntryValue |= (Level == 3) ? TT_TYPE_BLOCK_ENTRY_LEVEL3
                                  : TT_TYPE_BLOCK_ENTRY;
@@ -310,7 +280,6 @@ UpdateRegionMappingRecursive (
       }
     }
   }
-
   return EFI_SUCCESS;
 }
 
@@ -323,7 +292,7 @@ UpdateRegionMapping (
   IN  UINT64  AttributeClearMask
   )
 {
-  UINTN  T0SZ;
+  UINTN     T0SZ;
 
   if (((RegionStart | RegionLength) & EFI_PAGE_MASK) != 0) {
     return EFI_INVALID_PARAMETER;
@@ -331,14 +300,9 @@ UpdateRegionMapping (
 
   T0SZ = ArmGetTCR () & TCR_T0SZ_MASK;
 
-  return UpdateRegionMappingRecursive (
-           RegionStart,
-           RegionStart + RegionLength,
-           AttributeSetMask,
-           AttributeClearMask,
-           ArmGetTTBR0BaseAddress (),
-           GetRootTableLevel (T0SZ)
-           );
+  return UpdateRegionMappingRecursive (RegionStart, RegionStart + RegionLength,
+           AttributeSetMask, AttributeClearMask, ArmGetTTBR0BaseAddress (),
+           GetRootTableLevel (T0SZ));
 }
 
 STATIC
@@ -359,32 +323,31 @@ FillTranslationTable (
 STATIC
 UINT64
 GcdAttributeToPageAttribute (
-  IN UINT64  GcdAttributes
+  IN UINT64 GcdAttributes
   )
 {
-  UINT64  PageAttributes;
+  UINT64 PageAttributes;
 
   switch (GcdAttributes & EFI_MEMORY_CACHETYPE_MASK) {
-    case EFI_MEMORY_UC:
-      PageAttributes = TT_ATTR_INDX_DEVICE_MEMORY;
-      break;
-    case EFI_MEMORY_WC:
-      PageAttributes = TT_ATTR_INDX_MEMORY_NON_CACHEABLE;
-      break;
-    case EFI_MEMORY_WT:
-      PageAttributes = TT_ATTR_INDX_MEMORY_WRITE_THROUGH | TT_SH_INNER_SHAREABLE;
-      break;
-    case EFI_MEMORY_WB:
-      PageAttributes = TT_ATTR_INDX_MEMORY_WRITE_BACK | TT_SH_INNER_SHAREABLE;
-      break;
-    default:
-      PageAttributes = TT_ATTR_INDX_MASK;
-      break;
+  case EFI_MEMORY_UC:
+    PageAttributes = TT_ATTR_INDX_DEVICE_MEMORY;
+    break;
+  case EFI_MEMORY_WC:
+    PageAttributes = TT_ATTR_INDX_MEMORY_NON_CACHEABLE;
+    break;
+  case EFI_MEMORY_WT:
+    PageAttributes = TT_ATTR_INDX_MEMORY_WRITE_THROUGH | TT_SH_INNER_SHAREABLE;
+    break;
+  case EFI_MEMORY_WB:
+    PageAttributes = TT_ATTR_INDX_MEMORY_WRITE_BACK | TT_SH_INNER_SHAREABLE;
+    break;
+  default:
+    PageAttributes = TT_ATTR_INDX_MASK;
+    break;
   }
 
-  if (((GcdAttributes & EFI_MEMORY_XP) != 0) ||
-      ((GcdAttributes & EFI_MEMORY_CACHETYPE_MASK) == EFI_MEMORY_UC))
-  {
+  if ((GcdAttributes & EFI_MEMORY_XP) != 0 ||
+      (GcdAttributes & EFI_MEMORY_CACHETYPE_MASK) == EFI_MEMORY_UC) {
     if (ArmReadCurrentEL () == AARCH64_EL2) {
       PageAttributes |= TT_XN_MASK;
     } else {
@@ -393,7 +356,7 @@ GcdAttributeToPageAttribute (
   }
 
   if ((GcdAttributes & EFI_MEMORY_RO) != 0) {
-    PageAttributes |= TT_AP_NO_RO;
+    PageAttributes |= TT_AP_RO_RO;
   }
 
   return PageAttributes | TT_AF;
@@ -401,15 +364,15 @@ GcdAttributeToPageAttribute (
 
 EFI_STATUS
 ArmSetMemoryAttributes (
-  IN EFI_PHYSICAL_ADDRESS  BaseAddress,
-  IN UINT64                Length,
-  IN UINT64                Attributes
+  IN EFI_PHYSICAL_ADDRESS      BaseAddress,
+  IN UINT64                    Length,
+  IN UINT64                    Attributes
   )
 {
-  UINT64  PageAttributes;
-  UINT64  PageAttributeMask;
+  UINT64                       PageAttributes;
+  UINT64                       PageAttributeMask;
 
-  PageAttributes    = GcdAttributeToPageAttribute (Attributes);
+  PageAttributes = GcdAttributeToPageAttribute (Attributes);
   PageAttributeMask = 0;
 
   if ((Attributes & EFI_MEMORY_CACHETYPE_MASK) == 0) {
@@ -417,26 +380,22 @@ ArmSetMemoryAttributes (
     // No memory type was set in Attributes, so we are going to update the
     // permissions only.
     //
-    PageAttributes   &= TT_AP_MASK | TT_UXN_MASK | TT_PXN_MASK;
+    PageAttributes &= TT_AP_MASK | TT_UXN_MASK | TT_PXN_MASK;
     PageAttributeMask = ~(TT_ADDRESS_MASK_BLOCK_ENTRY | TT_AP_MASK |
                           TT_PXN_MASK | TT_XN_MASK);
   }
 
-  return UpdateRegionMapping (
-           BaseAddress,
-           Length,
-           PageAttributes,
-           PageAttributeMask
-           );
+  return UpdateRegionMapping (BaseAddress, Length, PageAttributes,
+           PageAttributeMask);
 }
 
 STATIC
 EFI_STATUS
 SetMemoryRegionAttribute (
-  IN  EFI_PHYSICAL_ADDRESS  BaseAddress,
-  IN  UINT64                Length,
-  IN  UINT64                Attributes,
-  IN  UINT64                BlockEntryMask
+  IN  EFI_PHYSICAL_ADDRESS      BaseAddress,
+  IN  UINT64                    Length,
+  IN  UINT64                    Attributes,
+  IN  UINT64                    BlockEntryMask
   )
 {
   return UpdateRegionMapping (BaseAddress, Length, Attributes, BlockEntryMask);
@@ -444,11 +403,11 @@ SetMemoryRegionAttribute (
 
 EFI_STATUS
 ArmSetMemoryRegionNoExec (
-  IN  EFI_PHYSICAL_ADDRESS  BaseAddress,
-  IN  UINT64                Length
+  IN  EFI_PHYSICAL_ADDRESS      BaseAddress,
+  IN  UINT64                    Length
   )
 {
-  UINT64  Val;
+  UINT64    Val;
 
   if (ArmReadCurrentEL () == AARCH64_EL1) {
     Val = TT_PXN_MASK | TT_UXN_MASK;
@@ -460,17 +419,16 @@ ArmSetMemoryRegionNoExec (
            BaseAddress,
            Length,
            Val,
-           ~TT_ADDRESS_MASK_BLOCK_ENTRY
-           );
+           ~TT_ADDRESS_MASK_BLOCK_ENTRY);
 }
 
 EFI_STATUS
 ArmClearMemoryRegionNoExec (
-  IN  EFI_PHYSICAL_ADDRESS  BaseAddress,
-  IN  UINT64                Length
+  IN  EFI_PHYSICAL_ADDRESS      BaseAddress,
+  IN  UINT64                    Length
   )
 {
-  UINT64  Mask;
+  UINT64 Mask;
 
   // XN maps to UXN in the EL1&0 translation regime
   Mask = ~(TT_ADDRESS_MASK_BLOCK_ENTRY | TT_PXN_MASK | TT_XN_MASK);
@@ -479,53 +437,50 @@ ArmClearMemoryRegionNoExec (
            BaseAddress,
            Length,
            0,
-           Mask
-           );
+           Mask);
 }
 
 EFI_STATUS
 ArmSetMemoryRegionReadOnly (
-  IN  EFI_PHYSICAL_ADDRESS  BaseAddress,
-  IN  UINT64                Length
+  IN  EFI_PHYSICAL_ADDRESS      BaseAddress,
+  IN  UINT64                    Length
   )
 {
   return SetMemoryRegionAttribute (
            BaseAddress,
            Length,
-           TT_AP_NO_RO,
-           ~TT_ADDRESS_MASK_BLOCK_ENTRY
-           );
+           TT_AP_RO_RO,
+           ~TT_ADDRESS_MASK_BLOCK_ENTRY);
 }
 
 EFI_STATUS
 ArmClearMemoryRegionReadOnly (
-  IN  EFI_PHYSICAL_ADDRESS  BaseAddress,
-  IN  UINT64                Length
+  IN  EFI_PHYSICAL_ADDRESS      BaseAddress,
+  IN  UINT64                    Length
   )
 {
   return SetMemoryRegionAttribute (
            BaseAddress,
            Length,
-           TT_AP_NO_RW,
-           ~(TT_ADDRESS_MASK_BLOCK_ENTRY | TT_AP_MASK)
-           );
+           TT_AP_RW_RW,
+           ~(TT_ADDRESS_MASK_BLOCK_ENTRY | TT_AP_MASK));
 }
 
 EFI_STATUS
 EFIAPI
 ArmConfigureMmu (
   IN  ARM_MEMORY_REGION_DESCRIPTOR  *MemoryTable,
-  OUT VOID                          **TranslationTableBase OPTIONAL,
+  OUT VOID                         **TranslationTableBase OPTIONAL,
   OUT UINTN                         *TranslationTableSize OPTIONAL
   )
 {
-  VOID        *TranslationTable;
-  UINTN       MaxAddressBits;
-  UINT64      MaxAddress;
-  UINTN       T0SZ;
-  UINTN       RootTableEntryCount;
-  UINT64      TCR;
-  EFI_STATUS  Status;
+  VOID*                         TranslationTable;
+  UINTN                         MaxAddressBits;
+  UINT64                        MaxAddress;
+  UINTN                         T0SZ;
+  UINTN                         RootTableEntryCount;
+  UINT64                        TCR;
+  EFI_STATUS                    Status;
 
   if (MemoryTable == NULL) {
     ASSERT (MemoryTable != NULL);
@@ -540,9 +495,9 @@ ArmConfigureMmu (
   // use of 4 KB pages.
   //
   MaxAddressBits = MIN (ArmGetPhysicalAddressBits (), MAX_VA_BITS);
-  MaxAddress     = LShiftU64 (1ULL, MaxAddressBits) - 1;
+  MaxAddress = LShiftU64 (1ULL, MaxAddressBits) - 1;
 
-  T0SZ                = 64 - MaxAddressBits;
+  T0SZ = 64 - MaxAddressBits;
   RootTableEntryCount = GetRootTableEntryCount (T0SZ);
 
   //
@@ -551,7 +506,7 @@ ArmConfigureMmu (
   // Ideally we will be running at EL2, but should support EL1 as well.
   // UEFI should not run at EL3.
   if (ArmReadCurrentEL () == AARCH64_EL2) {
-    // Note: Bits 23 and 31 are reserved(RES1) bits in TCR_EL2
+    //Note: Bits 23 and 31 are reserved(RES1) bits in TCR_EL2
     TCR = T0SZ | (1UL << 31) | (1UL << 23) | TCR_TG0_4KB;
 
     // Set the Physical Address Size using MaxAddress
@@ -568,11 +523,9 @@ ArmConfigureMmu (
     } else if (MaxAddress < SIZE_256TB) {
       TCR |= TCR_PS_256TB;
     } else {
-      DEBUG ((
-        DEBUG_ERROR,
+      DEBUG ((DEBUG_ERROR,
         "ArmConfigureMmu: The MaxAddress 0x%lX is not supported by this MMU configuration.\n",
-        MaxAddress
-        ));
+        MaxAddress));
       ASSERT (0); // Bigger than 48-bit memory space are not supported
       return EFI_UNSUPPORTED;
     }
@@ -594,11 +547,9 @@ ArmConfigureMmu (
     } else if (MaxAddress < SIZE_256TB) {
       TCR |= TCR_IPS_256TB;
     } else {
-      DEBUG ((
-        DEBUG_ERROR,
+      DEBUG ((DEBUG_ERROR,
         "ArmConfigureMmu: The MaxAddress 0x%lX is not supported by this MMU configuration.\n",
-        MaxAddress
-        ));
+        MaxAddress));
       ASSERT (0); // Bigger than 48-bit memory space are not supported
       return EFI_UNSUPPORTED;
     }
@@ -628,7 +579,6 @@ ArmConfigureMmu (
   if (TranslationTable == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
-
   //
   // We set TTBR0 just after allocating the table to retrieve its location from
   // the subsequent functions without needing to pass this value across the
@@ -649,10 +599,8 @@ ArmConfigureMmu (
   // Make sure we are not inadvertently hitting in the caches
   // when populating the page tables.
   //
-  InvalidateDataCacheRange (
-    TranslationTable,
-    RootTableEntryCount * sizeof (UINT64)
-    );
+  InvalidateDataCacheRange (TranslationTable,
+    RootTableEntryCount * sizeof (UINT64));
   ZeroMem (TranslationTable, RootTableEntryCount * sizeof (UINT64));
 
   while (MemoryTable->Length != 0) {
@@ -660,7 +608,6 @@ ArmConfigureMmu (
     if (EFI_ERROR (Status)) {
       goto FreeTranslationTable;
     }
-
     MemoryTable++;
   }
 
@@ -671,10 +618,10 @@ ArmConfigureMmu (
   // EFI_MEMORY_WB ==> MAIR_ATTR_NORMAL_MEMORY_WRITE_BACK
   //
   ArmSetMAIR (
-    MAIR_ATTR (TT_ATTR_INDX_DEVICE_MEMORY, MAIR_ATTR_DEVICE_MEMORY)               |
+    MAIR_ATTR (TT_ATTR_INDX_DEVICE_MEMORY,        MAIR_ATTR_DEVICE_MEMORY)               |
     MAIR_ATTR (TT_ATTR_INDX_MEMORY_NON_CACHEABLE, MAIR_ATTR_NORMAL_MEMORY_NON_CACHEABLE) |
     MAIR_ATTR (TT_ATTR_INDX_MEMORY_WRITE_THROUGH, MAIR_ATTR_NORMAL_MEMORY_WRITE_THROUGH) |
-    MAIR_ATTR (TT_ATTR_INDX_MEMORY_WRITE_BACK, MAIR_ATTR_NORMAL_MEMORY_WRITE_BACK)
+    MAIR_ATTR (TT_ATTR_INDX_MEMORY_WRITE_BACK,    MAIR_ATTR_NORMAL_MEMORY_WRITE_BACK)
     );
 
   ArmDisableAlignmentCheck ();
@@ -696,16 +643,14 @@ ArmMmuBaseLibConstructor (
   VOID
   )
 {
-  extern UINT32  ArmReplaceLiveTranslationEntrySize;
+  extern UINT32 ArmReplaceLiveTranslationEntrySize;
 
   //
   // The ArmReplaceLiveTranslationEntry () helper function may be invoked
   // with the MMU off so we have to ensure that it gets cleaned to the PoC
   //
-  WriteBackDataCacheRange (
-    (VOID *)(UINTN)ArmReplaceLiveTranslationEntry,
-    ArmReplaceLiveTranslationEntrySize
-    );
+  WriteBackDataCacheRange ((VOID *)(UINTN)ArmReplaceLiveTranslationEntry,
+    ArmReplaceLiveTranslationEntrySize);
 
   return RETURN_SUCCESS;
 }

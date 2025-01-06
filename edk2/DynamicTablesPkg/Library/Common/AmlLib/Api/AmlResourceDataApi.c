@@ -41,28 +41,24 @@
 EFI_STATUS
 EFIAPI
 AmlUpdateRdInterrupt (
-  IN  AML_DATA_NODE_HANDLE  InterruptRdNode,
-  IN  UINT32                Irq
+  IN  AML_DATA_NODE_HANDLE    InterruptRdNode,
+  IN  UINT32                  Irq
   )
 {
-  EFI_STATUS  Status;
-  UINT32      *FirstInterrupt;
-  UINT8       *QueryBuffer;
-  UINT32      QueryBufferSize;
+  EFI_STATUS                    Status;
+  UINT32                      * FirstInterrupt;
+  UINT8                       * QueryBuffer;
+  UINT32                        QueryBufferSize;
 
   if ((InterruptRdNode == NULL)                                           ||
       (AmlGetNodeType ((AML_NODE_HANDLE)InterruptRdNode) != EAmlNodeData) ||
       (!AmlNodeHasDataType (
           InterruptRdNode,
-          EAmlNodeDataTypeResourceData
-          ))                                  ||
+          EAmlNodeDataTypeResourceData))                                  ||
       (!AmlNodeHasRdDataType (
           InterruptRdNode,
           AML_RD_BUILD_LARGE_DESC_ID (
-            ACPI_LARGE_EXTENDED_IRQ_DESCRIPTOR_NAME
-            )
-          )))
-  {
+            ACPI_LARGE_EXTENDED_IRQ_DESCRIPTOR_NAME)))) {
     ASSERT (0);
     return EFI_INVALID_PARAMETER;
   }
@@ -106,7 +102,7 @@ AmlUpdateRdInterrupt (
 
   // Get the address of the first interrupt field.
   FirstInterrupt =
-    ((EFI_ACPI_EXTENDED_INTERRUPT_DESCRIPTOR *)QueryBuffer)->InterruptNumber;
+    ((EFI_ACPI_EXTENDED_INTERRUPT_DESCRIPTOR*)QueryBuffer)->InterruptNumber;
 
   *FirstInterrupt = Irq;
 
@@ -125,7 +121,6 @@ error_handler:
   if (QueryBuffer != NULL) {
     FreePool (QueryBuffer);
   }
-
   return Status;
 }
 
@@ -156,44 +151,40 @@ error_handler:
 EFI_STATUS
 EFIAPI
 AmlUpdateRdInterruptEx (
-  IN  AML_DATA_NODE_HANDLE  InterruptRdNode,
-  IN  BOOLEAN               ResourceConsumer,
-  IN  BOOLEAN               EdgeTriggered,
-  IN  BOOLEAN               ActiveLow,
-  IN  BOOLEAN               Shared,
-  IN  UINT32                *IrqList,
-  IN  UINT8                 IrqCount
+  IN  AML_DATA_NODE_HANDLE    InterruptRdNode,
+  IN  BOOLEAN                 ResourceConsumer,
+  IN  BOOLEAN                 EdgeTriggered,
+  IN  BOOLEAN                 ActiveLow,
+  IN  BOOLEAN                 Shared,
+  IN  UINT32                * IrqList,
+  IN  UINT8                   IrqCount
   )
 {
-  EFI_STATUS  Status;
+  EFI_STATUS                                 Status;
 
-  EFI_ACPI_EXTENDED_INTERRUPT_DESCRIPTOR  *RdInterrupt;
-  UINT32                                  *FirstInterrupt;
-  UINT8                                   *UpdateBuffer;
-  UINT16                                  UpdateBufferSize;
+  EFI_ACPI_EXTENDED_INTERRUPT_DESCRIPTOR   * RdInterrupt;
+  UINT32                                   * FirstInterrupt;
+  UINT8                                    * UpdateBuffer;
+  UINT16                                     UpdateBufferSize;
 
   if ((InterruptRdNode == NULL)                                              ||
       (AmlGetNodeType ((AML_NODE_HANDLE)InterruptRdNode) != EAmlNodeData)    ||
       (!AmlNodeHasDataType (
           InterruptRdNode,
-          EAmlNodeDataTypeResourceData
-          ))                                     ||
+          EAmlNodeDataTypeResourceData))                                     ||
       (!AmlNodeHasRdDataType (
           InterruptRdNode,
           AML_RD_BUILD_LARGE_DESC_ID (
-            ACPI_LARGE_EXTENDED_IRQ_DESCRIPTOR_NAME
-            )
-          ))                       ||
+            ACPI_LARGE_EXTENDED_IRQ_DESCRIPTOR_NAME)))                       ||
       (IrqList == NULL)                                                      ||
-      (IrqCount == 0))
-  {
+      (IrqCount == 0)) {
     ASSERT (0);
     return EFI_INVALID_PARAMETER;
   }
 
-  UpdateBuffer     = NULL;
+  UpdateBuffer = NULL;
   UpdateBufferSize = sizeof (EFI_ACPI_EXTENDED_INTERRUPT_DESCRIPTOR) +
-                     ((IrqCount - 1) * sizeof (UINT32));
+                       ((IrqCount - 1) * sizeof (UINT32));
 
   // Allocate a buffer to update the data.
   UpdateBuffer = AllocatePool (UpdateBufferSize);
@@ -203,9 +194,9 @@ AmlUpdateRdInterruptEx (
   }
 
   // Update the Resource Data information (structure size, interrupt count).
-  RdInterrupt                     = (EFI_ACPI_EXTENDED_INTERRUPT_DESCRIPTOR *)UpdateBuffer;
+  RdInterrupt = (EFI_ACPI_EXTENDED_INTERRUPT_DESCRIPTOR*)UpdateBuffer;
   RdInterrupt->Header.Header.Byte =
-    AML_RD_BUILD_LARGE_DESC_ID (ACPI_LARGE_EXTENDED_IRQ_DESCRIPTOR_NAME);
+     AML_RD_BUILD_LARGE_DESC_ID (ACPI_LARGE_EXTENDED_IRQ_DESCRIPTOR_NAME);
   RdInterrupt->Header.Length =
     UpdateBufferSize - sizeof (ACPI_LARGE_RESOURCE_HEADER);
   RdInterrupt->InterruptTableLength = IrqCount;
@@ -216,7 +207,7 @@ AmlUpdateRdInterruptEx (
 
   // Get the address of the first interrupt field.
   FirstInterrupt =
-    ((EFI_ACPI_EXTENDED_INTERRUPT_DESCRIPTOR *)UpdateBuffer)->InterruptNumber;
+    ((EFI_ACPI_EXTENDED_INTERRUPT_DESCRIPTOR*)UpdateBuffer)->InterruptNumber;
 
   // Copy the input list of interrupts.
   CopyMem (FirstInterrupt, IrqList, (sizeof (UINT32) * IrqCount));
@@ -257,11 +248,11 @@ AmlUpdateRdQWord (
   IN  UINT64                BaseAddressLength
   )
 {
-  EFI_STATUS                               Status;
-  EFI_ACPI_QWORD_ADDRESS_SPACE_DESCRIPTOR  *RdQWord;
+  EFI_STATUS                                 Status;
+  EFI_ACPI_QWORD_ADDRESS_SPACE_DESCRIPTOR  * RdQWord;
 
-  UINT8   *QueryBuffer;
-  UINT32  QueryBufferSize;
+  UINT8                                    * QueryBuffer;
+  UINT32                                     QueryBufferSize;
 
   if ((QWordRdNode == NULL)                                             ||
       (AmlGetNodeType ((AML_NODE_HANDLE)QWordRdNode) != EAmlNodeData)   ||
@@ -269,10 +260,7 @@ AmlUpdateRdQWord (
       (!AmlNodeHasRdDataType (
           QWordRdNode,
           AML_RD_BUILD_LARGE_DESC_ID (
-            ACPI_LARGE_QWORD_ADDRESS_SPACE_DESCRIPTOR_NAME
-            )
-          )))
-  {
+            ACPI_LARGE_QWORD_ADDRESS_SPACE_DESCRIPTOR_NAME)))) {
     ASSERT (0);
     return EFI_INVALID_PARAMETER;
   }
@@ -306,12 +294,12 @@ AmlUpdateRdQWord (
     goto error_handler;
   }
 
-  RdQWord = (EFI_ACPI_QWORD_ADDRESS_SPACE_DESCRIPTOR *)QueryBuffer;
+  RdQWord = (EFI_ACPI_QWORD_ADDRESS_SPACE_DESCRIPTOR*)QueryBuffer;
 
   // Update the Base Address and Length.
   RdQWord->AddrRangeMin = BaseAddress;
   RdQWord->AddrRangeMax = BaseAddress + BaseAddressLength - 1;
-  RdQWord->AddrLen      = BaseAddressLength;
+  RdQWord->AddrLen = BaseAddressLength;
 
   // Update Base Address Resource Data node.
   Status = AmlUpdateDataNode (
@@ -328,6 +316,5 @@ error_handler:
   if (QueryBuffer != NULL) {
     FreePool (QueryBuffer);
   }
-
   return Status;
 }

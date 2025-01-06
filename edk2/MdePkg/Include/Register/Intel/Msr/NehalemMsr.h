@@ -56,7 +56,7 @@
   @endcode
   @note MSR_NEHALEM_PLATFORM_ID is defined as MSR_PLATFORM_ID in SDM.
 **/
-#define MSR_NEHALEM_PLATFORM_ID  0x00000017
+#define MSR_NEHALEM_PLATFORM_ID                  0x00000017
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_PLATFORM_ID
@@ -66,19 +66,20 @@ typedef union {
   /// Individual bit fields
   ///
   struct {
-    UINT32    Reserved1  : 32;
-    UINT32    Reserved2  : 18;
+    UINT32  Reserved1:32;
+    UINT32  Reserved2:18;
     ///
     /// [Bits 52:50] See Table 2-2.
     ///
-    UINT32    PlatformId : 3;
-    UINT32    Reserved3  : 11;
+    UINT32  PlatformId:3;
+    UINT32  Reserved3:11;
   } Bits;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_PLATFORM_ID_REGISTER;
+
 
 /**
   Thread. SMI Counter (R/O).
@@ -97,7 +98,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_SMI_COUNT is defined as MSR_SMI_COUNT in SDM.
 **/
-#define MSR_NEHALEM_SMI_COUNT  0x00000034
+#define MSR_NEHALEM_SMI_COUNT                    0x00000034
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_SMI_COUNT
@@ -111,18 +112,19 @@ typedef union {
     /// [Bits 31:0] SMI Count (R/O)  Running count of SMI events since last
     /// RESET.
     ///
-    UINT32    SMICount : 32;
-    UINT32    Reserved : 32;
+    UINT32  SMICount:32;
+    UINT32  Reserved:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_SMI_COUNT_REGISTER;
+
 
 /**
   Package. see http://biosbits.org.
@@ -142,7 +144,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PLATFORM_INFO is defined as MSR_PLATFORM_INFO in SDM.
 **/
-#define MSR_NEHALEM_PLATFORM_INFO  0x000000CE
+#define MSR_NEHALEM_PLATFORM_INFO                0x000000CE
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_PLATFORM_INFO
@@ -152,43 +154,44 @@ typedef union {
   /// Individual bit fields
   ///
   struct {
-    UINT32    Reserved1              : 8;
+    UINT32  Reserved1:8;
     ///
     /// [Bits 15:8] Package. Maximum Non-Turbo Ratio (R/O)  The is the ratio
     /// of the frequency that invariant TSC runs at. The invariant TSC
     /// frequency can be computed by multiplying this ratio by 133.33 MHz.
     ///
-    UINT32    MaximumNonTurboRatio   : 8;
-    UINT32    Reserved2              : 12;
+    UINT32  MaximumNonTurboRatio:8;
+    UINT32  Reserved2:12;
     ///
     /// [Bit 28] Package. Programmable Ratio Limit for Turbo Mode (R/O)  When
     /// set to 1, indicates that Programmable Ratio Limits for Turbo mode is
     /// enabled, and when set to 0, indicates Programmable Ratio Limits for
     /// Turbo mode is disabled.
     ///
-    UINT32    RatioLimit             : 1;
+    UINT32  RatioLimit:1;
     ///
     /// [Bit 29] Package. Programmable TDC-TDP Limit for Turbo Mode (R/O)
     /// When set to 1, indicates that TDC/TDP Limits for Turbo mode are
     /// programmable, and when set to 0, indicates TDC and TDP Limits for
     /// Turbo mode are not programmable.
     ///
-    UINT32    TDC_TDPLimit           : 1;
-    UINT32    Reserved3              : 2;
-    UINT32    Reserved4              : 8;
+    UINT32  TDC_TDPLimit:1;
+    UINT32  Reserved3:2;
+    UINT32  Reserved4:8;
     ///
     /// [Bits 47:40] Package. Maximum Efficiency Ratio (R/O)  The is the
     /// minimum ratio (maximum efficiency) that the processor can operates, in
     /// units of 133.33MHz.
     ///
-    UINT32    MaximumEfficiencyRatio : 8;
-    UINT32    Reserved5              : 16;
+    UINT32  MaximumEfficiencyRatio:8;
+    UINT32  Reserved5:16;
   } Bits;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_PLATFORM_INFO_REGISTER;
+
 
 /**
   Core. C-State Configuration Control (R/W)  Note: C-state values are
@@ -210,7 +213,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PKG_CST_CONFIG_CONTROL is defined as MSR_PKG_CST_CONFIG_CONTROL in SDM.
 **/
-#define MSR_NEHALEM_PKG_CST_CONFIG_CONTROL  0x000000E2
+#define MSR_NEHALEM_PKG_CST_CONFIG_CONTROL       0x000000E2
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_PKG_CST_CONFIG_CONTROL
@@ -230,68 +233,69 @@ typedef union {
     /// C-state limit. Note: This field cannot be used to limit package
     /// C-state to C3.
     ///
-    UINT32    Limit              : 3;
-    UINT32    Reserved1          : 7;
+    UINT32  Limit:3;
+    UINT32  Reserved1:7;
     ///
     /// [Bit 10] I/O MWAIT Redirection Enable (R/W)  When set, will map
     /// IO_read instructions sent to IO register specified by
     /// MSR_PMG_IO_CAPTURE_BASE to MWAIT instructions.
     ///
-    UINT32    IO_MWAIT           : 1;
-    UINT32    Reserved2          : 4;
+    UINT32  IO_MWAIT:1;
+    UINT32  Reserved2:4;
     ///
     /// [Bit 15] CFG Lock (R/WO)  When set, lock bits 15:0 of this register
     /// until next reset.
     ///
-    UINT32    CFGLock            : 1;
-    UINT32    Reserved3          : 8;
+    UINT32  CFGLock:1;
+    UINT32  Reserved3:8;
     ///
     /// [Bit 24] Interrupt filtering enable (R/W)  When set, processor cores
     /// in a deep C-State will wake only when the event message is destined
     /// for that core. When 0, all processor cores in a deep C-State will wake
     /// for an event message.
     ///
-    UINT32    InterruptFiltering : 1;
+    UINT32  InterruptFiltering:1;
     ///
     /// [Bit 25] C3 state auto demotion enable (R/W)  When set, the processor
     /// will conditionally demote C6/C7 requests to C3 based on uncore
     /// auto-demote information.
     ///
-    UINT32    C3AutoDemotion     : 1;
+    UINT32  C3AutoDemotion:1;
     ///
     /// [Bit 26] C1 state auto demotion enable (R/W)  When set, the processor
     /// will conditionally demote C3/C6/C7 requests to C1 based on uncore
     /// auto-demote information.
     ///
-    UINT32    C1AutoDemotion     : 1;
+    UINT32  C1AutoDemotion:1;
     ///
     /// [Bit 27] Enable C3 Undemotion (R/W).
     ///
-    UINT32    C3Undemotion       : 1;
+    UINT32  C3Undemotion:1;
     ///
     /// [Bit 28] Enable C1 Undemotion (R/W).
     ///
-    UINT32    C1Undemotion       : 1;
+    UINT32  C1Undemotion:1;
     ///
     /// [Bit 29] Package C State Demotion Enable (R/W).
     ///
-    UINT32    CStateDemotion     : 1;
+    UINT32  CStateDemotion:1;
     ///
     /// [Bit 30] Package C State UnDemotion Enable (R/W).
     ///
-    UINT32    CStateUndemotion   : 1;
-    UINT32    Reserved4          : 1;
-    UINT32    Reserved5          : 32;
+    UINT32  CStateUndemotion:1;
+    UINT32  Reserved4:1;
+    UINT32  Reserved5:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_PKG_CST_CONFIG_CONTROL_REGISTER;
+
 
 /**
   Core. Power Management IO Redirection in C-state (R/W) See
@@ -312,7 +316,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PMG_IO_CAPTURE_BASE is defined as MSR_PMG_IO_CAPTURE_BASE in SDM.
 **/
-#define MSR_NEHALEM_PMG_IO_CAPTURE_BASE  0x000000E4
+#define MSR_NEHALEM_PMG_IO_CAPTURE_BASE          0x000000E4
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_PMG_IO_CAPTURE_BASE
@@ -330,7 +334,7 @@ typedef union {
     /// address redirection is enabled, this is the IO port address reported
     /// to the OS/software.
     ///
-    UINT32    Lvl2Base    : 16;
+    UINT32  Lvl2Base:16;
     ///
     /// [Bits 18:16] C-state Range (R/W)  Specifies the encoding value of the
     /// maximum C-State code name to be included when IO read to MWAIT
@@ -338,19 +342,20 @@ typedef union {
     /// is the max C-State to include 001b - C6 is the max C-State to include
     /// 010b - C7 is the max C-State to include.
     ///
-    UINT32    CStateRange : 3;
-    UINT32    Reserved1   : 13;
-    UINT32    Reserved2   : 32;
+    UINT32  CStateRange:3;
+    UINT32  Reserved1:13;
+    UINT32  Reserved2:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_PMG_IO_CAPTURE_BASE_REGISTER;
+
 
 /**
   Enable Misc. Processor Features (R/W)  Allows a variety of processor
@@ -371,7 +376,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_IA32_MISC_ENABLE is defined as IA32_MISC_ENABLE in SDM.
 **/
-#define MSR_NEHALEM_IA32_MISC_ENABLE  0x000001A0
+#define MSR_NEHALEM_IA32_MISC_ENABLE             0x000001A0
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_IA32_MISC_ENABLE
@@ -384,55 +389,55 @@ typedef union {
     ///
     /// [Bit 0] Thread. Fast-Strings Enable See Table 2-2.
     ///
-    UINT32    FastStrings                    : 1;
-    UINT32    Reserved1                      : 2;
+    UINT32  FastStrings:1;
+    UINT32  Reserved1:2;
     ///
     /// [Bit 3] Thread. Automatic Thermal Control Circuit Enable (R/W) See
     /// Table 2-2. Default value is 1.
     ///
-    UINT32    AutomaticThermalControlCircuit : 1;
-    UINT32    Reserved2                      : 3;
+    UINT32  AutomaticThermalControlCircuit:1;
+    UINT32  Reserved2:3;
     ///
     /// [Bit 7] Thread. Performance Monitoring Available (R) See Table 2-2.
     ///
-    UINT32    PerformanceMonitoring          : 1;
-    UINT32    Reserved3                      : 3;
+    UINT32  PerformanceMonitoring:1;
+    UINT32  Reserved3:3;
     ///
     /// [Bit 11] Thread. Branch Trace Storage Unavailable (RO) See Table 2-2.
     ///
-    UINT32    BTS                            : 1;
+    UINT32  BTS:1;
     ///
     /// [Bit 12] Thread. Processor Event Based Sampling Unavailable (RO) See
     /// Table 2-2.
     ///
-    UINT32    PEBS                           : 1;
-    UINT32    Reserved4                      : 3;
+    UINT32  PEBS:1;
+    UINT32  Reserved4:3;
     ///
     /// [Bit 16] Package. Enhanced Intel SpeedStep Technology Enable (R/W) See
     /// Table 2-2.
     ///
-    UINT32    EIST                           : 1;
-    UINT32    Reserved5                      : 1;
+    UINT32  EIST:1;
+    UINT32  Reserved5:1;
     ///
     /// [Bit 18] Thread. ENABLE MONITOR FSM. (R/W) See Table 2-2.
     ///
-    UINT32    MONITOR                        : 1;
-    UINT32    Reserved6                      : 3;
+    UINT32  MONITOR:1;
+    UINT32  Reserved6:3;
     ///
     /// [Bit 22] Thread. Limit CPUID Maxval (R/W) See Table 2-2.
     ///
-    UINT32    LimitCpuidMaxval               : 1;
+    UINT32  LimitCpuidMaxval:1;
     ///
     /// [Bit 23] Thread. xTPR Message Disable (R/W) See Table 2-2.
     ///
-    UINT32    xTPR_Message_Disable           : 1;
-    UINT32    Reserved7                      : 8;
-    UINT32    Reserved8                      : 2;
+    UINT32  xTPR_Message_Disable:1;
+    UINT32  Reserved7:8;
+    UINT32  Reserved8:2;
     ///
     /// [Bit 34] Thread. XD Bit Disable (R/W) See Table 2-2.
     ///
-    UINT32    XD                             : 1;
-    UINT32    Reserved9                      : 3;
+    UINT32  XD:1;
+    UINT32  Reserved9:3;
     ///
     /// [Bit 38] Package. Turbo Mode Disable (R/W) When set to 1 on processors
     /// that support Intel Turbo Boost Technology, the turbo mode feature is
@@ -444,14 +449,15 @@ typedef union {
     /// in the processor. If power-on default value is 0, turbo mode is not
     /// available.
     ///
-    UINT32    TurboModeDisable : 1;
-    UINT32    Reserved10       : 25;
+    UINT32  TurboModeDisable:1;
+    UINT32  Reserved10:25;
   } Bits;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_IA32_MISC_ENABLE_REGISTER;
+
 
 /**
   Thread.
@@ -471,7 +477,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_TEMPERATURE_TARGET is defined as MSR_TEMPERATURE_TARGET in SDM.
 **/
-#define MSR_NEHALEM_TEMPERATURE_TARGET  0x000001A2
+#define MSR_NEHALEM_TEMPERATURE_TARGET           0x000001A2
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_TEMPERATURE_TARGET
@@ -481,24 +487,25 @@ typedef union {
   /// Individual bit fields
   ///
   struct {
-    UINT32    Reserved1         : 16;
+    UINT32  Reserved1:16;
     ///
     /// [Bits 23:16] Temperature Target (R)  The minimum temperature at which
     /// PROCHOT# will be asserted. The value is degree C.
     ///
-    UINT32    TemperatureTarget : 8;
-    UINT32    Reserved2         : 8;
-    UINT32    Reserved3         : 32;
+    UINT32  TemperatureTarget:8;
+    UINT32  Reserved2:8;
+    UINT32  Reserved3:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_TEMPERATURE_TARGET_REGISTER;
+
 
 /**
   Miscellaneous Feature Control (R/W).
@@ -518,7 +525,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_MISC_FEATURE_CONTROL is defined as MSR_MISC_FEATURE_CONTROL in SDM.
 **/
-#define MSR_NEHALEM_MISC_FEATURE_CONTROL  0x000001A4
+#define MSR_NEHALEM_MISC_FEATURE_CONTROL         0x000001A4
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_MISC_FEATURE_CONTROL
@@ -533,38 +540,39 @@ typedef union {
     /// L2 hardware prefetcher, which fetches additional lines of code or data
     /// into the L2 cache.
     ///
-    UINT32    L2HardwarePrefetcherDisable          : 1;
+    UINT32  L2HardwarePrefetcherDisable:1;
     ///
     /// [Bit 1] Core. L2 Adjacent Cache Line Prefetcher Disable (R/W)  If 1,
     /// disables the adjacent cache line prefetcher, which fetches the cache
     /// line that comprises a cache line pair (128 bytes).
     ///
-    UINT32    L2AdjacentCacheLinePrefetcherDisable : 1;
+    UINT32  L2AdjacentCacheLinePrefetcherDisable:1;
     ///
     /// [Bit 2] Core. DCU Hardware Prefetcher Disable (R/W)  If 1, disables
     /// the L1 data cache prefetcher, which fetches the next cache line into
     /// L1 data cache.
     ///
-    UINT32    DCUHardwarePrefetcherDisable         : 1;
+    UINT32  DCUHardwarePrefetcherDisable:1;
     ///
     /// [Bit 3] Core. DCU IP Prefetcher Disable (R/W)  If 1, disables the L1
     /// data cache IP prefetcher, which uses sequential load history (based on
     /// instruction Pointer of previous loads) to determine whether to
     /// prefetch additional lines.
     ///
-    UINT32    DCUIPPrefetcherDisable               : 1;
-    UINT32    Reserved1                            : 28;
-    UINT32    Reserved2                            : 32;
+    UINT32  DCUIPPrefetcherDisable:1;
+    UINT32  Reserved1:28;
+    UINT32  Reserved2:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_MISC_FEATURE_CONTROL_REGISTER;
+
 
 /**
   Thread. Offcore Response Event Select Register (R/W).
@@ -582,7 +590,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_OFFCORE_RSP_0 is defined as MSR_OFFCORE_RSP_0 in SDM.
 **/
-#define MSR_NEHALEM_OFFCORE_RSP_0  0x000001A6
+#define MSR_NEHALEM_OFFCORE_RSP_0                0x000001A6
+
 
 /**
   See http://biosbits.org.
@@ -602,7 +611,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_MISC_PWR_MGMT is defined as MSR_MISC_PWR_MGMT in SDM.
 **/
-#define MSR_NEHALEM_MISC_PWR_MGMT  0x000001AA
+#define MSR_NEHALEM_MISC_PWR_MGMT                0x000001AA
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_MISC_PWR_MGMT
@@ -618,26 +627,27 @@ typedef union {
     /// request from processor cores; When 1, disables hardware coordination
     /// of Enhanced Intel Speedstep Technology requests.
     ///
-    UINT32    EISTHardwareCoordinationDisable : 1;
+    UINT32  EISTHardwareCoordinationDisable:1;
     ///
     /// [Bit 1] Thread. Energy/Performance Bias Enable (R/W)  This bit makes
     /// the IA32_ENERGY_PERF_BIAS register (MSR 1B0h) visible to software with
     /// Ring 0 privileges. This bit's status (1 or 0) is also reflected by
     /// CPUID.(EAX=06h):ECX[3].
     ///
-    UINT32    EnergyPerformanceBiasEnable     : 1;
-    UINT32    Reserved1                       : 30;
-    UINT32    Reserved2                       : 32;
+    UINT32  EnergyPerformanceBiasEnable:1;
+    UINT32  Reserved1:30;
+    UINT32  Reserved2:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_MISC_PWR_MGMT_REGISTER;
+
 
 /**
   See http://biosbits.org.
@@ -657,7 +667,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_TURBO_POWER_CURRENT_LIMIT is defined as MSR_TURBO_POWER_CURRENT_LIMIT in SDM.
 **/
-#define MSR_NEHALEM_TURBO_POWER_CURRENT_LIMIT  0x000001AC
+#define MSR_NEHALEM_TURBO_POWER_CURRENT_LIMIT    0x000001AC
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_TURBO_POWER_CURRENT_LIMIT
@@ -671,33 +681,34 @@ typedef union {
     /// [Bits 14:0] Package. TDP Limit (R/W)  TDP limit in 1/8 Watt
     /// granularity.
     ///
-    UINT32    TDPLimit               : 15;
+    UINT32  TDPLimit:15;
     ///
     /// [Bit 15] Package. TDP Limit Override Enable (R/W)  A value = 0
     /// indicates override is not active, and a value = 1 indicates active.
     ///
-    UINT32    TDPLimitOverrideEnable : 1;
+    UINT32  TDPLimitOverrideEnable:1;
     ///
     /// [Bits 30:16] Package. TDC Limit (R/W)  TDC limit in 1/8 Amp
     /// granularity.
     ///
-    UINT32    TDCLimit               : 15;
+    UINT32  TDCLimit:15;
     ///
     /// [Bit 31] Package. TDC Limit Override Enable (R/W)  A value = 0
     /// indicates override is not active, and a value = 1 indicates active.
     ///
-    UINT32    TDCLimitOverrideEnable : 1;
-    UINT32    Reserved               : 32;
+    UINT32  TDCLimitOverrideEnable:1;
+    UINT32  Reserved:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_TURBO_POWER_CURRENT_LIMIT_REGISTER;
+
 
 /**
   Package. Maximum Ratio Limit of Turbo Mode RO if MSR_PLATFORM_INFO.[28] = 0,
@@ -717,7 +728,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_TURBO_RATIO_LIMIT is defined as MSR_TURBO_RATIO_LIMIT in SDM.
 **/
-#define MSR_NEHALEM_TURBO_RATIO_LIMIT  0x000001AD
+#define MSR_NEHALEM_TURBO_RATIO_LIMIT            0x000001AD
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_TURBO_RATIO_LIMIT
@@ -731,33 +742,34 @@ typedef union {
     /// [Bits 7:0] Package. Maximum Ratio Limit for 1C Maximum turbo ratio
     /// limit of 1 core active.
     ///
-    UINT32    Maximum1C : 8;
+    UINT32  Maximum1C:8;
     ///
     /// [Bits 15:8] Package. Maximum Ratio Limit for 2C Maximum turbo ratio
     /// limit of 2 core active.
     ///
-    UINT32    Maximum2C : 8;
+    UINT32  Maximum2C:8;
     ///
     /// [Bits 23:16] Package. Maximum Ratio Limit for 3C Maximum turbo ratio
     /// limit of 3 core active.
     ///
-    UINT32    Maximum3C : 8;
+    UINT32  Maximum3C:8;
     ///
     /// [Bits 31:24] Package. Maximum Ratio Limit for 4C Maximum turbo ratio
     /// limit of 4 core active.
     ///
-    UINT32    Maximum4C : 8;
-    UINT32    Reserved  : 32;
+    UINT32  Maximum4C:8;
+    UINT32  Reserved:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_TURBO_RATIO_LIMIT_REGISTER;
+
 
 /**
   Core. Last Branch Record Filtering Select Register (R/W) See Section 17.9.2,
@@ -778,7 +790,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_LBR_SELECT is defined as MSR_LBR_SELECT in SDM.
 **/
-#define MSR_NEHALEM_LBR_SELECT  0x000001C8
+#define MSR_NEHALEM_LBR_SELECT                   0x000001C8
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_LBR_SELECT
@@ -791,51 +803,52 @@ typedef union {
     ///
     /// [Bit 0] CPL_EQ_0.
     ///
-    UINT32    CPL_EQ_0      : 1;
+    UINT32  CPL_EQ_0:1;
     ///
     /// [Bit 1] CPL_NEQ_0.
     ///
-    UINT32    CPL_NEQ_0     : 1;
+    UINT32  CPL_NEQ_0:1;
     ///
     /// [Bit 2] JCC.
     ///
-    UINT32    JCC           : 1;
+    UINT32  JCC:1;
     ///
     /// [Bit 3] NEAR_REL_CALL.
     ///
-    UINT32    NEAR_REL_CALL : 1;
+    UINT32  NEAR_REL_CALL:1;
     ///
     /// [Bit 4] NEAR_IND_CALL.
     ///
-    UINT32    NEAR_IND_CALL : 1;
+    UINT32  NEAR_IND_CALL:1;
     ///
     /// [Bit 5] NEAR_RET.
     ///
-    UINT32    NEAR_RET      : 1;
+    UINT32  NEAR_RET:1;
     ///
     /// [Bit 6] NEAR_IND_JMP.
     ///
-    UINT32    NEAR_IND_JMP  : 1;
+    UINT32  NEAR_IND_JMP:1;
     ///
     /// [Bit 7] NEAR_REL_JMP.
     ///
-    UINT32    NEAR_REL_JMP  : 1;
+    UINT32  NEAR_REL_JMP:1;
     ///
     /// [Bit 8] FAR_BRANCH.
     ///
-    UINT32    FAR_BRANCH    : 1;
-    UINT32    Reserved1     : 23;
-    UINT32    Reserved2     : 32;
+    UINT32  FAR_BRANCH:1;
+    UINT32  Reserved1:23;
+    UINT32  Reserved2:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_LBR_SELECT_REGISTER;
+
 
 /**
   Thread. Last Branch Record Stack TOS (R/W)  Contains an index (bits 0-3)
@@ -855,7 +868,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_LASTBRANCH_TOS is defined as MSR_LASTBRANCH_TOS in SDM.
 **/
-#define MSR_NEHALEM_LASTBRANCH_TOS  0x000001C9
+#define MSR_NEHALEM_LASTBRANCH_TOS               0x000001C9
+
 
 /**
   Thread. Last Exception Record From Linear IP (R)  Contains a pointer to the
@@ -874,7 +888,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_LER_FROM_LIP is defined as MSR_LER_FROM_LIP in SDM.
 **/
-#define MSR_NEHALEM_LER_FROM_LIP  0x000001DD
+#define MSR_NEHALEM_LER_FROM_LIP                 0x000001DD
+
 
 /**
   Thread. Last Exception Record To Linear IP (R)  This area contains a pointer
@@ -894,7 +909,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_LER_TO_LIP is defined as MSR_LER_TO_LIP in SDM.
 **/
-#define MSR_NEHALEM_LER_TO_LIP  0x000001DE
+#define MSR_NEHALEM_LER_TO_LIP                   0x000001DE
+
 
 /**
   Core. Power Control Register. See http://biosbits.org.
@@ -914,7 +930,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_POWER_CTL is defined as MSR_POWER_CTL in SDM.
 **/
-#define MSR_NEHALEM_POWER_CTL  0x000001FC
+#define MSR_NEHALEM_POWER_CTL                    0x000001FC
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_POWER_CTL
@@ -924,25 +940,26 @@ typedef union {
   /// Individual bit fields
   ///
   struct {
-    UINT32    Reserved1 : 1;
+    UINT32  Reserved1:1;
     ///
     /// [Bit 1] Package. C1E Enable (R/W)  When set to '1', will enable the
     /// CPU to switch to the Minimum Enhanced Intel SpeedStep Technology
     /// operating point when all execution cores enter MWAIT (C1).
     ///
-    UINT32    C1EEnable : 1;
-    UINT32    Reserved2 : 30;
-    UINT32    Reserved3 : 32;
+    UINT32  C1EEnable:1;
+    UINT32  Reserved2:30;
+    UINT32  Reserved3:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_POWER_CTL_REGISTER;
+
 
 /**
   Thread. (RO).
@@ -961,7 +978,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PERF_GLOBAL_STATUS is defined as MSR_PERF_GLOBAL_STATUS in SDM.
 **/
-#define MSR_NEHALEM_PERF_GLOBAL_STATUS  0x0000038E
+#define MSR_NEHALEM_PERF_GLOBAL_STATUS           0x0000038E
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_PERF_GLOBAL_STATUS
@@ -971,19 +988,20 @@ typedef union {
   /// Individual bit fields
   ///
   struct {
-    UINT32    Reserved1  : 32;
-    UINT32    Reserved2  : 29;
+    UINT32  Reserved1:32;
+    UINT32  Reserved2:29;
     ///
     /// [Bit 61] UNC_Ovf Uncore overflowed if 1.
     ///
-    UINT32    Ovf_Uncore : 1;
-    UINT32    Reserved3  : 2;
+    UINT32  Ovf_Uncore:1;
+    UINT32  Reserved3:2;
   } Bits;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_PERF_GLOBAL_STATUS_REGISTER;
+
 
 /**
   Thread. (R/W).
@@ -1003,7 +1021,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PERF_GLOBAL_OVF_CTRL is defined as MSR_PERF_GLOBAL_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_PERF_GLOBAL_OVF_CTRL  0x00000390
+#define MSR_NEHALEM_PERF_GLOBAL_OVF_CTRL         0x00000390
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_PERF_GLOBAL_OVF_CTRL
@@ -1013,19 +1031,20 @@ typedef union {
   /// Individual bit fields
   ///
   struct {
-    UINT32    Reserved1  : 32;
-    UINT32    Reserved2  : 29;
+    UINT32  Reserved1:32;
+    UINT32  Reserved2:29;
     ///
     /// [Bit 61] CLR_UNC_Ovf Set 1 to clear UNC_Ovf.
     ///
-    UINT32    Ovf_Uncore : 1;
-    UINT32    Reserved3  : 2;
+    UINT32  Ovf_Uncore:1;
+    UINT32  Reserved3:2;
   } Bits;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_PERF_GLOBAL_OVF_CTRL_REGISTER;
+
 
 /**
   Thread. See Section 18.3.1.1.1, "Processor Event Based Sampling (PEBS).".
@@ -1045,7 +1064,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PEBS_ENABLE is defined as MSR_PEBS_ENABLE in SDM.
 **/
-#define MSR_NEHALEM_PEBS_ENABLE  0x000003F1
+#define MSR_NEHALEM_PEBS_ENABLE                  0x000003F1
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_PEBS_ENABLE
@@ -1058,43 +1077,44 @@ typedef union {
     ///
     /// [Bit 0] Enable PEBS on IA32_PMC0. (R/W).
     ///
-    UINT32    PEBS_EN_PMC0 : 1;
+    UINT32  PEBS_EN_PMC0:1;
     ///
     /// [Bit 1] Enable PEBS on IA32_PMC1. (R/W).
     ///
-    UINT32    PEBS_EN_PMC1 : 1;
+    UINT32  PEBS_EN_PMC1:1;
     ///
     /// [Bit 2] Enable PEBS on IA32_PMC2. (R/W).
     ///
-    UINT32    PEBS_EN_PMC2 : 1;
+    UINT32  PEBS_EN_PMC2:1;
     ///
     /// [Bit 3] Enable PEBS on IA32_PMC3. (R/W).
     ///
-    UINT32    PEBS_EN_PMC3 : 1;
-    UINT32    Reserved1    : 28;
+    UINT32  PEBS_EN_PMC3:1;
+    UINT32  Reserved1:28;
     ///
     /// [Bit 32] Enable Load Latency on IA32_PMC0. (R/W).
     ///
-    UINT32    LL_EN_PMC0   : 1;
+    UINT32  LL_EN_PMC0:1;
     ///
     /// [Bit 33] Enable Load Latency on IA32_PMC1. (R/W).
     ///
-    UINT32    LL_EN_PMC1   : 1;
+    UINT32  LL_EN_PMC1:1;
     ///
     /// [Bit 34] Enable Load Latency on IA32_PMC2. (R/W).
     ///
-    UINT32    LL_EN_PMC2   : 1;
+    UINT32  LL_EN_PMC2:1;
     ///
     /// [Bit 35] Enable Load Latency on IA32_PMC3. (R/W).
     ///
-    UINT32    LL_EN_PMC3   : 1;
-    UINT32    Reserved2    : 28;
+    UINT32  LL_EN_PMC3:1;
+    UINT32  Reserved2:28;
   } Bits;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_PEBS_ENABLE_REGISTER;
+
 
 /**
   Thread. See Section 18.3.1.1.2, "Load Latency Performance Monitoring
@@ -1115,7 +1135,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PEBS_LD_LAT is defined as MSR_PEBS_LD_LAT in SDM.
 **/
-#define MSR_NEHALEM_PEBS_LD_LAT  0x000003F6
+#define MSR_NEHALEM_PEBS_LD_LAT                  0x000003F6
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_PEBS_LD_LAT
@@ -1129,19 +1149,20 @@ typedef union {
     /// [Bits 15:0] Minimum threshold latency value of tagged load operation
     /// that will be counted. (R/W).
     ///
-    UINT32    MinimumThreshold : 16;
-    UINT32    Reserved1        : 16;
-    UINT32    Reserved2        : 32;
+    UINT32  MinimumThreshold:16;
+    UINT32  Reserved1:16;
+    UINT32  Reserved2:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_PEBS_LD_LAT_REGISTER;
+
 
 /**
   Package. Note: C-state values are processor specific C-state code names,
@@ -1162,7 +1183,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PKG_C3_RESIDENCY is defined as MSR_PKG_C3_RESIDENCY in SDM.
 **/
-#define MSR_NEHALEM_PKG_C3_RESIDENCY  0x000003F8
+#define MSR_NEHALEM_PKG_C3_RESIDENCY             0x000003F8
+
 
 /**
   Package. Note: C-state values are processor specific C-state code names,
@@ -1183,7 +1205,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PKG_C6_RESIDENCY is defined as MSR_PKG_C6_RESIDENCY in SDM.
 **/
-#define MSR_NEHALEM_PKG_C6_RESIDENCY  0x000003F9
+#define MSR_NEHALEM_PKG_C6_RESIDENCY             0x000003F9
+
 
 /**
   Package. Note: C-state values are processor specific C-state code names,
@@ -1204,7 +1227,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_PKG_C7_RESIDENCY is defined as MSR_PKG_C7_RESIDENCY in SDM.
 **/
-#define MSR_NEHALEM_PKG_C7_RESIDENCY  0x000003FA
+#define MSR_NEHALEM_PKG_C7_RESIDENCY             0x000003FA
+
 
 /**
   Core. Note: C-state values are processor specific C-state code names,
@@ -1225,7 +1249,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_CORE_C3_RESIDENCY is defined as MSR_CORE_C3_RESIDENCY in SDM.
 **/
-#define MSR_NEHALEM_CORE_C3_RESIDENCY  0x000003FC
+#define MSR_NEHALEM_CORE_C3_RESIDENCY            0x000003FC
+
 
 /**
   Core. Note: C-state values are processor specific C-state code names,
@@ -1246,7 +1271,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_CORE_C6_RESIDENCY is defined as MSR_CORE_C6_RESIDENCY in SDM.
 **/
-#define MSR_NEHALEM_CORE_C6_RESIDENCY  0x000003FD
+#define MSR_NEHALEM_CORE_C6_RESIDENCY            0x000003FD
+
 
 /**
   Thread. Last Branch Record n From IP (R/W) One of sixteen pairs of last
@@ -1284,23 +1310,24 @@ typedef union {
         MSR_NEHALEM_LASTBRANCH_15_FROM_IP is defined as MSR_LASTBRANCH_15_FROM_IP in SDM.
   @{
 **/
-#define MSR_NEHALEM_LASTBRANCH_0_FROM_IP   0x00000680
-#define MSR_NEHALEM_LASTBRANCH_1_FROM_IP   0x00000681
-#define MSR_NEHALEM_LASTBRANCH_2_FROM_IP   0x00000682
-#define MSR_NEHALEM_LASTBRANCH_3_FROM_IP   0x00000683
-#define MSR_NEHALEM_LASTBRANCH_4_FROM_IP   0x00000684
-#define MSR_NEHALEM_LASTBRANCH_5_FROM_IP   0x00000685
-#define MSR_NEHALEM_LASTBRANCH_6_FROM_IP   0x00000686
-#define MSR_NEHALEM_LASTBRANCH_7_FROM_IP   0x00000687
-#define MSR_NEHALEM_LASTBRANCH_8_FROM_IP   0x00000688
-#define MSR_NEHALEM_LASTBRANCH_9_FROM_IP   0x00000689
-#define MSR_NEHALEM_LASTBRANCH_10_FROM_IP  0x0000068A
-#define MSR_NEHALEM_LASTBRANCH_11_FROM_IP  0x0000068B
-#define MSR_NEHALEM_LASTBRANCH_12_FROM_IP  0x0000068C
-#define MSR_NEHALEM_LASTBRANCH_13_FROM_IP  0x0000068D
-#define MSR_NEHALEM_LASTBRANCH_14_FROM_IP  0x0000068E
-#define MSR_NEHALEM_LASTBRANCH_15_FROM_IP  0x0000068F
+#define MSR_NEHALEM_LASTBRANCH_0_FROM_IP         0x00000680
+#define MSR_NEHALEM_LASTBRANCH_1_FROM_IP         0x00000681
+#define MSR_NEHALEM_LASTBRANCH_2_FROM_IP         0x00000682
+#define MSR_NEHALEM_LASTBRANCH_3_FROM_IP         0x00000683
+#define MSR_NEHALEM_LASTBRANCH_4_FROM_IP         0x00000684
+#define MSR_NEHALEM_LASTBRANCH_5_FROM_IP         0x00000685
+#define MSR_NEHALEM_LASTBRANCH_6_FROM_IP         0x00000686
+#define MSR_NEHALEM_LASTBRANCH_7_FROM_IP         0x00000687
+#define MSR_NEHALEM_LASTBRANCH_8_FROM_IP         0x00000688
+#define MSR_NEHALEM_LASTBRANCH_9_FROM_IP         0x00000689
+#define MSR_NEHALEM_LASTBRANCH_10_FROM_IP        0x0000068A
+#define MSR_NEHALEM_LASTBRANCH_11_FROM_IP        0x0000068B
+#define MSR_NEHALEM_LASTBRANCH_12_FROM_IP        0x0000068C
+#define MSR_NEHALEM_LASTBRANCH_13_FROM_IP        0x0000068D
+#define MSR_NEHALEM_LASTBRANCH_14_FROM_IP        0x0000068E
+#define MSR_NEHALEM_LASTBRANCH_15_FROM_IP        0x0000068F
 /// @}
+
 
 /**
   Thread. Last Branch Record n To IP (R/W) One of sixteen pairs of last branch
@@ -1336,23 +1363,24 @@ typedef union {
         MSR_NEHALEM_LASTBRANCH_15_TO_IP is defined as MSR_LASTBRANCH_15_TO_IP in SDM.
   @{
 **/
-#define MSR_NEHALEM_LASTBRANCH_0_TO_IP   0x000006C0
-#define MSR_NEHALEM_LASTBRANCH_1_TO_IP   0x000006C1
-#define MSR_NEHALEM_LASTBRANCH_2_TO_IP   0x000006C2
-#define MSR_NEHALEM_LASTBRANCH_3_TO_IP   0x000006C3
-#define MSR_NEHALEM_LASTBRANCH_4_TO_IP   0x000006C4
-#define MSR_NEHALEM_LASTBRANCH_5_TO_IP   0x000006C5
-#define MSR_NEHALEM_LASTBRANCH_6_TO_IP   0x000006C6
-#define MSR_NEHALEM_LASTBRANCH_7_TO_IP   0x000006C7
-#define MSR_NEHALEM_LASTBRANCH_8_TO_IP   0x000006C8
-#define MSR_NEHALEM_LASTBRANCH_9_TO_IP   0x000006C9
-#define MSR_NEHALEM_LASTBRANCH_10_TO_IP  0x000006CA
-#define MSR_NEHALEM_LASTBRANCH_11_TO_IP  0x000006CB
-#define MSR_NEHALEM_LASTBRANCH_12_TO_IP  0x000006CC
-#define MSR_NEHALEM_LASTBRANCH_13_TO_IP  0x000006CD
-#define MSR_NEHALEM_LASTBRANCH_14_TO_IP  0x000006CE
-#define MSR_NEHALEM_LASTBRANCH_15_TO_IP  0x000006CF
+#define MSR_NEHALEM_LASTBRANCH_0_TO_IP           0x000006C0
+#define MSR_NEHALEM_LASTBRANCH_1_TO_IP           0x000006C1
+#define MSR_NEHALEM_LASTBRANCH_2_TO_IP           0x000006C2
+#define MSR_NEHALEM_LASTBRANCH_3_TO_IP           0x000006C3
+#define MSR_NEHALEM_LASTBRANCH_4_TO_IP           0x000006C4
+#define MSR_NEHALEM_LASTBRANCH_5_TO_IP           0x000006C5
+#define MSR_NEHALEM_LASTBRANCH_6_TO_IP           0x000006C6
+#define MSR_NEHALEM_LASTBRANCH_7_TO_IP           0x000006C7
+#define MSR_NEHALEM_LASTBRANCH_8_TO_IP           0x000006C8
+#define MSR_NEHALEM_LASTBRANCH_9_TO_IP           0x000006C9
+#define MSR_NEHALEM_LASTBRANCH_10_TO_IP          0x000006CA
+#define MSR_NEHALEM_LASTBRANCH_11_TO_IP          0x000006CB
+#define MSR_NEHALEM_LASTBRANCH_12_TO_IP          0x000006CC
+#define MSR_NEHALEM_LASTBRANCH_13_TO_IP          0x000006CD
+#define MSR_NEHALEM_LASTBRANCH_14_TO_IP          0x000006CE
+#define MSR_NEHALEM_LASTBRANCH_15_TO_IP          0x000006CF
 /// @}
+
 
 /**
   Package.
@@ -1372,7 +1400,7 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_GQ_SNOOP_MESF is defined as MSR_GQ_SNOOP_MESF in SDM.
 **/
-#define MSR_NEHALEM_GQ_SNOOP_MESF  0x00000301
+#define MSR_NEHALEM_GQ_SNOOP_MESF                0x00000301
 
 /**
   MSR information returned for MSR index #MSR_NEHALEM_GQ_SNOOP_MESF
@@ -1385,47 +1413,48 @@ typedef union {
     ///
     /// [Bit 0] From M to S (R/W).
     ///
-    UINT32    FromMtoS  : 1;
+    UINT32  FromMtoS:1;
     ///
     /// [Bit 1] From E to S (R/W).
     ///
-    UINT32    FromEtoS  : 1;
+    UINT32  FromEtoS:1;
     ///
     /// [Bit 2] From S to S (R/W).
     ///
-    UINT32    FromStoS  : 1;
+    UINT32  FromStoS:1;
     ///
     /// [Bit 3] From F to S (R/W).
     ///
-    UINT32    FromFtoS  : 1;
+    UINT32  FromFtoS:1;
     ///
     /// [Bit 4] From M to I (R/W).
     ///
-    UINT32    FromMtoI  : 1;
+    UINT32  FromMtoI:1;
     ///
     /// [Bit 5] From E to I (R/W).
     ///
-    UINT32    FromEtoI  : 1;
+    UINT32  FromEtoI:1;
     ///
     /// [Bit 6] From S to I (R/W).
     ///
-    UINT32    FromStoI  : 1;
+    UINT32  FromStoI:1;
     ///
     /// [Bit 7] From F to I (R/W).
     ///
-    UINT32    FromFtoI  : 1;
-    UINT32    Reserved1 : 24;
-    UINT32    Reserved2 : 32;
+    UINT32  FromFtoI:1;
+    UINT32  Reserved1:24;
+    UINT32  Reserved2:32;
   } Bits;
   ///
   /// All bit fields as a 32-bit value
   ///
-  UINT32    Uint32;
+  UINT32  Uint32;
   ///
   /// All bit fields as a 64-bit value
   ///
-  UINT64    Uint64;
+  UINT64  Uint64;
 } MSR_NEHALEM_GQ_SNOOP_MESF_REGISTER;
+
 
 /**
   Package. See Section 18.3.1.2.1, "Uncore Performance Monitoring Management
@@ -1444,7 +1473,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_UNCORE_PERF_GLOBAL_CTRL is defined as MSR_UNCORE_PERF_GLOBAL_CTRL in SDM.
 **/
-#define MSR_NEHALEM_UNCORE_PERF_GLOBAL_CTRL  0x00000391
+#define MSR_NEHALEM_UNCORE_PERF_GLOBAL_CTRL      0x00000391
+
 
 /**
   Package. See Section 18.3.1.2.1, "Uncore Performance Monitoring Management
@@ -1463,7 +1493,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_UNCORE_PERF_GLOBAL_STATUS is defined as MSR_UNCORE_PERF_GLOBAL_STATUS in SDM.
 **/
-#define MSR_NEHALEM_UNCORE_PERF_GLOBAL_STATUS  0x00000392
+#define MSR_NEHALEM_UNCORE_PERF_GLOBAL_STATUS    0x00000392
+
 
 /**
   Package. See Section 18.3.1.2.1, "Uncore Performance Monitoring Management
@@ -1484,6 +1515,7 @@ typedef union {
 **/
 #define MSR_NEHALEM_UNCORE_PERF_GLOBAL_OVF_CTRL  0x00000393
 
+
 /**
   Package. See Section 18.3.1.2.1, "Uncore Performance Monitoring Management
   Facility.".
@@ -1501,7 +1533,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_UNCORE_FIXED_CTR0 is defined as MSR_UNCORE_FIXED_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_UNCORE_FIXED_CTR0  0x00000394
+#define MSR_NEHALEM_UNCORE_FIXED_CTR0            0x00000394
+
 
 /**
   Package. See Section 18.3.1.2.1, "Uncore Performance Monitoring Management
@@ -1520,7 +1553,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_UNCORE_FIXED_CTR_CTRL is defined as MSR_UNCORE_FIXED_CTR_CTRL in SDM.
 **/
-#define MSR_NEHALEM_UNCORE_FIXED_CTR_CTRL  0x00000395
+#define MSR_NEHALEM_UNCORE_FIXED_CTR_CTRL        0x00000395
+
 
 /**
   Package. See Section 18.3.1.2.3, "Uncore Address/Opcode Match MSR.".
@@ -1538,7 +1572,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_UNCORE_ADDR_OPCODE_MATCH is defined as MSR_UNCORE_ADDR_OPCODE_MATCH in SDM.
 **/
-#define MSR_NEHALEM_UNCORE_ADDR_OPCODE_MATCH  0x00000396
+#define MSR_NEHALEM_UNCORE_ADDR_OPCODE_MATCH     0x00000396
+
 
 /**
   Package. See Section 18.3.1.2.2, "Uncore Performance Event Configuration
@@ -1565,14 +1600,14 @@ typedef union {
         MSR_NEHALEM_UNCORE_PMC7 is defined as MSR_UNCORE_PMC7 in SDM.
   @{
 **/
-#define MSR_NEHALEM_UNCORE_PMC0  0x000003B0
-#define MSR_NEHALEM_UNCORE_PMC1  0x000003B1
-#define MSR_NEHALEM_UNCORE_PMC2  0x000003B2
-#define MSR_NEHALEM_UNCORE_PMC3  0x000003B3
-#define MSR_NEHALEM_UNCORE_PMC4  0x000003B4
-#define MSR_NEHALEM_UNCORE_PMC5  0x000003B5
-#define MSR_NEHALEM_UNCORE_PMC6  0x000003B6
-#define MSR_NEHALEM_UNCORE_PMC7  0x000003B7
+#define MSR_NEHALEM_UNCORE_PMC0                  0x000003B0
+#define MSR_NEHALEM_UNCORE_PMC1                  0x000003B1
+#define MSR_NEHALEM_UNCORE_PMC2                  0x000003B2
+#define MSR_NEHALEM_UNCORE_PMC3                  0x000003B3
+#define MSR_NEHALEM_UNCORE_PMC4                  0x000003B4
+#define MSR_NEHALEM_UNCORE_PMC5                  0x000003B5
+#define MSR_NEHALEM_UNCORE_PMC6                  0x000003B6
+#define MSR_NEHALEM_UNCORE_PMC7                  0x000003B7
 /// @}
 
 /**
@@ -1600,15 +1635,16 @@ typedef union {
         MSR_NEHALEM_UNCORE_PERFEVTSEL7 is defined as MSR_UNCORE_PERFEVTSEL7 in SDM.
   @{
 **/
-#define MSR_NEHALEM_UNCORE_PERFEVTSEL0  0x000003C0
-#define MSR_NEHALEM_UNCORE_PERFEVTSEL1  0x000003C1
-#define MSR_NEHALEM_UNCORE_PERFEVTSEL2  0x000003C2
-#define MSR_NEHALEM_UNCORE_PERFEVTSEL3  0x000003C3
-#define MSR_NEHALEM_UNCORE_PERFEVTSEL4  0x000003C4
-#define MSR_NEHALEM_UNCORE_PERFEVTSEL5  0x000003C5
-#define MSR_NEHALEM_UNCORE_PERFEVTSEL6  0x000003C6
-#define MSR_NEHALEM_UNCORE_PERFEVTSEL7  0x000003C7
+#define MSR_NEHALEM_UNCORE_PERFEVTSEL0           0x000003C0
+#define MSR_NEHALEM_UNCORE_PERFEVTSEL1           0x000003C1
+#define MSR_NEHALEM_UNCORE_PERFEVTSEL2           0x000003C2
+#define MSR_NEHALEM_UNCORE_PERFEVTSEL3           0x000003C3
+#define MSR_NEHALEM_UNCORE_PERFEVTSEL4           0x000003C4
+#define MSR_NEHALEM_UNCORE_PERFEVTSEL5           0x000003C5
+#define MSR_NEHALEM_UNCORE_PERFEVTSEL6           0x000003C6
+#define MSR_NEHALEM_UNCORE_PERFEVTSEL7           0x000003C7
 /// @}
+
 
 /**
   Package. Uncore W-box perfmon fixed counter.
@@ -1626,7 +1662,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_FIXED_CTR is defined as MSR_W_PMON_FIXED_CTR in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_FIXED_CTR  0x00000394
+#define MSR_NEHALEM_W_PMON_FIXED_CTR             0x00000394
+
 
 /**
   Package. Uncore U-box perfmon fixed counter control MSR.
@@ -1644,7 +1681,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_FIXED_CTR_CTL is defined as MSR_W_PMON_FIXED_CTR_CTL in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_FIXED_CTR_CTL  0x00000395
+#define MSR_NEHALEM_W_PMON_FIXED_CTR_CTL         0x00000395
+
 
 /**
   Package. Uncore U-box perfmon global control MSR.
@@ -1662,7 +1700,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_U_PMON_GLOBAL_CTRL is defined as MSR_U_PMON_GLOBAL_CTRL in SDM.
 **/
-#define MSR_NEHALEM_U_PMON_GLOBAL_CTRL  0x00000C00
+#define MSR_NEHALEM_U_PMON_GLOBAL_CTRL           0x00000C00
+
 
 /**
   Package. Uncore U-box perfmon global status MSR.
@@ -1680,7 +1719,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_U_PMON_GLOBAL_STATUS is defined as MSR_U_PMON_GLOBAL_STATUS in SDM.
 **/
-#define MSR_NEHALEM_U_PMON_GLOBAL_STATUS  0x00000C01
+#define MSR_NEHALEM_U_PMON_GLOBAL_STATUS         0x00000C01
+
 
 /**
   Package. Uncore U-box perfmon global overflow control MSR.
@@ -1698,7 +1738,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_U_PMON_GLOBAL_OVF_CTRL is defined as MSR_U_PMON_GLOBAL_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_U_PMON_GLOBAL_OVF_CTRL  0x00000C02
+#define MSR_NEHALEM_U_PMON_GLOBAL_OVF_CTRL       0x00000C02
+
 
 /**
   Package. Uncore U-box perfmon event select MSR.
@@ -1716,7 +1757,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_U_PMON_EVNT_SEL is defined as MSR_U_PMON_EVNT_SEL in SDM.
 **/
-#define MSR_NEHALEM_U_PMON_EVNT_SEL  0x00000C10
+#define MSR_NEHALEM_U_PMON_EVNT_SEL              0x00000C10
+
 
 /**
   Package. Uncore U-box perfmon counter MSR.
@@ -1734,7 +1776,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_U_PMON_CTR is defined as MSR_U_PMON_CTR in SDM.
 **/
-#define MSR_NEHALEM_U_PMON_CTR  0x00000C11
+#define MSR_NEHALEM_U_PMON_CTR                   0x00000C11
+
 
 /**
   Package. Uncore B-box 0 perfmon local box control MSR.
@@ -1752,7 +1795,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_BOX_CTRL is defined as MSR_B0_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_BOX_CTRL  0x00000C20
+#define MSR_NEHALEM_B0_PMON_BOX_CTRL             0x00000C20
+
 
 /**
   Package. Uncore B-box 0 perfmon local box status MSR.
@@ -1770,7 +1814,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_BOX_STATUS is defined as MSR_B0_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_BOX_STATUS  0x00000C21
+#define MSR_NEHALEM_B0_PMON_BOX_STATUS           0x00000C21
+
 
 /**
   Package. Uncore B-box 0 perfmon local box overflow control MSR.
@@ -1788,7 +1833,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_BOX_OVF_CTRL is defined as MSR_B0_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_BOX_OVF_CTRL  0x00000C22
+#define MSR_NEHALEM_B0_PMON_BOX_OVF_CTRL         0x00000C22
+
 
 /**
   Package. Uncore B-box 0 perfmon event select MSR.
@@ -1806,7 +1852,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_EVNT_SEL0 is defined as MSR_B0_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_EVNT_SEL0  0x00000C30
+#define MSR_NEHALEM_B0_PMON_EVNT_SEL0            0x00000C30
+
 
 /**
   Package. Uncore B-box 0 perfmon counter MSR.
@@ -1824,7 +1871,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_CTR0 is defined as MSR_B0_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_CTR0  0x00000C31
+#define MSR_NEHALEM_B0_PMON_CTR0                 0x00000C31
+
 
 /**
   Package. Uncore B-box 0 perfmon event select MSR.
@@ -1842,7 +1890,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_EVNT_SEL1 is defined as MSR_B0_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_EVNT_SEL1  0x00000C32
+#define MSR_NEHALEM_B0_PMON_EVNT_SEL1            0x00000C32
+
 
 /**
   Package. Uncore B-box 0 perfmon counter MSR.
@@ -1860,7 +1909,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_CTR1 is defined as MSR_B0_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_CTR1  0x00000C33
+#define MSR_NEHALEM_B0_PMON_CTR1                 0x00000C33
+
 
 /**
   Package. Uncore B-box 0 perfmon event select MSR.
@@ -1878,7 +1928,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_EVNT_SEL2 is defined as MSR_B0_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_EVNT_SEL2  0x00000C34
+#define MSR_NEHALEM_B0_PMON_EVNT_SEL2            0x00000C34
+
 
 /**
   Package. Uncore B-box 0 perfmon counter MSR.
@@ -1896,7 +1947,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_CTR2 is defined as MSR_B0_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_CTR2  0x00000C35
+#define MSR_NEHALEM_B0_PMON_CTR2                 0x00000C35
+
 
 /**
   Package. Uncore B-box 0 perfmon event select MSR.
@@ -1914,7 +1966,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_EVNT_SEL3 is defined as MSR_B0_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_EVNT_SEL3  0x00000C36
+#define MSR_NEHALEM_B0_PMON_EVNT_SEL3            0x00000C36
+
 
 /**
   Package. Uncore B-box 0 perfmon counter MSR.
@@ -1932,7 +1985,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_CTR3 is defined as MSR_B0_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_CTR3  0x00000C37
+#define MSR_NEHALEM_B0_PMON_CTR3                 0x00000C37
+
 
 /**
   Package. Uncore S-box 0 perfmon local box control MSR.
@@ -1950,7 +2004,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_BOX_CTRL is defined as MSR_S0_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_BOX_CTRL  0x00000C40
+#define MSR_NEHALEM_S0_PMON_BOX_CTRL             0x00000C40
+
 
 /**
   Package. Uncore S-box 0 perfmon local box status MSR.
@@ -1968,7 +2023,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_BOX_STATUS is defined as MSR_S0_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_BOX_STATUS  0x00000C41
+#define MSR_NEHALEM_S0_PMON_BOX_STATUS           0x00000C41
+
 
 /**
   Package. Uncore S-box 0 perfmon local box overflow control MSR.
@@ -1986,7 +2042,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_BOX_OVF_CTRL is defined as MSR_S0_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_BOX_OVF_CTRL  0x00000C42
+#define MSR_NEHALEM_S0_PMON_BOX_OVF_CTRL         0x00000C42
+
 
 /**
   Package. Uncore S-box 0 perfmon event select MSR.
@@ -2004,7 +2061,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_EVNT_SEL0 is defined as MSR_S0_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_EVNT_SEL0  0x00000C50
+#define MSR_NEHALEM_S0_PMON_EVNT_SEL0            0x00000C50
+
 
 /**
   Package. Uncore S-box 0 perfmon counter MSR.
@@ -2022,7 +2080,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_CTR0 is defined as MSR_S0_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_CTR0  0x00000C51
+#define MSR_NEHALEM_S0_PMON_CTR0                 0x00000C51
+
 
 /**
   Package. Uncore S-box 0 perfmon event select MSR.
@@ -2040,7 +2099,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_EVNT_SEL1 is defined as MSR_S0_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_EVNT_SEL1  0x00000C52
+#define MSR_NEHALEM_S0_PMON_EVNT_SEL1            0x00000C52
+
 
 /**
   Package. Uncore S-box 0 perfmon counter MSR.
@@ -2058,7 +2118,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_CTR1 is defined as MSR_S0_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_CTR1  0x00000C53
+#define MSR_NEHALEM_S0_PMON_CTR1                 0x00000C53
+
 
 /**
   Package. Uncore S-box 0 perfmon event select MSR.
@@ -2076,7 +2137,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_EVNT_SEL2 is defined as MSR_S0_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_EVNT_SEL2  0x00000C54
+#define MSR_NEHALEM_S0_PMON_EVNT_SEL2            0x00000C54
+
 
 /**
   Package. Uncore S-box 0 perfmon counter MSR.
@@ -2094,7 +2156,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_CTR2 is defined as MSR_S0_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_CTR2  0x00000C55
+#define MSR_NEHALEM_S0_PMON_CTR2                 0x00000C55
+
 
 /**
   Package. Uncore S-box 0 perfmon event select MSR.
@@ -2112,7 +2175,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_EVNT_SEL3 is defined as MSR_S0_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_EVNT_SEL3  0x00000C56
+#define MSR_NEHALEM_S0_PMON_EVNT_SEL3            0x00000C56
+
 
 /**
   Package. Uncore S-box 0 perfmon counter MSR.
@@ -2130,7 +2194,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_CTR3 is defined as MSR_S0_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_CTR3  0x00000C57
+#define MSR_NEHALEM_S0_PMON_CTR3                 0x00000C57
+
 
 /**
   Package. Uncore B-box 1 perfmon local box control MSR.
@@ -2148,7 +2213,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_BOX_CTRL is defined as MSR_B1_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_BOX_CTRL  0x00000C60
+#define MSR_NEHALEM_B1_PMON_BOX_CTRL             0x00000C60
+
 
 /**
   Package. Uncore B-box 1 perfmon local box status MSR.
@@ -2166,7 +2232,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_BOX_STATUS is defined as MSR_B1_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_BOX_STATUS  0x00000C61
+#define MSR_NEHALEM_B1_PMON_BOX_STATUS           0x00000C61
+
 
 /**
   Package. Uncore B-box 1 perfmon local box overflow control MSR.
@@ -2184,7 +2251,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_BOX_OVF_CTRL is defined as MSR_B1_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_BOX_OVF_CTRL  0x00000C62
+#define MSR_NEHALEM_B1_PMON_BOX_OVF_CTRL         0x00000C62
+
 
 /**
   Package. Uncore B-box 1 perfmon event select MSR.
@@ -2202,7 +2270,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_EVNT_SEL0 is defined as MSR_B1_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_EVNT_SEL0  0x00000C70
+#define MSR_NEHALEM_B1_PMON_EVNT_SEL0            0x00000C70
+
 
 /**
   Package. Uncore B-box 1 perfmon counter MSR.
@@ -2220,7 +2289,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_CTR0 is defined as MSR_B1_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_CTR0  0x00000C71
+#define MSR_NEHALEM_B1_PMON_CTR0                 0x00000C71
+
 
 /**
   Package. Uncore B-box 1 perfmon event select MSR.
@@ -2238,7 +2308,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_EVNT_SEL1 is defined as MSR_B1_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_EVNT_SEL1  0x00000C72
+#define MSR_NEHALEM_B1_PMON_EVNT_SEL1            0x00000C72
+
 
 /**
   Package. Uncore B-box 1 perfmon counter MSR.
@@ -2256,7 +2327,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_CTR1 is defined as MSR_B1_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_CTR1  0x00000C73
+#define MSR_NEHALEM_B1_PMON_CTR1                 0x00000C73
+
 
 /**
   Package. Uncore B-box 1 perfmon event select MSR.
@@ -2274,7 +2346,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_EVNT_SEL2 is defined as MSR_B1_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_EVNT_SEL2  0x00000C74
+#define MSR_NEHALEM_B1_PMON_EVNT_SEL2            0x00000C74
+
 
 /**
   Package. Uncore B-box 1 perfmon counter MSR.
@@ -2292,7 +2365,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_CTR2 is defined as MSR_B1_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_CTR2  0x00000C75
+#define MSR_NEHALEM_B1_PMON_CTR2                 0x00000C75
+
 
 /**
   Package. Uncore B-box 1vperfmon event select MSR.
@@ -2310,7 +2384,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_EVNT_SEL3 is defined as MSR_B1_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_EVNT_SEL3  0x00000C76
+#define MSR_NEHALEM_B1_PMON_EVNT_SEL3            0x00000C76
+
 
 /**
   Package. Uncore B-box 1 perfmon counter MSR.
@@ -2328,7 +2403,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_CTR3 is defined as MSR_B1_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_CTR3  0x00000C77
+#define MSR_NEHALEM_B1_PMON_CTR3                 0x00000C77
+
 
 /**
   Package. Uncore W-box perfmon local box control MSR.
@@ -2346,7 +2422,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_BOX_CTRL is defined as MSR_W_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_BOX_CTRL  0x00000C80
+#define MSR_NEHALEM_W_PMON_BOX_CTRL              0x00000C80
+
 
 /**
   Package. Uncore W-box perfmon local box status MSR.
@@ -2364,7 +2441,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_BOX_STATUS is defined as MSR_W_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_BOX_STATUS  0x00000C81
+#define MSR_NEHALEM_W_PMON_BOX_STATUS            0x00000C81
+
 
 /**
   Package. Uncore W-box perfmon local box overflow control MSR.
@@ -2382,7 +2460,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_BOX_OVF_CTRL is defined as MSR_W_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_BOX_OVF_CTRL  0x00000C82
+#define MSR_NEHALEM_W_PMON_BOX_OVF_CTRL          0x00000C82
+
 
 /**
   Package. Uncore W-box perfmon event select MSR.
@@ -2400,7 +2479,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_EVNT_SEL0 is defined as MSR_W_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_EVNT_SEL0  0x00000C90
+#define MSR_NEHALEM_W_PMON_EVNT_SEL0             0x00000C90
+
 
 /**
   Package. Uncore W-box perfmon counter MSR.
@@ -2418,7 +2498,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_CTR0 is defined as MSR_W_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_CTR0  0x00000C91
+#define MSR_NEHALEM_W_PMON_CTR0                  0x00000C91
+
 
 /**
   Package. Uncore W-box perfmon event select MSR.
@@ -2436,7 +2517,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_EVNT_SEL1 is defined as MSR_W_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_EVNT_SEL1  0x00000C92
+#define MSR_NEHALEM_W_PMON_EVNT_SEL1             0x00000C92
+
 
 /**
   Package. Uncore W-box perfmon counter MSR.
@@ -2454,7 +2536,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_CTR1 is defined as MSR_W_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_CTR1  0x00000C93
+#define MSR_NEHALEM_W_PMON_CTR1                  0x00000C93
+
 
 /**
   Package. Uncore W-box perfmon event select MSR.
@@ -2472,7 +2555,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_EVNT_SEL2 is defined as MSR_W_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_EVNT_SEL2  0x00000C94
+#define MSR_NEHALEM_W_PMON_EVNT_SEL2             0x00000C94
+
 
 /**
   Package. Uncore W-box perfmon counter MSR.
@@ -2490,7 +2574,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_CTR2 is defined as MSR_W_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_CTR2  0x00000C95
+#define MSR_NEHALEM_W_PMON_CTR2                  0x00000C95
+
 
 /**
   Package. Uncore W-box perfmon event select MSR.
@@ -2508,7 +2593,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_EVNT_SEL3 is defined as MSR_W_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_EVNT_SEL3  0x00000C96
+#define MSR_NEHALEM_W_PMON_EVNT_SEL3             0x00000C96
+
 
 /**
   Package. Uncore W-box perfmon counter MSR.
@@ -2526,7 +2612,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_W_PMON_CTR3 is defined as MSR_W_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_W_PMON_CTR3  0x00000C97
+#define MSR_NEHALEM_W_PMON_CTR3                  0x00000C97
+
 
 /**
   Package. Uncore M-box 0 perfmon local box control MSR.
@@ -2544,7 +2631,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_BOX_CTRL is defined as MSR_M0_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_BOX_CTRL  0x00000CA0
+#define MSR_NEHALEM_M0_PMON_BOX_CTRL             0x00000CA0
+
 
 /**
   Package. Uncore M-box 0 perfmon local box status MSR.
@@ -2562,7 +2650,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_BOX_STATUS is defined as MSR_M0_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_BOX_STATUS  0x00000CA1
+#define MSR_NEHALEM_M0_PMON_BOX_STATUS           0x00000CA1
+
 
 /**
   Package. Uncore M-box 0 perfmon local box overflow control MSR.
@@ -2580,7 +2669,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_BOX_OVF_CTRL is defined as MSR_M0_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_BOX_OVF_CTRL  0x00000CA2
+#define MSR_NEHALEM_M0_PMON_BOX_OVF_CTRL         0x00000CA2
+
 
 /**
   Package. Uncore M-box 0 perfmon time stamp unit select MSR.
@@ -2598,7 +2688,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_TIMESTAMP is defined as MSR_M0_PMON_TIMESTAMP in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_TIMESTAMP  0x00000CA4
+#define MSR_NEHALEM_M0_PMON_TIMESTAMP            0x00000CA4
+
 
 /**
   Package. Uncore M-box 0 perfmon DSP unit select MSR.
@@ -2616,7 +2707,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_DSP is defined as MSR_M0_PMON_DSP in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_DSP  0x00000CA5
+#define MSR_NEHALEM_M0_PMON_DSP                  0x00000CA5
+
 
 /**
   Package. Uncore M-box 0 perfmon ISS unit select MSR.
@@ -2634,7 +2726,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_ISS is defined as MSR_M0_PMON_ISS in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_ISS  0x00000CA6
+#define MSR_NEHALEM_M0_PMON_ISS                  0x00000CA6
+
 
 /**
   Package. Uncore M-box 0 perfmon MAP unit select MSR.
@@ -2652,7 +2745,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_MAP is defined as MSR_M0_PMON_MAP in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_MAP  0x00000CA7
+#define MSR_NEHALEM_M0_PMON_MAP                  0x00000CA7
+
 
 /**
   Package. Uncore M-box 0 perfmon MIC THR select MSR.
@@ -2670,7 +2764,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_MSC_THR is defined as MSR_M0_PMON_MSC_THR in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_MSC_THR  0x00000CA8
+#define MSR_NEHALEM_M0_PMON_MSC_THR              0x00000CA8
+
 
 /**
   Package. Uncore M-box 0 perfmon PGT unit select MSR.
@@ -2688,7 +2783,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_PGT is defined as MSR_M0_PMON_PGT in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_PGT  0x00000CA9
+#define MSR_NEHALEM_M0_PMON_PGT                  0x00000CA9
+
 
 /**
   Package. Uncore M-box 0 perfmon PLD unit select MSR.
@@ -2706,7 +2802,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_PLD is defined as MSR_M0_PMON_PLD in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_PLD  0x00000CAA
+#define MSR_NEHALEM_M0_PMON_PLD                  0x00000CAA
+
 
 /**
   Package. Uncore M-box 0 perfmon ZDP unit select MSR.
@@ -2724,7 +2821,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_ZDP is defined as MSR_M0_PMON_ZDP in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_ZDP  0x00000CAB
+#define MSR_NEHALEM_M0_PMON_ZDP                  0x00000CAB
+
 
 /**
   Package. Uncore M-box 0 perfmon event select MSR.
@@ -2742,7 +2840,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_EVNT_SEL0 is defined as MSR_M0_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_EVNT_SEL0  0x00000CB0
+#define MSR_NEHALEM_M0_PMON_EVNT_SEL0            0x00000CB0
+
 
 /**
   Package. Uncore M-box 0 perfmon counter MSR.
@@ -2760,7 +2859,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_CTR0 is defined as MSR_M0_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_CTR0  0x00000CB1
+#define MSR_NEHALEM_M0_PMON_CTR0                 0x00000CB1
+
 
 /**
   Package. Uncore M-box 0 perfmon event select MSR.
@@ -2778,7 +2878,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_EVNT_SEL1 is defined as MSR_M0_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_EVNT_SEL1  0x00000CB2
+#define MSR_NEHALEM_M0_PMON_EVNT_SEL1            0x00000CB2
+
 
 /**
   Package. Uncore M-box 0 perfmon counter MSR.
@@ -2796,7 +2897,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_CTR1 is defined as MSR_M0_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_CTR1  0x00000CB3
+#define MSR_NEHALEM_M0_PMON_CTR1                 0x00000CB3
+
 
 /**
   Package. Uncore M-box 0 perfmon event select MSR.
@@ -2814,7 +2916,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_EVNT_SEL2 is defined as MSR_M0_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_EVNT_SEL2  0x00000CB4
+#define MSR_NEHALEM_M0_PMON_EVNT_SEL2            0x00000CB4
+
 
 /**
   Package. Uncore M-box 0 perfmon counter MSR.
@@ -2832,7 +2935,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_CTR2 is defined as MSR_M0_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_CTR2  0x00000CB5
+#define MSR_NEHALEM_M0_PMON_CTR2                 0x00000CB5
+
 
 /**
   Package. Uncore M-box 0 perfmon event select MSR.
@@ -2850,7 +2954,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_EVNT_SEL3 is defined as MSR_M0_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_EVNT_SEL3  0x00000CB6
+#define MSR_NEHALEM_M0_PMON_EVNT_SEL3            0x00000CB6
+
 
 /**
   Package. Uncore M-box 0 perfmon counter MSR.
@@ -2868,7 +2973,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_CTR3 is defined as MSR_M0_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_CTR3  0x00000CB7
+#define MSR_NEHALEM_M0_PMON_CTR3                 0x00000CB7
+
 
 /**
   Package. Uncore M-box 0 perfmon event select MSR.
@@ -2886,7 +2992,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_EVNT_SEL4 is defined as MSR_M0_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_EVNT_SEL4  0x00000CB8
+#define MSR_NEHALEM_M0_PMON_EVNT_SEL4            0x00000CB8
+
 
 /**
   Package. Uncore M-box 0 perfmon counter MSR.
@@ -2904,7 +3011,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_CTR4 is defined as MSR_M0_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_CTR4  0x00000CB9
+#define MSR_NEHALEM_M0_PMON_CTR4                 0x00000CB9
+
 
 /**
   Package. Uncore M-box 0 perfmon event select MSR.
@@ -2922,7 +3030,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_EVNT_SEL5 is defined as MSR_M0_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_EVNT_SEL5  0x00000CBA
+#define MSR_NEHALEM_M0_PMON_EVNT_SEL5            0x00000CBA
+
 
 /**
   Package. Uncore M-box 0 perfmon counter MSR.
@@ -2940,7 +3049,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_CTR5 is defined as MSR_M0_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_CTR5  0x00000CBB
+#define MSR_NEHALEM_M0_PMON_CTR5                 0x00000CBB
+
 
 /**
   Package. Uncore S-box 1 perfmon local box control MSR.
@@ -2958,7 +3068,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_BOX_CTRL is defined as MSR_S1_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_BOX_CTRL  0x00000CC0
+#define MSR_NEHALEM_S1_PMON_BOX_CTRL             0x00000CC0
+
 
 /**
   Package. Uncore S-box 1 perfmon local box status MSR.
@@ -2976,7 +3087,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_BOX_STATUS is defined as MSR_S1_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_BOX_STATUS  0x00000CC1
+#define MSR_NEHALEM_S1_PMON_BOX_STATUS           0x00000CC1
+
 
 /**
   Package. Uncore S-box 1 perfmon local box overflow control MSR.
@@ -2994,7 +3106,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_BOX_OVF_CTRL is defined as MSR_S1_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_BOX_OVF_CTRL  0x00000CC2
+#define MSR_NEHALEM_S1_PMON_BOX_OVF_CTRL         0x00000CC2
+
 
 /**
   Package. Uncore S-box 1 perfmon event select MSR.
@@ -3012,7 +3125,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_EVNT_SEL0 is defined as MSR_S1_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_EVNT_SEL0  0x00000CD0
+#define MSR_NEHALEM_S1_PMON_EVNT_SEL0            0x00000CD0
+
 
 /**
   Package. Uncore S-box 1 perfmon counter MSR.
@@ -3030,7 +3144,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_CTR0 is defined as MSR_S1_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_CTR0  0x00000CD1
+#define MSR_NEHALEM_S1_PMON_CTR0                 0x00000CD1
+
 
 /**
   Package. Uncore S-box 1 perfmon event select MSR.
@@ -3048,7 +3163,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_EVNT_SEL1 is defined as MSR_S1_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_EVNT_SEL1  0x00000CD2
+#define MSR_NEHALEM_S1_PMON_EVNT_SEL1            0x00000CD2
+
 
 /**
   Package. Uncore S-box 1 perfmon counter MSR.
@@ -3066,7 +3182,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_CTR1 is defined as MSR_S1_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_CTR1  0x00000CD3
+#define MSR_NEHALEM_S1_PMON_CTR1                 0x00000CD3
+
 
 /**
   Package. Uncore S-box 1 perfmon event select MSR.
@@ -3084,7 +3201,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_EVNT_SEL2 is defined as MSR_S1_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_EVNT_SEL2  0x00000CD4
+#define MSR_NEHALEM_S1_PMON_EVNT_SEL2            0x00000CD4
+
 
 /**
   Package. Uncore S-box 1 perfmon counter MSR.
@@ -3102,7 +3220,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_CTR2 is defined as MSR_S1_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_CTR2  0x00000CD5
+#define MSR_NEHALEM_S1_PMON_CTR2                 0x00000CD5
+
 
 /**
   Package. Uncore S-box 1 perfmon event select MSR.
@@ -3120,7 +3239,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_EVNT_SEL3 is defined as MSR_S1_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_EVNT_SEL3  0x00000CD6
+#define MSR_NEHALEM_S1_PMON_EVNT_SEL3            0x00000CD6
+
 
 /**
   Package. Uncore S-box 1 perfmon counter MSR.
@@ -3138,7 +3258,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_CTR3 is defined as MSR_S1_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_CTR3  0x00000CD7
+#define MSR_NEHALEM_S1_PMON_CTR3                 0x00000CD7
+
 
 /**
   Package. Uncore M-box 1 perfmon local box control MSR.
@@ -3156,7 +3277,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_BOX_CTRL is defined as MSR_M1_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_BOX_CTRL  0x00000CE0
+#define MSR_NEHALEM_M1_PMON_BOX_CTRL             0x00000CE0
+
 
 /**
   Package. Uncore M-box 1 perfmon local box status MSR.
@@ -3174,7 +3296,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_BOX_STATUS is defined as MSR_M1_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_BOX_STATUS  0x00000CE1
+#define MSR_NEHALEM_M1_PMON_BOX_STATUS           0x00000CE1
+
 
 /**
   Package. Uncore M-box 1 perfmon local box overflow control MSR.
@@ -3192,7 +3315,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_BOX_OVF_CTRL is defined as MSR_M1_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_BOX_OVF_CTRL  0x00000CE2
+#define MSR_NEHALEM_M1_PMON_BOX_OVF_CTRL         0x00000CE2
+
 
 /**
   Package. Uncore M-box 1 perfmon time stamp unit select MSR.
@@ -3210,7 +3334,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_TIMESTAMP is defined as MSR_M1_PMON_TIMESTAMP in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_TIMESTAMP  0x00000CE4
+#define MSR_NEHALEM_M1_PMON_TIMESTAMP            0x00000CE4
+
 
 /**
   Package. Uncore M-box 1 perfmon DSP unit select MSR.
@@ -3228,7 +3353,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_DSP is defined as MSR_M1_PMON_DSP in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_DSP  0x00000CE5
+#define MSR_NEHALEM_M1_PMON_DSP                  0x00000CE5
+
 
 /**
   Package. Uncore M-box 1 perfmon ISS unit select MSR.
@@ -3246,7 +3372,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_ISS is defined as MSR_M1_PMON_ISS in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_ISS  0x00000CE6
+#define MSR_NEHALEM_M1_PMON_ISS                  0x00000CE6
+
 
 /**
   Package. Uncore M-box 1 perfmon MAP unit select MSR.
@@ -3264,7 +3391,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_MAP is defined as MSR_M1_PMON_MAP in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_MAP  0x00000CE7
+#define MSR_NEHALEM_M1_PMON_MAP                  0x00000CE7
+
 
 /**
   Package. Uncore M-box 1 perfmon MIC THR select MSR.
@@ -3282,7 +3410,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_MSC_THR is defined as MSR_M1_PMON_MSC_THR in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_MSC_THR  0x00000CE8
+#define MSR_NEHALEM_M1_PMON_MSC_THR              0x00000CE8
+
 
 /**
   Package. Uncore M-box 1 perfmon PGT unit select MSR.
@@ -3300,7 +3429,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_PGT is defined as MSR_M1_PMON_PGT in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_PGT  0x00000CE9
+#define MSR_NEHALEM_M1_PMON_PGT                  0x00000CE9
+
 
 /**
   Package. Uncore M-box 1 perfmon PLD unit select MSR.
@@ -3318,7 +3448,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_PLD is defined as MSR_M1_PMON_PLD in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_PLD  0x00000CEA
+#define MSR_NEHALEM_M1_PMON_PLD                  0x00000CEA
+
 
 /**
   Package. Uncore M-box 1 perfmon ZDP unit select MSR.
@@ -3336,7 +3467,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_ZDP is defined as MSR_M1_PMON_ZDP in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_ZDP  0x00000CEB
+#define MSR_NEHALEM_M1_PMON_ZDP                  0x00000CEB
+
 
 /**
   Package. Uncore M-box 1 perfmon event select MSR.
@@ -3354,7 +3486,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_EVNT_SEL0 is defined as MSR_M1_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_EVNT_SEL0  0x00000CF0
+#define MSR_NEHALEM_M1_PMON_EVNT_SEL0            0x00000CF0
+
 
 /**
   Package. Uncore M-box 1 perfmon counter MSR.
@@ -3372,7 +3505,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_CTR0 is defined as MSR_M1_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_CTR0  0x00000CF1
+#define MSR_NEHALEM_M1_PMON_CTR0                 0x00000CF1
+
 
 /**
   Package. Uncore M-box 1 perfmon event select MSR.
@@ -3390,7 +3524,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_EVNT_SEL1 is defined as MSR_M1_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_EVNT_SEL1  0x00000CF2
+#define MSR_NEHALEM_M1_PMON_EVNT_SEL1            0x00000CF2
+
 
 /**
   Package. Uncore M-box 1 perfmon counter MSR.
@@ -3408,7 +3543,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_CTR1 is defined as MSR_M1_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_CTR1  0x00000CF3
+#define MSR_NEHALEM_M1_PMON_CTR1                 0x00000CF3
+
 
 /**
   Package. Uncore M-box 1 perfmon event select MSR.
@@ -3426,7 +3562,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_EVNT_SEL2 is defined as MSR_M1_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_EVNT_SEL2  0x00000CF4
+#define MSR_NEHALEM_M1_PMON_EVNT_SEL2            0x00000CF4
+
 
 /**
   Package. Uncore M-box 1 perfmon counter MSR.
@@ -3444,7 +3581,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_CTR2 is defined as MSR_M1_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_CTR2  0x00000CF5
+#define MSR_NEHALEM_M1_PMON_CTR2                 0x00000CF5
+
 
 /**
   Package. Uncore M-box 1 perfmon event select MSR.
@@ -3462,7 +3600,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_EVNT_SEL3 is defined as MSR_M1_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_EVNT_SEL3  0x00000CF6
+#define MSR_NEHALEM_M1_PMON_EVNT_SEL3            0x00000CF6
+
 
 /**
   Package. Uncore M-box 1 perfmon counter MSR.
@@ -3480,7 +3619,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_CTR3 is defined as MSR_M1_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_CTR3  0x00000CF7
+#define MSR_NEHALEM_M1_PMON_CTR3                 0x00000CF7
+
 
 /**
   Package. Uncore M-box 1 perfmon event select MSR.
@@ -3498,7 +3638,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_EVNT_SEL4 is defined as MSR_M1_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_EVNT_SEL4  0x00000CF8
+#define MSR_NEHALEM_M1_PMON_EVNT_SEL4            0x00000CF8
+
 
 /**
   Package. Uncore M-box 1 perfmon counter MSR.
@@ -3516,7 +3657,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_CTR4 is defined as MSR_M1_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_CTR4  0x00000CF9
+#define MSR_NEHALEM_M1_PMON_CTR4                 0x00000CF9
+
 
 /**
   Package. Uncore M-box 1 perfmon event select MSR.
@@ -3534,7 +3676,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_EVNT_SEL5 is defined as MSR_M1_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_EVNT_SEL5  0x00000CFA
+#define MSR_NEHALEM_M1_PMON_EVNT_SEL5            0x00000CFA
+
 
 /**
   Package. Uncore M-box 1 perfmon counter MSR.
@@ -3552,7 +3695,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_CTR5 is defined as MSR_M1_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_CTR5  0x00000CFB
+#define MSR_NEHALEM_M1_PMON_CTR5                 0x00000CFB
+
 
 /**
   Package. Uncore C-box 0 perfmon local box control MSR.
@@ -3570,7 +3714,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_BOX_CTRL is defined as MSR_C0_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_BOX_CTRL  0x00000D00
+#define MSR_NEHALEM_C0_PMON_BOX_CTRL             0x00000D00
+
 
 /**
   Package. Uncore C-box 0 perfmon local box status MSR.
@@ -3588,7 +3733,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_BOX_STATUS is defined as MSR_C0_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_BOX_STATUS  0x00000D01
+#define MSR_NEHALEM_C0_PMON_BOX_STATUS           0x00000D01
+
 
 /**
   Package. Uncore C-box 0 perfmon local box overflow control MSR.
@@ -3606,7 +3752,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_BOX_OVF_CTRL is defined as MSR_C0_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_BOX_OVF_CTRL  0x00000D02
+#define MSR_NEHALEM_C0_PMON_BOX_OVF_CTRL         0x00000D02
+
 
 /**
   Package. Uncore C-box 0 perfmon event select MSR.
@@ -3624,7 +3771,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_EVNT_SEL0 is defined as MSR_C0_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_EVNT_SEL0  0x00000D10
+#define MSR_NEHALEM_C0_PMON_EVNT_SEL0            0x00000D10
+
 
 /**
   Package. Uncore C-box 0 perfmon counter MSR.
@@ -3642,7 +3790,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_CTR0 is defined as MSR_C0_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_CTR0  0x00000D11
+#define MSR_NEHALEM_C0_PMON_CTR0                 0x00000D11
+
 
 /**
   Package. Uncore C-box 0 perfmon event select MSR.
@@ -3660,7 +3809,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_EVNT_SEL1 is defined as MSR_C0_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_EVNT_SEL1  0x00000D12
+#define MSR_NEHALEM_C0_PMON_EVNT_SEL1            0x00000D12
+
 
 /**
   Package. Uncore C-box 0 perfmon counter MSR.
@@ -3678,7 +3828,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_CTR1 is defined as MSR_C0_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_CTR1  0x00000D13
+#define MSR_NEHALEM_C0_PMON_CTR1                 0x00000D13
+
 
 /**
   Package. Uncore C-box 0 perfmon event select MSR.
@@ -3696,7 +3847,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_EVNT_SEL2 is defined as MSR_C0_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_EVNT_SEL2  0x00000D14
+#define MSR_NEHALEM_C0_PMON_EVNT_SEL2            0x00000D14
+
 
 /**
   Package. Uncore C-box 0 perfmon counter MSR.
@@ -3714,7 +3866,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_CTR2 is defined as MSR_C0_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_CTR2  0x00000D15
+#define MSR_NEHALEM_C0_PMON_CTR2                 0x00000D15
+
 
 /**
   Package. Uncore C-box 0 perfmon event select MSR.
@@ -3732,7 +3885,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_EVNT_SEL3 is defined as MSR_C0_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_EVNT_SEL3  0x00000D16
+#define MSR_NEHALEM_C0_PMON_EVNT_SEL3            0x00000D16
+
 
 /**
   Package. Uncore C-box 0 perfmon counter MSR.
@@ -3750,7 +3904,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_CTR3 is defined as MSR_C0_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_CTR3  0x00000D17
+#define MSR_NEHALEM_C0_PMON_CTR3                 0x00000D17
+
 
 /**
   Package. Uncore C-box 0 perfmon event select MSR.
@@ -3768,7 +3923,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_EVNT_SEL4 is defined as MSR_C0_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_EVNT_SEL4  0x00000D18
+#define MSR_NEHALEM_C0_PMON_EVNT_SEL4            0x00000D18
+
 
 /**
   Package. Uncore C-box 0 perfmon counter MSR.
@@ -3786,7 +3942,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_CTR4 is defined as MSR_C0_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_CTR4  0x00000D19
+#define MSR_NEHALEM_C0_PMON_CTR4                 0x00000D19
+
 
 /**
   Package. Uncore C-box 0 perfmon event select MSR.
@@ -3804,7 +3961,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_EVNT_SEL5 is defined as MSR_C0_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_EVNT_SEL5  0x00000D1A
+#define MSR_NEHALEM_C0_PMON_EVNT_SEL5            0x00000D1A
+
 
 /**
   Package. Uncore C-box 0 perfmon counter MSR.
@@ -3822,7 +3980,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C0_PMON_CTR5 is defined as MSR_C0_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_C0_PMON_CTR5  0x00000D1B
+#define MSR_NEHALEM_C0_PMON_CTR5                 0x00000D1B
+
 
 /**
   Package. Uncore C-box 4 perfmon local box control MSR.
@@ -3840,7 +3999,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_BOX_CTRL is defined as MSR_C4_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_BOX_CTRL  0x00000D20
+#define MSR_NEHALEM_C4_PMON_BOX_CTRL             0x00000D20
+
 
 /**
   Package. Uncore C-box 4 perfmon local box status MSR.
@@ -3858,7 +4018,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_BOX_STATUS is defined as MSR_C4_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_BOX_STATUS  0x00000D21
+#define MSR_NEHALEM_C4_PMON_BOX_STATUS           0x00000D21
+
 
 /**
   Package. Uncore C-box 4 perfmon local box overflow control MSR.
@@ -3876,7 +4037,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_BOX_OVF_CTRL is defined as MSR_C4_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_BOX_OVF_CTRL  0x00000D22
+#define MSR_NEHALEM_C4_PMON_BOX_OVF_CTRL         0x00000D22
+
 
 /**
   Package. Uncore C-box 4 perfmon event select MSR.
@@ -3894,7 +4056,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_EVNT_SEL0 is defined as MSR_C4_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_EVNT_SEL0  0x00000D30
+#define MSR_NEHALEM_C4_PMON_EVNT_SEL0            0x00000D30
+
 
 /**
   Package. Uncore C-box 4 perfmon counter MSR.
@@ -3912,7 +4075,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_CTR0 is defined as MSR_C4_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_CTR0  0x00000D31
+#define MSR_NEHALEM_C4_PMON_CTR0                 0x00000D31
+
 
 /**
   Package. Uncore C-box 4 perfmon event select MSR.
@@ -3930,7 +4094,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_EVNT_SEL1 is defined as MSR_C4_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_EVNT_SEL1  0x00000D32
+#define MSR_NEHALEM_C4_PMON_EVNT_SEL1            0x00000D32
+
 
 /**
   Package. Uncore C-box 4 perfmon counter MSR.
@@ -3948,7 +4113,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_CTR1 is defined as MSR_C4_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_CTR1  0x00000D33
+#define MSR_NEHALEM_C4_PMON_CTR1                 0x00000D33
+
 
 /**
   Package. Uncore C-box 4 perfmon event select MSR.
@@ -3966,7 +4132,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_EVNT_SEL2 is defined as MSR_C4_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_EVNT_SEL2  0x00000D34
+#define MSR_NEHALEM_C4_PMON_EVNT_SEL2            0x00000D34
+
 
 /**
   Package. Uncore C-box 4 perfmon counter MSR.
@@ -3984,7 +4151,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_CTR2 is defined as MSR_C4_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_CTR2  0x00000D35
+#define MSR_NEHALEM_C4_PMON_CTR2                 0x00000D35
+
 
 /**
   Package. Uncore C-box 4 perfmon event select MSR.
@@ -4002,7 +4170,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_EVNT_SEL3 is defined as MSR_C4_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_EVNT_SEL3  0x00000D36
+#define MSR_NEHALEM_C4_PMON_EVNT_SEL3            0x00000D36
+
 
 /**
   Package. Uncore C-box 4 perfmon counter MSR.
@@ -4020,7 +4189,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_CTR3 is defined as MSR_C4_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_CTR3  0x00000D37
+#define MSR_NEHALEM_C4_PMON_CTR3                 0x00000D37
+
 
 /**
   Package. Uncore C-box 4 perfmon event select MSR.
@@ -4038,7 +4208,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_EVNT_SEL4 is defined as MSR_C4_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_EVNT_SEL4  0x00000D38
+#define MSR_NEHALEM_C4_PMON_EVNT_SEL4            0x00000D38
+
 
 /**
   Package. Uncore C-box 4 perfmon counter MSR.
@@ -4056,7 +4227,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_CTR4 is defined as MSR_C4_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_CTR4  0x00000D39
+#define MSR_NEHALEM_C4_PMON_CTR4                 0x00000D39
+
 
 /**
   Package. Uncore C-box 4 perfmon event select MSR.
@@ -4074,7 +4246,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_EVNT_SEL5 is defined as MSR_C4_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_EVNT_SEL5  0x00000D3A
+#define MSR_NEHALEM_C4_PMON_EVNT_SEL5            0x00000D3A
+
 
 /**
   Package. Uncore C-box 4 perfmon counter MSR.
@@ -4092,7 +4265,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C4_PMON_CTR5 is defined as MSR_C4_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_C4_PMON_CTR5  0x00000D3B
+#define MSR_NEHALEM_C4_PMON_CTR5                 0x00000D3B
+
 
 /**
   Package. Uncore C-box 2 perfmon local box control MSR.
@@ -4110,7 +4284,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_BOX_CTRL is defined as MSR_C2_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_BOX_CTRL  0x00000D40
+#define MSR_NEHALEM_C2_PMON_BOX_CTRL             0x00000D40
+
 
 /**
   Package. Uncore C-box 2 perfmon local box status MSR.
@@ -4128,7 +4303,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_BOX_STATUS is defined as MSR_C2_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_BOX_STATUS  0x00000D41
+#define MSR_NEHALEM_C2_PMON_BOX_STATUS           0x00000D41
+
 
 /**
   Package. Uncore C-box 2 perfmon local box overflow control MSR.
@@ -4146,7 +4322,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_BOX_OVF_CTRL is defined as MSR_C2_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_BOX_OVF_CTRL  0x00000D42
+#define MSR_NEHALEM_C2_PMON_BOX_OVF_CTRL         0x00000D42
+
 
 /**
   Package. Uncore C-box 2 perfmon event select MSR.
@@ -4164,7 +4341,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_EVNT_SEL0 is defined as MSR_C2_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_EVNT_SEL0  0x00000D50
+#define MSR_NEHALEM_C2_PMON_EVNT_SEL0            0x00000D50
+
 
 /**
   Package. Uncore C-box 2 perfmon counter MSR.
@@ -4182,7 +4360,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_CTR0 is defined as MSR_C2_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_CTR0  0x00000D51
+#define MSR_NEHALEM_C2_PMON_CTR0                 0x00000D51
+
 
 /**
   Package. Uncore C-box 2 perfmon event select MSR.
@@ -4200,7 +4379,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_EVNT_SEL1 is defined as MSR_C2_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_EVNT_SEL1  0x00000D52
+#define MSR_NEHALEM_C2_PMON_EVNT_SEL1            0x00000D52
+
 
 /**
   Package. Uncore C-box 2 perfmon counter MSR.
@@ -4218,7 +4398,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_CTR1 is defined as MSR_C2_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_CTR1  0x00000D53
+#define MSR_NEHALEM_C2_PMON_CTR1                 0x00000D53
+
 
 /**
   Package. Uncore C-box 2 perfmon event select MSR.
@@ -4236,7 +4417,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_EVNT_SEL2 is defined as MSR_C2_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_EVNT_SEL2  0x00000D54
+#define MSR_NEHALEM_C2_PMON_EVNT_SEL2            0x00000D54
+
 
 /**
   Package. Uncore C-box 2 perfmon counter MSR.
@@ -4254,7 +4436,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_CTR2 is defined as MSR_C2_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_CTR2  0x00000D55
+#define MSR_NEHALEM_C2_PMON_CTR2                 0x00000D55
+
 
 /**
   Package. Uncore C-box 2 perfmon event select MSR.
@@ -4272,7 +4455,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_EVNT_SEL3 is defined as MSR_C2_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_EVNT_SEL3  0x00000D56
+#define MSR_NEHALEM_C2_PMON_EVNT_SEL3            0x00000D56
+
 
 /**
   Package. Uncore C-box 2 perfmon counter MSR.
@@ -4290,7 +4474,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_CTR3 is defined as MSR_C2_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_CTR3  0x00000D57
+#define MSR_NEHALEM_C2_PMON_CTR3                 0x00000D57
+
 
 /**
   Package. Uncore C-box 2 perfmon event select MSR.
@@ -4308,7 +4493,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_EVNT_SEL4 is defined as MSR_C2_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_EVNT_SEL4  0x00000D58
+#define MSR_NEHALEM_C2_PMON_EVNT_SEL4            0x00000D58
+
 
 /**
   Package. Uncore C-box 2 perfmon counter MSR.
@@ -4326,7 +4512,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_CTR4 is defined as MSR_C2_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_CTR4  0x00000D59
+#define MSR_NEHALEM_C2_PMON_CTR4                 0x00000D59
+
 
 /**
   Package. Uncore C-box 2 perfmon event select MSR.
@@ -4344,7 +4531,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_EVNT_SEL5 is defined as MSR_C2_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_EVNT_SEL5  0x00000D5A
+#define MSR_NEHALEM_C2_PMON_EVNT_SEL5            0x00000D5A
+
 
 /**
   Package. Uncore C-box 2 perfmon counter MSR.
@@ -4362,7 +4550,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C2_PMON_CTR5 is defined as MSR_C2_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_C2_PMON_CTR5  0x00000D5B
+#define MSR_NEHALEM_C2_PMON_CTR5                 0x00000D5B
+
 
 /**
   Package. Uncore C-box 6 perfmon local box control MSR.
@@ -4380,7 +4569,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_BOX_CTRL is defined as MSR_C6_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_BOX_CTRL  0x00000D60
+#define MSR_NEHALEM_C6_PMON_BOX_CTRL             0x00000D60
+
 
 /**
   Package. Uncore C-box 6 perfmon local box status MSR.
@@ -4398,7 +4588,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_BOX_STATUS is defined as MSR_C6_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_BOX_STATUS  0x00000D61
+#define MSR_NEHALEM_C6_PMON_BOX_STATUS           0x00000D61
+
 
 /**
   Package. Uncore C-box 6 perfmon local box overflow control MSR.
@@ -4416,7 +4607,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_BOX_OVF_CTRL is defined as MSR_C6_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_BOX_OVF_CTRL  0x00000D62
+#define MSR_NEHALEM_C6_PMON_BOX_OVF_CTRL         0x00000D62
+
 
 /**
   Package. Uncore C-box 6 perfmon event select MSR.
@@ -4434,7 +4626,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_EVNT_SEL0 is defined as MSR_C6_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_EVNT_SEL0  0x00000D70
+#define MSR_NEHALEM_C6_PMON_EVNT_SEL0            0x00000D70
+
 
 /**
   Package. Uncore C-box 6 perfmon counter MSR.
@@ -4452,7 +4645,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_CTR0 is defined as MSR_C6_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_CTR0  0x00000D71
+#define MSR_NEHALEM_C6_PMON_CTR0                 0x00000D71
+
 
 /**
   Package. Uncore C-box 6 perfmon event select MSR.
@@ -4470,7 +4664,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_EVNT_SEL1 is defined as MSR_C6_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_EVNT_SEL1  0x00000D72
+#define MSR_NEHALEM_C6_PMON_EVNT_SEL1            0x00000D72
+
 
 /**
   Package. Uncore C-box 6 perfmon counter MSR.
@@ -4488,7 +4683,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_CTR1 is defined as MSR_C6_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_CTR1  0x00000D73
+#define MSR_NEHALEM_C6_PMON_CTR1                 0x00000D73
+
 
 /**
   Package. Uncore C-box 6 perfmon event select MSR.
@@ -4506,7 +4702,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_EVNT_SEL2 is defined as MSR_C6_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_EVNT_SEL2  0x00000D74
+#define MSR_NEHALEM_C6_PMON_EVNT_SEL2            0x00000D74
+
 
 /**
   Package. Uncore C-box 6 perfmon counter MSR.
@@ -4524,7 +4721,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_CTR2 is defined as MSR_C6_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_CTR2  0x00000D75
+#define MSR_NEHALEM_C6_PMON_CTR2                 0x00000D75
+
 
 /**
   Package. Uncore C-box 6 perfmon event select MSR.
@@ -4542,7 +4740,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_EVNT_SEL3 is defined as MSR_C6_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_EVNT_SEL3  0x00000D76
+#define MSR_NEHALEM_C6_PMON_EVNT_SEL3            0x00000D76
+
 
 /**
   Package. Uncore C-box 6 perfmon counter MSR.
@@ -4560,7 +4759,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_CTR3 is defined as MSR_C6_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_CTR3  0x00000D77
+#define MSR_NEHALEM_C6_PMON_CTR3                 0x00000D77
+
 
 /**
   Package. Uncore C-box 6 perfmon event select MSR.
@@ -4578,7 +4778,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_EVNT_SEL4 is defined as MSR_C6_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_EVNT_SEL4  0x00000D78
+#define MSR_NEHALEM_C6_PMON_EVNT_SEL4            0x00000D78
+
 
 /**
   Package. Uncore C-box 6 perfmon counter MSR.
@@ -4596,7 +4797,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_CTR4 is defined as MSR_C6_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_CTR4  0x00000D79
+#define MSR_NEHALEM_C6_PMON_CTR4                 0x00000D79
+
 
 /**
   Package. Uncore C-box 6 perfmon event select MSR.
@@ -4614,7 +4816,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_EVNT_SEL5 is defined as MSR_C6_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_EVNT_SEL5  0x00000D7A
+#define MSR_NEHALEM_C6_PMON_EVNT_SEL5            0x00000D7A
+
 
 /**
   Package. Uncore C-box 6 perfmon counter MSR.
@@ -4632,7 +4835,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C6_PMON_CTR5 is defined as MSR_C6_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_C6_PMON_CTR5  0x00000D7B
+#define MSR_NEHALEM_C6_PMON_CTR5                 0x00000D7B
+
 
 /**
   Package. Uncore C-box 1 perfmon local box control MSR.
@@ -4650,7 +4854,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_BOX_CTRL is defined as MSR_C1_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_BOX_CTRL  0x00000D80
+#define MSR_NEHALEM_C1_PMON_BOX_CTRL             0x00000D80
+
 
 /**
   Package. Uncore C-box 1 perfmon local box status MSR.
@@ -4668,7 +4873,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_BOX_STATUS is defined as MSR_C1_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_BOX_STATUS  0x00000D81
+#define MSR_NEHALEM_C1_PMON_BOX_STATUS           0x00000D81
+
 
 /**
   Package. Uncore C-box 1 perfmon local box overflow control MSR.
@@ -4686,7 +4892,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_BOX_OVF_CTRL is defined as MSR_C1_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_BOX_OVF_CTRL  0x00000D82
+#define MSR_NEHALEM_C1_PMON_BOX_OVF_CTRL         0x00000D82
+
 
 /**
   Package. Uncore C-box 1 perfmon event select MSR.
@@ -4704,7 +4911,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_EVNT_SEL0 is defined as MSR_C1_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_EVNT_SEL0  0x00000D90
+#define MSR_NEHALEM_C1_PMON_EVNT_SEL0            0x00000D90
+
 
 /**
   Package. Uncore C-box 1 perfmon counter MSR.
@@ -4722,7 +4930,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_CTR0 is defined as MSR_C1_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_CTR0  0x00000D91
+#define MSR_NEHALEM_C1_PMON_CTR0                 0x00000D91
+
 
 /**
   Package. Uncore C-box 1 perfmon event select MSR.
@@ -4740,7 +4949,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_EVNT_SEL1 is defined as MSR_C1_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_EVNT_SEL1  0x00000D92
+#define MSR_NEHALEM_C1_PMON_EVNT_SEL1            0x00000D92
+
 
 /**
   Package. Uncore C-box 1 perfmon counter MSR.
@@ -4758,7 +4968,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_CTR1 is defined as MSR_C1_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_CTR1  0x00000D93
+#define MSR_NEHALEM_C1_PMON_CTR1                 0x00000D93
+
 
 /**
   Package. Uncore C-box 1 perfmon event select MSR.
@@ -4776,7 +4987,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_EVNT_SEL2 is defined as MSR_C1_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_EVNT_SEL2  0x00000D94
+#define MSR_NEHALEM_C1_PMON_EVNT_SEL2            0x00000D94
+
 
 /**
   Package. Uncore C-box 1 perfmon counter MSR.
@@ -4794,7 +5006,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_CTR2 is defined as MSR_C1_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_CTR2  0x00000D95
+#define MSR_NEHALEM_C1_PMON_CTR2                 0x00000D95
+
 
 /**
   Package. Uncore C-box 1 perfmon event select MSR.
@@ -4812,7 +5025,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_EVNT_SEL3 is defined as MSR_C1_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_EVNT_SEL3  0x00000D96
+#define MSR_NEHALEM_C1_PMON_EVNT_SEL3            0x00000D96
+
 
 /**
   Package. Uncore C-box 1 perfmon counter MSR.
@@ -4830,7 +5044,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_CTR3 is defined as MSR_C1_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_CTR3  0x00000D97
+#define MSR_NEHALEM_C1_PMON_CTR3                 0x00000D97
+
 
 /**
   Package. Uncore C-box 1 perfmon event select MSR.
@@ -4848,7 +5063,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_EVNT_SEL4 is defined as MSR_C1_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_EVNT_SEL4  0x00000D98
+#define MSR_NEHALEM_C1_PMON_EVNT_SEL4            0x00000D98
+
 
 /**
   Package. Uncore C-box 1 perfmon counter MSR.
@@ -4866,7 +5082,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_CTR4 is defined as MSR_C1_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_CTR4  0x00000D99
+#define MSR_NEHALEM_C1_PMON_CTR4                 0x00000D99
+
 
 /**
   Package. Uncore C-box 1 perfmon event select MSR.
@@ -4884,7 +5101,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_EVNT_SEL5 is defined as MSR_C1_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_EVNT_SEL5  0x00000D9A
+#define MSR_NEHALEM_C1_PMON_EVNT_SEL5            0x00000D9A
+
 
 /**
   Package. Uncore C-box 1 perfmon counter MSR.
@@ -4902,7 +5120,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C1_PMON_CTR5 is defined as MSR_C1_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_C1_PMON_CTR5  0x00000D9B
+#define MSR_NEHALEM_C1_PMON_CTR5                 0x00000D9B
+
 
 /**
   Package. Uncore C-box 5 perfmon local box control MSR.
@@ -4920,7 +5139,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_BOX_CTRL is defined as MSR_C5_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_BOX_CTRL  0x00000DA0
+#define MSR_NEHALEM_C5_PMON_BOX_CTRL             0x00000DA0
+
 
 /**
   Package. Uncore C-box 5 perfmon local box status MSR.
@@ -4938,7 +5158,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_BOX_STATUS is defined as MSR_C5_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_BOX_STATUS  0x00000DA1
+#define MSR_NEHALEM_C5_PMON_BOX_STATUS           0x00000DA1
+
 
 /**
   Package. Uncore C-box 5 perfmon local box overflow control MSR.
@@ -4956,7 +5177,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_BOX_OVF_CTRL is defined as MSR_C5_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_BOX_OVF_CTRL  0x00000DA2
+#define MSR_NEHALEM_C5_PMON_BOX_OVF_CTRL         0x00000DA2
+
 
 /**
   Package. Uncore C-box 5 perfmon event select MSR.
@@ -4974,7 +5196,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_EVNT_SEL0 is defined as MSR_C5_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_EVNT_SEL0  0x00000DB0
+#define MSR_NEHALEM_C5_PMON_EVNT_SEL0            0x00000DB0
+
 
 /**
   Package. Uncore C-box 5 perfmon counter MSR.
@@ -4992,7 +5215,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_CTR0 is defined as MSR_C5_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_CTR0  0x00000DB1
+#define MSR_NEHALEM_C5_PMON_CTR0                 0x00000DB1
+
 
 /**
   Package. Uncore C-box 5 perfmon event select MSR.
@@ -5010,7 +5234,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_EVNT_SEL1 is defined as MSR_C5_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_EVNT_SEL1  0x00000DB2
+#define MSR_NEHALEM_C5_PMON_EVNT_SEL1            0x00000DB2
+
 
 /**
   Package. Uncore C-box 5 perfmon counter MSR.
@@ -5028,7 +5253,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_CTR1 is defined as MSR_C5_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_CTR1  0x00000DB3
+#define MSR_NEHALEM_C5_PMON_CTR1                 0x00000DB3
+
 
 /**
   Package. Uncore C-box 5 perfmon event select MSR.
@@ -5046,7 +5272,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_EVNT_SEL2 is defined as MSR_C5_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_EVNT_SEL2  0x00000DB4
+#define MSR_NEHALEM_C5_PMON_EVNT_SEL2            0x00000DB4
+
 
 /**
   Package. Uncore C-box 5 perfmon counter MSR.
@@ -5064,7 +5291,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_CTR2 is defined as MSR_C5_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_CTR2  0x00000DB5
+#define MSR_NEHALEM_C5_PMON_CTR2                 0x00000DB5
+
 
 /**
   Package. Uncore C-box 5 perfmon event select MSR.
@@ -5082,7 +5310,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_EVNT_SEL3 is defined as MSR_C5_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_EVNT_SEL3  0x00000DB6
+#define MSR_NEHALEM_C5_PMON_EVNT_SEL3            0x00000DB6
+
 
 /**
   Package. Uncore C-box 5 perfmon counter MSR.
@@ -5100,7 +5329,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_CTR3 is defined as MSR_C5_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_CTR3  0x00000DB7
+#define MSR_NEHALEM_C5_PMON_CTR3                 0x00000DB7
+
 
 /**
   Package. Uncore C-box 5 perfmon event select MSR.
@@ -5118,7 +5348,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_EVNT_SEL4 is defined as MSR_C5_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_EVNT_SEL4  0x00000DB8
+#define MSR_NEHALEM_C5_PMON_EVNT_SEL4            0x00000DB8
+
 
 /**
   Package. Uncore C-box 5 perfmon counter MSR.
@@ -5136,7 +5367,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_CTR4 is defined as MSR_C5_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_CTR4  0x00000DB9
+#define MSR_NEHALEM_C5_PMON_CTR4                 0x00000DB9
+
 
 /**
   Package. Uncore C-box 5 perfmon event select MSR.
@@ -5154,7 +5386,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_EVNT_SEL5 is defined as MSR_C5_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_EVNT_SEL5  0x00000DBA
+#define MSR_NEHALEM_C5_PMON_EVNT_SEL5            0x00000DBA
+
 
 /**
   Package. Uncore C-box 5 perfmon counter MSR.
@@ -5172,7 +5405,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C5_PMON_CTR5 is defined as MSR_C5_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_C5_PMON_CTR5  0x00000DBB
+#define MSR_NEHALEM_C5_PMON_CTR5                 0x00000DBB
+
 
 /**
   Package. Uncore C-box 3 perfmon local box control MSR.
@@ -5190,7 +5424,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_BOX_CTRL is defined as MSR_C3_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_BOX_CTRL  0x00000DC0
+#define MSR_NEHALEM_C3_PMON_BOX_CTRL             0x00000DC0
+
 
 /**
   Package. Uncore C-box 3 perfmon local box status MSR.
@@ -5208,7 +5443,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_BOX_STATUS is defined as MSR_C3_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_BOX_STATUS  0x00000DC1
+#define MSR_NEHALEM_C3_PMON_BOX_STATUS           0x00000DC1
+
 
 /**
   Package. Uncore C-box 3 perfmon local box overflow control MSR.
@@ -5226,7 +5462,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_BOX_OVF_CTRL is defined as MSR_C3_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_BOX_OVF_CTRL  0x00000DC2
+#define MSR_NEHALEM_C3_PMON_BOX_OVF_CTRL         0x00000DC2
+
 
 /**
   Package. Uncore C-box 3 perfmon event select MSR.
@@ -5244,7 +5481,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_EVNT_SEL0 is defined as MSR_C3_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_EVNT_SEL0  0x00000DD0
+#define MSR_NEHALEM_C3_PMON_EVNT_SEL0            0x00000DD0
+
 
 /**
   Package. Uncore C-box 3 perfmon counter MSR.
@@ -5262,7 +5500,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_CTR0 is defined as MSR_C3_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_CTR0  0x00000DD1
+#define MSR_NEHALEM_C3_PMON_CTR0                 0x00000DD1
+
 
 /**
   Package. Uncore C-box 3 perfmon event select MSR.
@@ -5280,7 +5519,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_EVNT_SEL1 is defined as MSR_C3_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_EVNT_SEL1  0x00000DD2
+#define MSR_NEHALEM_C3_PMON_EVNT_SEL1            0x00000DD2
+
 
 /**
   Package. Uncore C-box 3 perfmon counter MSR.
@@ -5298,7 +5538,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_CTR1 is defined as MSR_C3_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_CTR1  0x00000DD3
+#define MSR_NEHALEM_C3_PMON_CTR1                 0x00000DD3
+
 
 /**
   Package. Uncore C-box 3 perfmon event select MSR.
@@ -5316,7 +5557,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_EVNT_SEL2 is defined as MSR_C3_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_EVNT_SEL2  0x00000DD4
+#define MSR_NEHALEM_C3_PMON_EVNT_SEL2            0x00000DD4
+
 
 /**
   Package. Uncore C-box 3 perfmon counter MSR.
@@ -5334,7 +5576,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_CTR2 is defined as MSR_C3_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_CTR2  0x00000DD5
+#define MSR_NEHALEM_C3_PMON_CTR2                 0x00000DD5
+
 
 /**
   Package. Uncore C-box 3 perfmon event select MSR.
@@ -5352,7 +5595,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_EVNT_SEL3 is defined as MSR_C3_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_EVNT_SEL3  0x00000DD6
+#define MSR_NEHALEM_C3_PMON_EVNT_SEL3            0x00000DD6
+
 
 /**
   Package. Uncore C-box 3 perfmon counter MSR.
@@ -5370,7 +5614,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_CTR3 is defined as MSR_C3_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_CTR3  0x00000DD7
+#define MSR_NEHALEM_C3_PMON_CTR3                 0x00000DD7
+
 
 /**
   Package. Uncore C-box 3 perfmon event select MSR.
@@ -5388,7 +5633,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_EVNT_SEL4 is defined as MSR_C3_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_EVNT_SEL4  0x00000DD8
+#define MSR_NEHALEM_C3_PMON_EVNT_SEL4            0x00000DD8
+
 
 /**
   Package. Uncore C-box 3 perfmon counter MSR.
@@ -5406,7 +5652,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_CTR4 is defined as MSR_C3_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_CTR4  0x00000DD9
+#define MSR_NEHALEM_C3_PMON_CTR4                 0x00000DD9
+
 
 /**
   Package. Uncore C-box 3 perfmon event select MSR.
@@ -5424,7 +5671,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_EVNT_SEL5 is defined as MSR_C3_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_EVNT_SEL5  0x00000DDA
+#define MSR_NEHALEM_C3_PMON_EVNT_SEL5            0x00000DDA
+
 
 /**
   Package. Uncore C-box 3 perfmon counter MSR.
@@ -5442,7 +5690,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C3_PMON_CTR5 is defined as MSR_C3_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_C3_PMON_CTR5  0x00000DDB
+#define MSR_NEHALEM_C3_PMON_CTR5                 0x00000DDB
+
 
 /**
   Package. Uncore C-box 7 perfmon local box control MSR.
@@ -5460,7 +5709,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_BOX_CTRL is defined as MSR_C7_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_BOX_CTRL  0x00000DE0
+#define MSR_NEHALEM_C7_PMON_BOX_CTRL             0x00000DE0
+
 
 /**
   Package. Uncore C-box 7 perfmon local box status MSR.
@@ -5478,7 +5728,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_BOX_STATUS is defined as MSR_C7_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_BOX_STATUS  0x00000DE1
+#define MSR_NEHALEM_C7_PMON_BOX_STATUS           0x00000DE1
+
 
 /**
   Package. Uncore C-box 7 perfmon local box overflow control MSR.
@@ -5496,7 +5747,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_BOX_OVF_CTRL is defined as MSR_C7_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_BOX_OVF_CTRL  0x00000DE2
+#define MSR_NEHALEM_C7_PMON_BOX_OVF_CTRL         0x00000DE2
+
 
 /**
   Package. Uncore C-box 7 perfmon event select MSR.
@@ -5514,7 +5766,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_EVNT_SEL0 is defined as MSR_C7_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_EVNT_SEL0  0x00000DF0
+#define MSR_NEHALEM_C7_PMON_EVNT_SEL0            0x00000DF0
+
 
 /**
   Package. Uncore C-box 7 perfmon counter MSR.
@@ -5532,7 +5785,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_CTR0 is defined as MSR_C7_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_CTR0  0x00000DF1
+#define MSR_NEHALEM_C7_PMON_CTR0                 0x00000DF1
+
 
 /**
   Package. Uncore C-box 7 perfmon event select MSR.
@@ -5550,7 +5804,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_EVNT_SEL1 is defined as MSR_C7_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_EVNT_SEL1  0x00000DF2
+#define MSR_NEHALEM_C7_PMON_EVNT_SEL1            0x00000DF2
+
 
 /**
   Package. Uncore C-box 7 perfmon counter MSR.
@@ -5568,7 +5823,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_CTR1 is defined as MSR_C7_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_CTR1  0x00000DF3
+#define MSR_NEHALEM_C7_PMON_CTR1                 0x00000DF3
+
 
 /**
   Package. Uncore C-box 7 perfmon event select MSR.
@@ -5586,7 +5842,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_EVNT_SEL2 is defined as MSR_C7_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_EVNT_SEL2  0x00000DF4
+#define MSR_NEHALEM_C7_PMON_EVNT_SEL2            0x00000DF4
+
 
 /**
   Package. Uncore C-box 7 perfmon counter MSR.
@@ -5604,7 +5861,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_CTR2 is defined as MSR_C7_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_CTR2  0x00000DF5
+#define MSR_NEHALEM_C7_PMON_CTR2                 0x00000DF5
+
 
 /**
   Package. Uncore C-box 7 perfmon event select MSR.
@@ -5622,7 +5880,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_EVNT_SEL3 is defined as MSR_C7_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_EVNT_SEL3  0x00000DF6
+#define MSR_NEHALEM_C7_PMON_EVNT_SEL3            0x00000DF6
+
 
 /**
   Package. Uncore C-box 7 perfmon counter MSR.
@@ -5640,7 +5899,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_CTR3 is defined as MSR_C7_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_CTR3  0x00000DF7
+#define MSR_NEHALEM_C7_PMON_CTR3                 0x00000DF7
+
 
 /**
   Package. Uncore C-box 7 perfmon event select MSR.
@@ -5658,7 +5918,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_EVNT_SEL4 is defined as MSR_C7_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_EVNT_SEL4  0x00000DF8
+#define MSR_NEHALEM_C7_PMON_EVNT_SEL4            0x00000DF8
+
 
 /**
   Package. Uncore C-box 7 perfmon counter MSR.
@@ -5676,7 +5937,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_CTR4 is defined as MSR_C7_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_CTR4  0x00000DF9
+#define MSR_NEHALEM_C7_PMON_CTR4                 0x00000DF9
+
 
 /**
   Package. Uncore C-box 7 perfmon event select MSR.
@@ -5694,7 +5956,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_EVNT_SEL5 is defined as MSR_C7_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_EVNT_SEL5  0x00000DFA
+#define MSR_NEHALEM_C7_PMON_EVNT_SEL5            0x00000DFA
+
 
 /**
   Package. Uncore C-box 7 perfmon counter MSR.
@@ -5712,7 +5975,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_C7_PMON_CTR5 is defined as MSR_C7_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_C7_PMON_CTR5  0x00000DFB
+#define MSR_NEHALEM_C7_PMON_CTR5                 0x00000DFB
+
 
 /**
   Package. Uncore R-box 0 perfmon local box control MSR.
@@ -5730,7 +5994,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_BOX_CTRL is defined as MSR_R0_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_BOX_CTRL  0x00000E00
+#define MSR_NEHALEM_R0_PMON_BOX_CTRL             0x00000E00
+
 
 /**
   Package. Uncore R-box 0 perfmon local box status MSR.
@@ -5748,7 +6013,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_BOX_STATUS is defined as MSR_R0_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_BOX_STATUS  0x00000E01
+#define MSR_NEHALEM_R0_PMON_BOX_STATUS           0x00000E01
+
 
 /**
   Package. Uncore R-box 0 perfmon local box overflow control MSR.
@@ -5766,7 +6032,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_BOX_OVF_CTRL is defined as MSR_R0_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_BOX_OVF_CTRL  0x00000E02
+#define MSR_NEHALEM_R0_PMON_BOX_OVF_CTRL         0x00000E02
+
 
 /**
   Package. Uncore R-box 0 perfmon IPERF0 unit Port 0 select MSR.
@@ -5784,7 +6051,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_IPERF0_P0 is defined as MSR_R0_PMON_IPERF0_P0 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_IPERF0_P0  0x00000E04
+#define MSR_NEHALEM_R0_PMON_IPERF0_P0            0x00000E04
+
 
 /**
   Package. Uncore R-box 0 perfmon IPERF0 unit Port 1 select MSR.
@@ -5802,7 +6070,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_IPERF0_P1 is defined as MSR_R0_PMON_IPERF0_P1 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_IPERF0_P1  0x00000E05
+#define MSR_NEHALEM_R0_PMON_IPERF0_P1            0x00000E05
+
 
 /**
   Package. Uncore R-box 0 perfmon IPERF0 unit Port 2 select MSR.
@@ -5820,7 +6089,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_IPERF0_P2 is defined as MSR_R0_PMON_IPERF0_P2 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_IPERF0_P2  0x00000E06
+#define MSR_NEHALEM_R0_PMON_IPERF0_P2            0x00000E06
+
 
 /**
   Package. Uncore R-box 0 perfmon IPERF0 unit Port 3 select MSR.
@@ -5838,7 +6108,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_IPERF0_P3 is defined as MSR_R0_PMON_IPERF0_P3 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_IPERF0_P3  0x00000E07
+#define MSR_NEHALEM_R0_PMON_IPERF0_P3            0x00000E07
+
 
 /**
   Package. Uncore R-box 0 perfmon IPERF0 unit Port 4 select MSR.
@@ -5856,7 +6127,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_IPERF0_P4 is defined as MSR_R0_PMON_IPERF0_P4 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_IPERF0_P4  0x00000E08
+#define MSR_NEHALEM_R0_PMON_IPERF0_P4            0x00000E08
+
 
 /**
   Package. Uncore R-box 0 perfmon IPERF0 unit Port 5 select MSR.
@@ -5874,7 +6146,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_IPERF0_P5 is defined as MSR_R0_PMON_IPERF0_P5 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_IPERF0_P5  0x00000E09
+#define MSR_NEHALEM_R0_PMON_IPERF0_P5            0x00000E09
+
 
 /**
   Package. Uncore R-box 0 perfmon IPERF0 unit Port 6 select MSR.
@@ -5892,7 +6165,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_IPERF0_P6 is defined as MSR_R0_PMON_IPERF0_P6 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_IPERF0_P6  0x00000E0A
+#define MSR_NEHALEM_R0_PMON_IPERF0_P6            0x00000E0A
+
 
 /**
   Package. Uncore R-box 0 perfmon IPERF0 unit Port 7 select MSR.
@@ -5910,7 +6184,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_IPERF0_P7 is defined as MSR_R0_PMON_IPERF0_P7 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_IPERF0_P7  0x00000E0B
+#define MSR_NEHALEM_R0_PMON_IPERF0_P7            0x00000E0B
+
 
 /**
   Package. Uncore R-box 0 perfmon QLX unit Port 0 select MSR.
@@ -5928,7 +6203,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_QLX_P0 is defined as MSR_R0_PMON_QLX_P0 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_QLX_P0  0x00000E0C
+#define MSR_NEHALEM_R0_PMON_QLX_P0               0x00000E0C
+
 
 /**
   Package. Uncore R-box 0 perfmon QLX unit Port 1 select MSR.
@@ -5946,7 +6222,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_QLX_P1 is defined as MSR_R0_PMON_QLX_P1 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_QLX_P1  0x00000E0D
+#define MSR_NEHALEM_R0_PMON_QLX_P1               0x00000E0D
+
 
 /**
   Package. Uncore R-box 0 perfmon QLX unit Port 2 select MSR.
@@ -5964,7 +6241,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_QLX_P2 is defined as MSR_R0_PMON_QLX_P2 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_QLX_P2  0x00000E0E
+#define MSR_NEHALEM_R0_PMON_QLX_P2               0x00000E0E
+
 
 /**
   Package. Uncore R-box 0 perfmon QLX unit Port 3 select MSR.
@@ -5982,7 +6260,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_QLX_P3 is defined as MSR_R0_PMON_QLX_P3 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_QLX_P3  0x00000E0F
+#define MSR_NEHALEM_R0_PMON_QLX_P3               0x00000E0F
+
 
 /**
   Package. Uncore R-box 0 perfmon event select MSR.
@@ -6000,7 +6279,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_EVNT_SEL0 is defined as MSR_R0_PMON_EVNT_SEL0 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_EVNT_SEL0  0x00000E10
+#define MSR_NEHALEM_R0_PMON_EVNT_SEL0            0x00000E10
+
 
 /**
   Package. Uncore R-box 0 perfmon counter MSR.
@@ -6018,7 +6298,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_CTR0 is defined as MSR_R0_PMON_CTR0 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_CTR0  0x00000E11
+#define MSR_NEHALEM_R0_PMON_CTR0                 0x00000E11
+
 
 /**
   Package. Uncore R-box 0 perfmon event select MSR.
@@ -6036,7 +6317,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_EVNT_SEL1 is defined as MSR_R0_PMON_EVNT_SEL1 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_EVNT_SEL1  0x00000E12
+#define MSR_NEHALEM_R0_PMON_EVNT_SEL1            0x00000E12
+
 
 /**
   Package. Uncore R-box 0 perfmon counter MSR.
@@ -6054,7 +6336,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_CTR1 is defined as MSR_R0_PMON_CTR1 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_CTR1  0x00000E13
+#define MSR_NEHALEM_R0_PMON_CTR1                 0x00000E13
+
 
 /**
   Package. Uncore R-box 0 perfmon event select MSR.
@@ -6072,7 +6355,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_EVNT_SEL2 is defined as MSR_R0_PMON_EVNT_SEL2 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_EVNT_SEL2  0x00000E14
+#define MSR_NEHALEM_R0_PMON_EVNT_SEL2            0x00000E14
+
 
 /**
   Package. Uncore R-box 0 perfmon counter MSR.
@@ -6090,7 +6374,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_CTR2 is defined as MSR_R0_PMON_CTR2 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_CTR2  0x00000E15
+#define MSR_NEHALEM_R0_PMON_CTR2                 0x00000E15
+
 
 /**
   Package. Uncore R-box 0 perfmon event select MSR.
@@ -6108,7 +6393,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_EVNT_SEL3 is defined as MSR_R0_PMON_EVNT_SEL3 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_EVNT_SEL3  0x00000E16
+#define MSR_NEHALEM_R0_PMON_EVNT_SEL3            0x00000E16
+
 
 /**
   Package. Uncore R-box 0 perfmon counter MSR.
@@ -6126,7 +6412,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_CTR3 is defined as MSR_R0_PMON_CTR3 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_CTR3  0x00000E17
+#define MSR_NEHALEM_R0_PMON_CTR3                 0x00000E17
+
 
 /**
   Package. Uncore R-box 0 perfmon event select MSR.
@@ -6144,7 +6431,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_EVNT_SEL4 is defined as MSR_R0_PMON_EVNT_SEL4 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_EVNT_SEL4  0x00000E18
+#define MSR_NEHALEM_R0_PMON_EVNT_SEL4            0x00000E18
+
 
 /**
   Package. Uncore R-box 0 perfmon counter MSR.
@@ -6162,7 +6450,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_CTR4 is defined as MSR_R0_PMON_CTR4 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_CTR4  0x00000E19
+#define MSR_NEHALEM_R0_PMON_CTR4                 0x00000E19
+
 
 /**
   Package. Uncore R-box 0 perfmon event select MSR.
@@ -6180,7 +6469,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_EVNT_SEL5 is defined as MSR_R0_PMON_EVNT_SEL5 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_EVNT_SEL5  0x00000E1A
+#define MSR_NEHALEM_R0_PMON_EVNT_SEL5            0x00000E1A
+
 
 /**
   Package. Uncore R-box 0 perfmon counter MSR.
@@ -6198,7 +6488,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_CTR5 is defined as MSR_R0_PMON_CTR5 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_CTR5  0x00000E1B
+#define MSR_NEHALEM_R0_PMON_CTR5                 0x00000E1B
+
 
 /**
   Package. Uncore R-box 0 perfmon event select MSR.
@@ -6216,7 +6507,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_EVNT_SEL6 is defined as MSR_R0_PMON_EVNT_SEL6 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_EVNT_SEL6  0x00000E1C
+#define MSR_NEHALEM_R0_PMON_EVNT_SEL6            0x00000E1C
+
 
 /**
   Package. Uncore R-box 0 perfmon counter MSR.
@@ -6234,7 +6526,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_CTR6 is defined as MSR_R0_PMON_CTR6 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_CTR6  0x00000E1D
+#define MSR_NEHALEM_R0_PMON_CTR6                 0x00000E1D
+
 
 /**
   Package. Uncore R-box 0 perfmon event select MSR.
@@ -6252,7 +6545,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_EVNT_SEL7 is defined as MSR_R0_PMON_EVNT_SEL7 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_EVNT_SEL7  0x00000E1E
+#define MSR_NEHALEM_R0_PMON_EVNT_SEL7            0x00000E1E
+
 
 /**
   Package. Uncore R-box 0 perfmon counter MSR.
@@ -6270,7 +6564,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R0_PMON_CTR7 is defined as MSR_R0_PMON_CTR7 in SDM.
 **/
-#define MSR_NEHALEM_R0_PMON_CTR7  0x00000E1F
+#define MSR_NEHALEM_R0_PMON_CTR7                 0x00000E1F
+
 
 /**
   Package. Uncore R-box 1 perfmon local box control MSR.
@@ -6288,7 +6583,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_BOX_CTRL is defined as MSR_R1_PMON_BOX_CTRL in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_BOX_CTRL  0x00000E20
+#define MSR_NEHALEM_R1_PMON_BOX_CTRL             0x00000E20
+
 
 /**
   Package. Uncore R-box 1 perfmon local box status MSR.
@@ -6306,7 +6602,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_BOX_STATUS is defined as MSR_R1_PMON_BOX_STATUS in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_BOX_STATUS  0x00000E21
+#define MSR_NEHALEM_R1_PMON_BOX_STATUS           0x00000E21
+
 
 /**
   Package. Uncore R-box 1 perfmon local box overflow control MSR.
@@ -6324,7 +6621,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_BOX_OVF_CTRL is defined as MSR_R1_PMON_BOX_OVF_CTRL in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_BOX_OVF_CTRL  0x00000E22
+#define MSR_NEHALEM_R1_PMON_BOX_OVF_CTRL         0x00000E22
+
 
 /**
   Package. Uncore R-box 1 perfmon IPERF1 unit Port 8 select MSR.
@@ -6342,7 +6640,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_IPERF1_P8 is defined as MSR_R1_PMON_IPERF1_P8 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_IPERF1_P8  0x00000E24
+#define MSR_NEHALEM_R1_PMON_IPERF1_P8            0x00000E24
+
 
 /**
   Package. Uncore R-box 1 perfmon IPERF1 unit Port 9 select MSR.
@@ -6360,7 +6659,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_IPERF1_P9 is defined as MSR_R1_PMON_IPERF1_P9 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_IPERF1_P9  0x00000E25
+#define MSR_NEHALEM_R1_PMON_IPERF1_P9            0x00000E25
+
 
 /**
   Package. Uncore R-box 1 perfmon IPERF1 unit Port 10 select MSR.
@@ -6378,7 +6678,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_IPERF1_P10 is defined as MSR_R1_PMON_IPERF1_P10 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_IPERF1_P10  0x00000E26
+#define MSR_NEHALEM_R1_PMON_IPERF1_P10           0x00000E26
+
 
 /**
   Package. Uncore R-box 1 perfmon IPERF1 unit Port 11 select MSR.
@@ -6396,7 +6697,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_IPERF1_P11 is defined as MSR_R1_PMON_IPERF1_P11 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_IPERF1_P11  0x00000E27
+#define MSR_NEHALEM_R1_PMON_IPERF1_P11           0x00000E27
+
 
 /**
   Package. Uncore R-box 1 perfmon IPERF1 unit Port 12 select MSR.
@@ -6414,7 +6716,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_IPERF1_P12 is defined as MSR_R1_PMON_IPERF1_P12 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_IPERF1_P12  0x00000E28
+#define MSR_NEHALEM_R1_PMON_IPERF1_P12           0x00000E28
+
 
 /**
   Package. Uncore R-box 1 perfmon IPERF1 unit Port 13 select MSR.
@@ -6432,7 +6735,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_IPERF1_P13 is defined as MSR_R1_PMON_IPERF1_P13 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_IPERF1_P13  0x00000E29
+#define MSR_NEHALEM_R1_PMON_IPERF1_P13           0x00000E29
+
 
 /**
   Package. Uncore R-box 1 perfmon IPERF1 unit Port 14 select MSR.
@@ -6450,7 +6754,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_IPERF1_P14 is defined as MSR_R1_PMON_IPERF1_P14 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_IPERF1_P14  0x00000E2A
+#define MSR_NEHALEM_R1_PMON_IPERF1_P14           0x00000E2A
+
 
 /**
   Package. Uncore R-box 1 perfmon IPERF1 unit Port 15 select MSR.
@@ -6468,7 +6773,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_IPERF1_P15 is defined as MSR_R1_PMON_IPERF1_P15 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_IPERF1_P15  0x00000E2B
+#define MSR_NEHALEM_R1_PMON_IPERF1_P15           0x00000E2B
+
 
 /**
   Package. Uncore R-box 1 perfmon QLX unit Port 4 select MSR.
@@ -6486,7 +6792,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_QLX_P4 is defined as MSR_R1_PMON_QLX_P4 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_QLX_P4  0x00000E2C
+#define MSR_NEHALEM_R1_PMON_QLX_P4               0x00000E2C
+
 
 /**
   Package. Uncore R-box 1 perfmon QLX unit Port 5 select MSR.
@@ -6504,7 +6811,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_QLX_P5 is defined as MSR_R1_PMON_QLX_P5 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_QLX_P5  0x00000E2D
+#define MSR_NEHALEM_R1_PMON_QLX_P5               0x00000E2D
+
 
 /**
   Package. Uncore R-box 1 perfmon QLX unit Port 6 select MSR.
@@ -6522,7 +6830,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_QLX_P6 is defined as MSR_R1_PMON_QLX_P6 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_QLX_P6  0x00000E2E
+#define MSR_NEHALEM_R1_PMON_QLX_P6               0x00000E2E
+
 
 /**
   Package. Uncore R-box 1 perfmon QLX unit Port 7 select MSR.
@@ -6540,7 +6849,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_QLX_P7 is defined as MSR_R1_PMON_QLX_P7 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_QLX_P7  0x00000E2F
+#define MSR_NEHALEM_R1_PMON_QLX_P7               0x00000E2F
+
 
 /**
   Package. Uncore R-box 1 perfmon event select MSR.
@@ -6558,7 +6868,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_EVNT_SEL8 is defined as MSR_R1_PMON_EVNT_SEL8 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_EVNT_SEL8  0x00000E30
+#define MSR_NEHALEM_R1_PMON_EVNT_SEL8            0x00000E30
+
 
 /**
   Package. Uncore R-box 1 perfmon counter MSR.
@@ -6576,7 +6887,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_CTR8 is defined as MSR_R1_PMON_CTR8 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_CTR8  0x00000E31
+#define MSR_NEHALEM_R1_PMON_CTR8                 0x00000E31
+
 
 /**
   Package. Uncore R-box 1 perfmon event select MSR.
@@ -6594,7 +6906,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_EVNT_SEL9 is defined as MSR_R1_PMON_EVNT_SEL9 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_EVNT_SEL9  0x00000E32
+#define MSR_NEHALEM_R1_PMON_EVNT_SEL9            0x00000E32
+
 
 /**
   Package. Uncore R-box 1 perfmon counter MSR.
@@ -6612,7 +6925,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_CTR9 is defined as MSR_R1_PMON_CTR9 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_CTR9  0x00000E33
+#define MSR_NEHALEM_R1_PMON_CTR9                 0x00000E33
+
 
 /**
   Package. Uncore R-box 1 perfmon event select MSR.
@@ -6630,7 +6944,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_EVNT_SEL10 is defined as MSR_R1_PMON_EVNT_SEL10 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_EVNT_SEL10  0x00000E34
+#define MSR_NEHALEM_R1_PMON_EVNT_SEL10           0x00000E34
+
 
 /**
   Package. Uncore R-box 1 perfmon counter MSR.
@@ -6648,7 +6963,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_CTR10 is defined as MSR_R1_PMON_CTR10 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_CTR10  0x00000E35
+#define MSR_NEHALEM_R1_PMON_CTR10                0x00000E35
+
 
 /**
   Package. Uncore R-box 1 perfmon event select MSR.
@@ -6666,7 +6982,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_EVNT_SEL11 is defined as MSR_R1_PMON_EVNT_SEL11 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_EVNT_SEL11  0x00000E36
+#define MSR_NEHALEM_R1_PMON_EVNT_SEL11           0x00000E36
+
 
 /**
   Package. Uncore R-box 1 perfmon counter MSR.
@@ -6684,7 +7001,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_CTR11 is defined as MSR_R1_PMON_CTR11 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_CTR11  0x00000E37
+#define MSR_NEHALEM_R1_PMON_CTR11                0x00000E37
+
 
 /**
   Package. Uncore R-box 1 perfmon event select MSR.
@@ -6702,7 +7020,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_EVNT_SEL12 is defined as MSR_R1_PMON_EVNT_SEL12 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_EVNT_SEL12  0x00000E38
+#define MSR_NEHALEM_R1_PMON_EVNT_SEL12           0x00000E38
+
 
 /**
   Package. Uncore R-box 1 perfmon counter MSR.
@@ -6720,7 +7039,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_CTR12 is defined as MSR_R1_PMON_CTR12 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_CTR12  0x00000E39
+#define MSR_NEHALEM_R1_PMON_CTR12                0x00000E39
+
 
 /**
   Package. Uncore R-box 1 perfmon event select MSR.
@@ -6738,7 +7058,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_EVNT_SEL13 is defined as MSR_R1_PMON_EVNT_SEL13 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_EVNT_SEL13  0x00000E3A
+#define MSR_NEHALEM_R1_PMON_EVNT_SEL13           0x00000E3A
+
 
 /**
   Package. Uncore R-box 1perfmon counter MSR.
@@ -6756,7 +7077,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_CTR13 is defined as MSR_R1_PMON_CTR13 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_CTR13  0x00000E3B
+#define MSR_NEHALEM_R1_PMON_CTR13                0x00000E3B
+
 
 /**
   Package. Uncore R-box 1 perfmon event select MSR.
@@ -6774,7 +7096,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_EVNT_SEL14 is defined as MSR_R1_PMON_EVNT_SEL14 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_EVNT_SEL14  0x00000E3C
+#define MSR_NEHALEM_R1_PMON_EVNT_SEL14           0x00000E3C
+
 
 /**
   Package. Uncore R-box 1 perfmon counter MSR.
@@ -6792,7 +7115,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_CTR14 is defined as MSR_R1_PMON_CTR14 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_CTR14  0x00000E3D
+#define MSR_NEHALEM_R1_PMON_CTR14                0x00000E3D
+
 
 /**
   Package. Uncore R-box 1 perfmon event select MSR.
@@ -6810,7 +7134,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_EVNT_SEL15 is defined as MSR_R1_PMON_EVNT_SEL15 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_EVNT_SEL15  0x00000E3E
+#define MSR_NEHALEM_R1_PMON_EVNT_SEL15           0x00000E3E
+
 
 /**
   Package. Uncore R-box 1 perfmon counter MSR.
@@ -6828,7 +7153,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_R1_PMON_CTR15 is defined as MSR_R1_PMON_CTR15 in SDM.
 **/
-#define MSR_NEHALEM_R1_PMON_CTR15  0x00000E3F
+#define MSR_NEHALEM_R1_PMON_CTR15                0x00000E3F
+
 
 /**
   Package. Uncore B-box 0 perfmon local box match MSR.
@@ -6846,7 +7172,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_MATCH is defined as MSR_B0_PMON_MATCH in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_MATCH  0x00000E45
+#define MSR_NEHALEM_B0_PMON_MATCH                0x00000E45
+
 
 /**
   Package. Uncore B-box 0 perfmon local box mask MSR.
@@ -6864,7 +7191,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B0_PMON_MASK is defined as MSR_B0_PMON_MASK in SDM.
 **/
-#define MSR_NEHALEM_B0_PMON_MASK  0x00000E46
+#define MSR_NEHALEM_B0_PMON_MASK                 0x00000E46
+
 
 /**
   Package. Uncore S-box 0 perfmon local box match MSR.
@@ -6882,7 +7210,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_MATCH is defined as MSR_S0_PMON_MATCH in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_MATCH  0x00000E49
+#define MSR_NEHALEM_S0_PMON_MATCH                0x00000E49
+
 
 /**
   Package. Uncore S-box 0 perfmon local box mask MSR.
@@ -6900,7 +7229,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S0_PMON_MASK is defined as MSR_S0_PMON_MASK in SDM.
 **/
-#define MSR_NEHALEM_S0_PMON_MASK  0x00000E4A
+#define MSR_NEHALEM_S0_PMON_MASK                 0x00000E4A
+
 
 /**
   Package. Uncore B-box 1 perfmon local box match MSR.
@@ -6918,7 +7248,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_MATCH is defined as MSR_B1_PMON_MATCH in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_MATCH  0x00000E4D
+#define MSR_NEHALEM_B1_PMON_MATCH                0x00000E4D
+
 
 /**
   Package. Uncore B-box 1 perfmon local box mask MSR.
@@ -6936,7 +7267,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_B1_PMON_MASK is defined as MSR_B1_PMON_MASK in SDM.
 **/
-#define MSR_NEHALEM_B1_PMON_MASK  0x00000E4E
+#define MSR_NEHALEM_B1_PMON_MASK                 0x00000E4E
+
 
 /**
   Package. Uncore M-box 0 perfmon local box address match/mask config MSR.
@@ -6954,7 +7286,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_MM_CONFIG is defined as MSR_M0_PMON_MM_CONFIG in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_MM_CONFIG  0x00000E54
+#define MSR_NEHALEM_M0_PMON_MM_CONFIG            0x00000E54
+
 
 /**
   Package. Uncore M-box 0 perfmon local box address match MSR.
@@ -6972,7 +7305,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_ADDR_MATCH is defined as MSR_M0_PMON_ADDR_MATCH in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_ADDR_MATCH  0x00000E55
+#define MSR_NEHALEM_M0_PMON_ADDR_MATCH           0x00000E55
+
 
 /**
   Package. Uncore M-box 0 perfmon local box address mask MSR.
@@ -6990,7 +7324,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M0_PMON_ADDR_MASK is defined as MSR_M0_PMON_ADDR_MASK in SDM.
 **/
-#define MSR_NEHALEM_M0_PMON_ADDR_MASK  0x00000E56
+#define MSR_NEHALEM_M0_PMON_ADDR_MASK            0x00000E56
+
 
 /**
   Package. Uncore S-box 1 perfmon local box match MSR.
@@ -7008,7 +7343,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_MATCH is defined as MSR_S1_PMON_MATCH in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_MATCH  0x00000E59
+#define MSR_NEHALEM_S1_PMON_MATCH                0x00000E59
+
 
 /**
   Package. Uncore S-box 1 perfmon local box mask MSR.
@@ -7026,7 +7362,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_S1_PMON_MASK is defined as MSR_S1_PMON_MASK in SDM.
 **/
-#define MSR_NEHALEM_S1_PMON_MASK  0x00000E5A
+#define MSR_NEHALEM_S1_PMON_MASK                 0x00000E5A
+
 
 /**
   Package. Uncore M-box 1 perfmon local box address match/mask config MSR.
@@ -7044,7 +7381,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_MM_CONFIG is defined as MSR_M1_PMON_MM_CONFIG in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_MM_CONFIG  0x00000E5C
+#define MSR_NEHALEM_M1_PMON_MM_CONFIG            0x00000E5C
+
 
 /**
   Package. Uncore M-box 1 perfmon local box address match MSR.
@@ -7062,7 +7400,8 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_ADDR_MATCH is defined as MSR_M1_PMON_ADDR_MATCH in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_ADDR_MATCH  0x00000E5D
+#define MSR_NEHALEM_M1_PMON_ADDR_MATCH           0x00000E5D
+
 
 /**
   Package. Uncore M-box 1 perfmon local box address mask MSR.
@@ -7080,6 +7419,6 @@ typedef union {
   @endcode
   @note MSR_NEHALEM_M1_PMON_ADDR_MASK is defined as MSR_M1_PMON_ADDR_MASK in SDM.
 **/
-#define MSR_NEHALEM_M1_PMON_ADDR_MASK  0x00000E5E
+#define MSR_NEHALEM_M1_PMON_ADDR_MASK            0x00000E5E
 
 #endif

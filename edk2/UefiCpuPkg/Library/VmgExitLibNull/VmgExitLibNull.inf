@@ -17,7 +17,6 @@
 
 [Sources.common]
   VmgExitLibNull.c
-  VmTdExitNull.c
 
 [Packages]
   MdePkg/MdePkg.dec

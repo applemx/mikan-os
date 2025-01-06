@@ -5,11 +5,14 @@
 #
 #*/
 
-EDK2_TOOLCHAIN ?= GCC5
+# Define the following variable to specify an alternative toolchain to the one located in your PATH:
+# - RVCT_TOOLS_PATH: for RVCT and RVCTLINUX toolchains
+
+EDK2_TOOLCHAIN ?= RVCTLINUX
 EDK2_ARCH ?= ARM
 EDK2_BUILD ?= DEBUG
 
-ifndef EDK2_DSC
+ifeq ($(EDK2_DSC),"")
   $(error The Makfile macro 'EDK2_DSC' must be defined with an EDK2 DSC file.)
 endif
 ifeq ("$(EDK2_DSC)","ArmPlatformPkg/ArmVExpressPkg/ArmVExpress-FVP-AArch64.dsc")

@@ -15,9 +15,9 @@
 // A NULL VA_LIST can not be passed into  BasePrintLibSPrintMarker() because some
 // compilers define VA_LIST to be a structure.
 //
-VA_LIST  gNullVaList;
+VA_LIST gNullVaList;
 
-#define ASSERT_UNICODE_BUFFER(Buffer)  ASSERT ((((UINTN) (Buffer)) & 0x01) == 0)
+#define ASSERT_UNICODE_BUFFER(Buffer) ASSERT ((((UINTN) (Buffer)) & 0x01) == 0)
 
 /**
   Produces a Null-terminated Unicode string in an output buffer based on
@@ -174,8 +174,8 @@ UnicodeSPrint (
   ...
   )
 {
-  VA_LIST  Marker;
-  UINTN    NumberOfPrinted;
+  VA_LIST Marker;
+  UINTN   NumberOfPrinted;
 
   VA_START (Marker, FormatString);
   NumberOfPrinted = UnicodeVSPrint (StartOfBuffer, BufferSize, FormatString, Marker);
@@ -334,14 +334,15 @@ UnicodeSPrintAsciiFormat (
   ...
   )
 {
-  VA_LIST  Marker;
-  UINTN    NumberOfPrinted;
+  VA_LIST Marker;
+  UINTN   NumberOfPrinted;
 
   VA_START (Marker, FormatString);
   NumberOfPrinted = UnicodeVSPrintAsciiFormat (StartOfBuffer, BufferSize, FormatString, Marker);
   VA_END (Marker);
   return NumberOfPrinted;
 }
+
 
 /**
   Converts a decimal value to a Null-terminated Unicode string.
@@ -404,7 +405,7 @@ UnicodeValueToStringS (
   IN UINTN       Width
   )
 {
-  ASSERT_UNICODE_BUFFER (Buffer);
+  ASSERT_UNICODE_BUFFER(Buffer);
   return BasePrintLibConvertValueToStringS ((CHAR8 *)Buffer, BufferSize, Flags, Value, Width, 2);
 }
 
@@ -448,10 +449,10 @@ UnicodeValueToStringS (
 UINTN
 EFIAPI
 AsciiVSPrint (
-  OUT CHAR8        *StartOfBuffer,
-  IN  UINTN        BufferSize,
-  IN  CONST CHAR8  *FormatString,
-  IN  VA_LIST      Marker
+  OUT CHAR8         *StartOfBuffer,
+  IN  UINTN         BufferSize,
+  IN  CONST CHAR8   *FormatString,
+  IN  VA_LIST       Marker
   )
 {
   return BasePrintLibSPrintMarker (StartOfBuffer, BufferSize, 0, FormatString, Marker, NULL);
@@ -495,10 +496,10 @@ AsciiVSPrint (
 UINTN
 EFIAPI
 AsciiBSPrint (
-  OUT CHAR8        *StartOfBuffer,
-  IN  UINTN        BufferSize,
-  IN  CONST CHAR8  *FormatString,
-  IN  BASE_LIST    Marker
+  OUT CHAR8         *StartOfBuffer,
+  IN  UINTN         BufferSize,
+  IN  CONST CHAR8   *FormatString,
+  IN  BASE_LIST     Marker
   )
 {
   return BasePrintLibSPrintMarker (StartOfBuffer, BufferSize, 0, FormatString, gNullVaList, Marker);
@@ -551,8 +552,8 @@ AsciiSPrint (
   ...
   )
 {
-  VA_LIST  Marker;
-  UINTN    NumberOfPrinted;
+  VA_LIST Marker;
+  UINTN   NumberOfPrinted;
 
   VA_START (Marker, FormatString);
   NumberOfPrinted = AsciiVSPrint (StartOfBuffer, BufferSize, FormatString, Marker);
@@ -711,8 +712,8 @@ AsciiSPrintUnicodeFormat (
   ...
   )
 {
-  VA_LIST  Marker;
-  UINTN    NumberOfPrinted;
+  VA_LIST Marker;
+  UINTN   NumberOfPrinted;
 
   VA_START (Marker, FormatString);
   NumberOfPrinted = AsciiVSPrintUnicodeFormat (StartOfBuffer, BufferSize, FormatString, Marker);
@@ -772,11 +773,11 @@ AsciiSPrintUnicodeFormat (
 RETURN_STATUS
 EFIAPI
 AsciiValueToStringS (
-  IN OUT CHAR8  *Buffer,
-  IN UINTN      BufferSize,
-  IN UINTN      Flags,
-  IN INT64      Value,
-  IN UINTN      Width
+  IN OUT CHAR8   *Buffer,
+  IN UINTN       BufferSize,
+  IN UINTN       Flags,
+  IN INT64       Value,
+  IN UINTN       Width
   )
 {
   return BasePrintLibConvertValueToStringS (Buffer, BufferSize, Flags, Value, Width, 1);
@@ -802,7 +803,7 @@ AsciiValueToStringS (
 UINTN
 EFIAPI
 SPrintLength (
-  IN  CONST CHAR16  *FormatString,
+  IN  CONST CHAR16   *FormatString,
   IN  VA_LIST       Marker
   )
 {
@@ -828,8 +829,8 @@ SPrintLength (
 UINTN
 EFIAPI
 SPrintLengthAsciiFormat (
-  IN  CONST CHAR8  *FormatString,
-  IN  VA_LIST      Marker
+  IN  CONST CHAR8   *FormatString,
+  IN  VA_LIST       Marker
   )
 {
   return BasePrintLibSPrintMarker (NULL, 0, OUTPUT_UNICODE | COUNT_ONLY_NO_PRINT, (CHAR8 *)FormatString, Marker, NULL);

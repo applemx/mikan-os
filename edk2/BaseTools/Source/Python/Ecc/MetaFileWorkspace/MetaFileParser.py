@@ -31,10 +31,6 @@ from GenFds.FdfParser import FdfParser
 from Common.LongFilePathSupport import OpenLongFilePath as open
 from Common.LongFilePathSupport import CodecOpenLongFilePath
 
-## RegEx for finding file versions
-hexVersionPattern = re.compile(r'0[xX][\da-f-A-F]{5,8}')
-decVersionPattern = re.compile(r'\d+\.\d+')
-
 ## A decorator used to parse macro definition
 def ParseMacro(Parser):
     def MacroParser(self):
@@ -335,19 +331,11 @@ class MetaFileParser(object):
         Name, Value = self._ValueList[1], self._ValueList[2]
         # Sometimes, we need to make differences between EDK and EDK2 modules
         if Name == 'INF_VERSION':
-            if hexVersionPattern.match(Value):
+            try:
                 self._Version = int(Value, 0)
-            elif decVersionPattern.match(Value):
-                ValueList = Value.split('.')
-                Major = int(ValueList[0], 0)
-                Minor = int(ValueList[1], 0)
-                if Major > 0xffff or Minor > 0xffff:
-                    EdkLogger.error('Parser', FORMAT_INVALID, "Invalid version number",
-                                    ExtraData=self._CurrentLine, File=self.MetaFile, Line=self._LineIndex + 1)
-                self._Version = int('0x{0:04x}{1:04x}'.format(Major, Minor), 0)
-            else:
+            except:
                 EdkLogger.error('Parser', FORMAT_INVALID, "Invalid version number",
-                                ExtraData=self._CurrentLine, File=self.MetaFile, Line=self._LineIndex + 1)
+                                ExtraData=self._CurrentLine, File=self.MetaFile, Line=self._LineIndex+1)
         elif Name == 'MODULE_UNI_FILE':
             UniFile = os.path.join(os.path.dirname(self.MetaFile), Value)
             if os.path.exists(UniFile):

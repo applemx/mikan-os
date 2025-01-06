@@ -23,10 +23,9 @@
 #ifndef __ASSEMBLY__
 
 struct arch_vcpu_info {
-  UINTN    cr2;
-  UINTN    pad[5]; /* sizeof(vcpu_info_t) == 64 */
+    UINTN cr2;
+    UINTN pad[5]; /* sizeof(vcpu_info_t) == 64 */
 };
-
 typedef struct arch_vcpu_info arch_vcpu_info_t;
 
 #endif /* !__ASSEMBLY__ */

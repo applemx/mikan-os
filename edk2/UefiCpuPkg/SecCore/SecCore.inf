@@ -47,7 +47,6 @@
   PlatformSecLib
   PcdLib
   DebugAgentLib
-  CpuLib
   UefiCpuLib
   PeCoffGetEntryPointLib
   PeCoffExtraActionLib

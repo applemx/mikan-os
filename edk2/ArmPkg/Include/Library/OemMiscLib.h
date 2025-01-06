@@ -8,13 +8,15 @@
 *
 **/
 
+
 #ifndef OEM_MISC_LIB_H_
 #define OEM_MISC_LIB_H_
 
 #include <Uefi.h>
 #include <IndustryStandard/SmBios.h>
 
-typedef enum {
+typedef enum
+{
   CpuCacheL1 = 1,
   CpuCacheL2,
   CpuCacheL3,
@@ -25,40 +27,37 @@ typedef enum {
   CpuCacheLevelMax
 } OEM_MISC_CPU_CACHE_LEVEL;
 
-typedef struct {
-  UINT8     Voltage;       ///< Processor voltage
-  UINT16    CurrentSpeed;  ///< Current clock speed in MHz
-  UINT16    MaxSpeed;      ///< Maximum clock speed in MHz
-  UINT16    ExternalClock; ///< External clock speed in MHz
-  UINT16    CoreCount;     ///< Number of cores available
-  UINT16    CoresEnabled;  ///< Number of cores enabled
-  UINT16    ThreadCount;   ///< Number of threads per processor
+typedef struct
+{
+  UINT8 Voltage;        ///< Processor voltage
+  UINT16 CurrentSpeed;  ///< Current clock speed in MHz
+  UINT16 MaxSpeed;      ///< Maximum clock speed in MHz
+  UINT16 ExternalClock; ///< External clock speed in MHz
+  UINT16 CoreCount;     ///< Number of cores available
+  UINT16 CoresEnabled;  ///< Number of cores enabled
+  UINT16 ThreadCount;   ///< Number of threads per processor
 } OEM_MISC_PROCESSOR_DATA;
 
-typedef enum {
-  ProductNameType01,
-  SerialNumType01,
-  UuidType01,
-  SystemManufacturerType01,
-  VersionType01,
-  SkuNumberType01,
-  FamilyType01,
-  AssertTagType02,
-  SerialNumberType02,
-  BoardManufacturerType02,
-  ProductNameType02,
-  VersionType02,
-  SkuNumberType02,
-  ChassisLocationType02,
-  AssetTagType03,
-  SerialNumberType03,
-  VersionType03,
-  ChassisTypeType03,
-  ManufacturerType03,
-  SkuNumberType03,
-  ProcessorPartNumType04,
-  ProcessorSerialNumType04,
-  SmbiosHiiStringFieldMax
+typedef enum
+{
+    ProductNameType01,
+    SerialNumType01,
+    UuidType01,
+    SystemManufacturerType01,
+    SkuNumberType01,
+    FamilyType01,
+    AssertTagType02,
+    SerialNumberType02,
+    BoardManufacturerType02,
+    SkuNumberType02,
+    ChassisLocationType02,
+    AssetTagType03,
+    SerialNumberType03,
+    VersionType03,
+    ChassisTypeType03,
+    ManufacturerType03,
+    SkuNumberType03,
+    SmbiosHiiStringFieldMax
 } OEM_MISC_SMBIOS_HII_STRING_FIELD;
 
 /*
@@ -75,7 +74,7 @@ typedef enum {
 UINTN
 EFIAPI
 OemGetCpuFreq (
-  IN UINT8  ProcessorIndex
+  IN UINT8 ProcessorIndex
   );
 
 /** Gets information about the specified processor and stores it in
@@ -91,10 +90,10 @@ OemGetCpuFreq (
 BOOLEAN
 EFIAPI
 OemGetProcessorInformation (
-  IN UINTN                               ProcessorIndex,
-  IN OUT PROCESSOR_STATUS_DATA           *ProcessorStatus,
-  IN OUT PROCESSOR_CHARACTERISTIC_FLAGS  *ProcessorCharacteristics,
-  IN OUT OEM_MISC_PROCESSOR_DATA         *MiscProcessorData
+  IN UINTN ProcessorIndex,
+  IN OUT PROCESSOR_STATUS_DATA *ProcessorStatus,
+  IN OUT PROCESSOR_CHARACTERISTIC_FLAGS *ProcessorCharacteristics,
+  IN OUT OEM_MISC_PROCESSOR_DATA *MiscProcessorData
   );
 
 /** Gets information about the cache at the specified cache level.
@@ -110,11 +109,11 @@ OemGetProcessorInformation (
 BOOLEAN
 EFIAPI
 OemGetCacheInformation (
-  IN UINT8                   ProcessorIndex,
-  IN UINT8                   CacheLevel,
-  IN BOOLEAN                 DataCache,
-  IN BOOLEAN                 UnifiedCache,
-  IN OUT SMBIOS_TABLE_TYPE7  *SmbiosCacheTable
+  IN UINT8   ProcessorIndex,
+  IN UINT8   CacheLevel,
+  IN BOOLEAN DataCache,
+  IN BOOLEAN UnifiedCache,
+  IN OUT SMBIOS_TABLE_TYPE7 *SmbiosCacheTable
   );
 
 /** Gets the maximum number of processors supported by the platform.
@@ -146,7 +145,7 @@ OemGetChassisType (
 BOOLEAN
 EFIAPI
 OemIsProcessorPresent (
-  IN UINTN  ProcessorIndex
+  IN UINTN ProcessorIndex
   );
 
 /** Updates the HII string for the specified field.
@@ -158,79 +157,9 @@ OemIsProcessorPresent (
 VOID
 EFIAPI
 OemUpdateSmbiosInfo (
-  IN EFI_HII_HANDLE                    HiiHandle,
-  IN EFI_STRING_ID                     TokenToUpdate,
-  IN OEM_MISC_SMBIOS_HII_STRING_FIELD  Field
-  );
-
-/** Fetches the Type 32 boot information status.
-
-  @return Boot status.
-**/
-MISC_BOOT_INFORMATION_STATUS_DATA_TYPE
-EFIAPI
-OemGetBootStatus (
-  VOID
-  );
-
-/** Fetches the chassis status when it was last booted.
-
- @return Chassis status.
-**/
-MISC_CHASSIS_STATE
-EFIAPI
-OemGetChassisBootupState (
-  VOID
-  );
-
-/** Fetches the chassis power supply/supplies status when last booted.
-
- @return Chassis power supply/supplies status.
-**/
-MISC_CHASSIS_STATE
-EFIAPI
-OemGetChassisPowerSupplyState (
-  VOID
-  );
-
-/** Fetches the chassis thermal status when last booted.
-
- @return Chassis thermal status.
-**/
-MISC_CHASSIS_STATE
-EFIAPI
-OemGetChassisThermalState (
-  VOID
-  );
-
-/** Fetches the chassis security status when last booted.
-
- @return Chassis security status.
-**/
-MISC_CHASSIS_SECURITY_STATE
-EFIAPI
-OemGetChassisSecurityStatus (
-  VOID
-  );
-
-/** Fetches the chassis height in RMUs (Rack Mount Units).
-
-  @return The height of the chassis.
-**/
-UINT8
-EFIAPI
-OemGetChassisHeight (
-  VOID
-  );
-
-/** Fetches the number of power cords.
-
-  @return The number of power cords.
-**/
-UINT8
-EFIAPI
-OemGetChassisNumPowerCords (
-  VOID
+  IN EFI_HII_HANDLE    HiiHandle,
+  IN EFI_STRING_ID     TokenToUpdate,
+  IN OEM_MISC_SMBIOS_HII_STRING_FIELD Field
   );
 
 #endif // OEM_MISC_LIB_H_

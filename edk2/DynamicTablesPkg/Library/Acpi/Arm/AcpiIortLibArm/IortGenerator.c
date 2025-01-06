@@ -1,12 +1,12 @@
 /** @file
   IORT Table Generator
 
-  Copyright (c) 2017 - 2022, Arm Limited. All rights reserved.
+  Copyright (c) 2017 - 2020, ARM Limited. All rights reserved.
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
   @par Reference(s):
-  - IO Remapping Table, Platform Design Document, Revision E.d, Feb 2022
-    (https://developer.arm.com/documentation/den0049/)
+  - IO Remapping Table, Platform Design Document,
+    Document number: ARM DEN 0049D, Issue D, March 2018
 
 **/
 
@@ -37,11 +37,9 @@ Requirements:
   - EArmObjSmmuV1SmmuV2
   - EArmObjSmmuV3
   - EArmObjPmcg
-  - EArmObjRmr
   - EArmObjGicItsIdentifierArray
   - EArmObjIdMappingArray
-  - EArmObjSmmuInterruptArray
-  - EArmObjMemoryRangeDescriptor
+  - EArmObjGicItsIdentifierArray
 */
 
 /** This macro expands to a function that retrieves the ITS
@@ -99,24 +97,6 @@ GET_OBJECT_LIST (
   );
 
 /** This macro expands to a function that retrieves the
-    RMR node information from the Configuration Manager.
-*/
-GET_OBJECT_LIST (
-  EObjNameSpaceArm,
-  EArmObjRmr,
-  CM_ARM_RMR_NODE
-  );
-
-/** This macro expands to a function that retrieves the
-    Memory Range Descriptor Array information from the Configuration Manager.
-*/
-GET_OBJECT_LIST (
-  EObjNameSpaceArm,
-  EArmObjMemoryRangeDescriptor,
-  CM_ARM_MEMORY_RANGE_DESCRIPTOR
-  );
-
-/** This macro expands to a function that retrieves the
     ITS Identifier Array information from the Configuration Manager.
 */
 GET_OBJECT_LIST (
@@ -152,7 +132,7 @@ GET_OBJECT_LIST (
 STATIC
 UINT32
 GetItsGroupNodeSize (
-  IN  CONST CM_ARM_ITS_GROUP_NODE  *Node
+  IN  CONST CM_ARM_ITS_GROUP_NODE * Node
   )
 {
   ASSERT (Node != NULL);
@@ -161,7 +141,7 @@ GetItsGroupNodeSize (
      Size of ITS Identifier array
   */
   return (UINT32)(sizeof (EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE) +
-                  (Node->ItsIdCount * sizeof (UINT32)));
+                    (Node->ItsIdCount * sizeof (UINT32)));
 }
 
 /** Returns the total size required for the ITS Group nodes and
@@ -183,9 +163,9 @@ STATIC
 UINT64
 GetSizeofItsGroupNodes (
   IN      CONST UINT32                         NodeStartOffset,
-  IN      CONST CM_ARM_ITS_GROUP_NODE          *NodeList,
+  IN      CONST CM_ARM_ITS_GROUP_NODE  *       NodeList,
   IN            UINT32                         NodeCount,
-  IN OUT        IORT_NODE_INDEXER     **CONST  NodeIndexer
+  IN OUT        IORT_NODE_INDEXER     ** CONST NodeIndexer
   )
 {
   UINT64  Size;
@@ -194,26 +174,22 @@ GetSizeofItsGroupNodes (
 
   Size = 0;
   while (NodeCount-- != 0) {
-    (*NodeIndexer)->Token      = NodeList->Token;
-    (*NodeIndexer)->Object     = (VOID *)NodeList;
-    (*NodeIndexer)->Offset     = (UINT32)(Size + NodeStartOffset);
-    (*NodeIndexer)->Identifier = NodeList->Identifier;
+    (*NodeIndexer)->Token = NodeList->Token;
+    (*NodeIndexer)->Object = (VOID*)NodeList;
+    (*NodeIndexer)->Offset = (UINT32)(Size + NodeStartOffset);
     DEBUG ((
       DEBUG_INFO,
-      "IORT: Node Indexer = %p, Token = %p, Object = %p,"
-      " Offset = 0x%x, Identifier = 0x%x\n",
+      "IORT: Node Indexer = %p, Token = %p, Object = %p, Offset = 0x%x\n",
       *NodeIndexer,
       (*NodeIndexer)->Token,
       (*NodeIndexer)->Object,
-      (*NodeIndexer)->Offset,
-      (*NodeIndexer)->Identifier
+      (*NodeIndexer)->Offset
       ));
 
     Size += GetItsGroupNodeSize (NodeList);
     (*NodeIndexer)++;
     NodeList++;
   }
-
   return Size;
 }
 
@@ -226,7 +202,7 @@ GetSizeofItsGroupNodes (
 STATIC
 UINT32
 GetNamedComponentNodeSize (
-  IN  CONST CM_ARM_NAMED_COMPONENT_NODE  *Node
+  IN  CONST CM_ARM_NAMED_COMPONENT_NODE * Node
   )
 {
   ASSERT (Node != NULL);
@@ -236,9 +212,9 @@ GetNamedComponentNodeSize (
      Size of ASCII string + 'padding to 32-bit word aligned'.
   */
   return (UINT32)(sizeof (EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE) +
-                  (Node->IdMappingCount *
-                   sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)) +
-                  ALIGN_VALUE (AsciiStrSize (Node->ObjectName), 4));
+                    (Node->IdMappingCount *
+                     sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)) +
+                    ALIGN_VALUE (AsciiStrSize (Node->ObjectName), 4));
 }
 
 /** Returns the total size required for the Named Component nodes and
@@ -260,9 +236,9 @@ STATIC
 UINT64
 GetSizeofNamedComponentNodes (
   IN      CONST UINT32                              NodeStartOffset,
-  IN      CONST CM_ARM_NAMED_COMPONENT_NODE         *NodeList,
+  IN      CONST CM_ARM_NAMED_COMPONENT_NODE *       NodeList,
   IN            UINT32                              NodeCount,
-  IN OUT        IORT_NODE_INDEXER          **CONST  NodeIndexer
+  IN OUT        IORT_NODE_INDEXER          ** CONST NodeIndexer
   )
 {
   UINT64  Size;
@@ -271,19 +247,16 @@ GetSizeofNamedComponentNodes (
 
   Size = 0;
   while (NodeCount-- != 0) {
-    (*NodeIndexer)->Token      = NodeList->Token;
-    (*NodeIndexer)->Object     = (VOID *)NodeList;
-    (*NodeIndexer)->Offset     = (UINT32)(Size + NodeStartOffset);
-    (*NodeIndexer)->Identifier = NodeList->Identifier;
+    (*NodeIndexer)->Token = NodeList->Token;
+    (*NodeIndexer)->Object = (VOID*)NodeList;
+    (*NodeIndexer)->Offset = (UINT32)(Size + NodeStartOffset);
     DEBUG ((
       DEBUG_INFO,
-      "IORT: Node Indexer = %p, Token = %p, Object = %p,"
-      " Offset = 0x%x, Identifier = 0x%x\n",
+      "IORT: Node Indexer = %p, Token = %p, Object = %p, Offset = 0x%x\n",
       *NodeIndexer,
       (*NodeIndexer)->Token,
       (*NodeIndexer)->Object,
-      (*NodeIndexer)->Offset,
-      (*NodeIndexer)->Identifier
+      (*NodeIndexer)->Offset
       ));
 
     Size += GetNamedComponentNodeSize (NodeList);
@@ -303,7 +276,7 @@ GetSizeofNamedComponentNodes (
 STATIC
 UINT32
 GetRootComplexNodeSize (
-  IN  CONST CM_ARM_ROOT_COMPLEX_NODE  *Node
+  IN  CONST CM_ARM_ROOT_COMPLEX_NODE  * Node
   )
 {
   ASSERT (Node != NULL);
@@ -312,8 +285,8 @@ GetRootComplexNodeSize (
      Size of ID mapping array
   */
   return (UINT32)(sizeof (EFI_ACPI_6_0_IO_REMAPPING_RC_NODE) +
-                  (Node->IdMappingCount *
-                   sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)));
+                    (Node->IdMappingCount *
+                     sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)));
 }
 
 /** Returns the total size required for the Root Complex nodes and
@@ -335,9 +308,9 @@ STATIC
 UINT64
 GetSizeofRootComplexNodes (
   IN      CONST UINT32                              NodeStartOffset,
-  IN      CONST CM_ARM_ROOT_COMPLEX_NODE            *NodeList,
+  IN      CONST CM_ARM_ROOT_COMPLEX_NODE    *       NodeList,
   IN            UINT32                              NodeCount,
-  IN OUT        IORT_NODE_INDEXER          **CONST  NodeIndexer
+  IN OUT        IORT_NODE_INDEXER          ** CONST NodeIndexer
   )
 {
   UINT64  Size;
@@ -346,19 +319,16 @@ GetSizeofRootComplexNodes (
 
   Size = 0;
   while (NodeCount-- != 0) {
-    (*NodeIndexer)->Token      = NodeList->Token;
-    (*NodeIndexer)->Object     = (VOID *)NodeList;
-    (*NodeIndexer)->Offset     = (UINT32)(Size + NodeStartOffset);
-    (*NodeIndexer)->Identifier = NodeList->Identifier;
+    (*NodeIndexer)->Token = NodeList->Token;
+    (*NodeIndexer)->Object = (VOID*)NodeList;
+    (*NodeIndexer)->Offset = (UINT32)(Size + NodeStartOffset);
     DEBUG ((
       DEBUG_INFO,
-      "IORT: Node Indexer = %p, Token = %p, Object = %p,"
-      " Offset = 0x%x, Identifier = 0x%x\n",
+      "IORT: Node Indexer = %p, Token = %p, Object = %p, Offset = 0x%x\n",
       *NodeIndexer,
       (*NodeIndexer)->Token,
       (*NodeIndexer)->Object,
-      (*NodeIndexer)->Offset,
-      (*NodeIndexer)->Identifier
+      (*NodeIndexer)->Offset
       ));
 
     Size += GetRootComplexNodeSize (NodeList);
@@ -378,7 +348,7 @@ GetSizeofRootComplexNodes (
 STATIC
 UINT32
 GetSmmuV1V2NodeSize (
-  IN  CONST CM_ARM_SMMUV1_SMMUV2_NODE  *Node
+  IN  CONST CM_ARM_SMMUV1_SMMUV2_NODE  * Node
   )
 {
   ASSERT (Node != NULL);
@@ -389,12 +359,12 @@ GetSmmuV1V2NodeSize (
      Size of PMU interrupt array
   */
   return (UINT32)(sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE) +
-                  (Node->IdMappingCount *
-                   sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)) +
-                  (Node->ContextInterruptCount *
-                   sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT)) +
-                  (Node->PmuInterruptCount *
-                   sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT)));
+                    (Node->IdMappingCount *
+                     sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)) +
+                    (Node->ContextInterruptCount *
+                     sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT)) +
+                    (Node->PmuInterruptCount *
+                     sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT)));
 }
 
 /** Returns the total size required for the SMMUv1/SMMUv2 nodes and
@@ -416,9 +386,9 @@ STATIC
 UINT64
 GetSizeofSmmuV1V2Nodes (
   IN      CONST UINT32                              NodeStartOffset,
-  IN      CONST CM_ARM_SMMUV1_SMMUV2_NODE           *NodeList,
+  IN      CONST CM_ARM_SMMUV1_SMMUV2_NODE   *       NodeList,
   IN            UINT32                              NodeCount,
-  IN OUT        IORT_NODE_INDEXER          **CONST  NodeIndexer
+  IN OUT        IORT_NODE_INDEXER          ** CONST NodeIndexer
   )
 {
   UINT64  Size;
@@ -427,26 +397,22 @@ GetSizeofSmmuV1V2Nodes (
 
   Size = 0;
   while (NodeCount-- != 0) {
-    (*NodeIndexer)->Token      = NodeList->Token;
-    (*NodeIndexer)->Object     = (VOID *)NodeList;
-    (*NodeIndexer)->Offset     = (UINT32)(Size + NodeStartOffset);
-    (*NodeIndexer)->Identifier = NodeList->Identifier;
+    (*NodeIndexer)->Token = NodeList->Token;
+    (*NodeIndexer)->Object = (VOID*)NodeList;
+    (*NodeIndexer)->Offset = (UINT32)(Size + NodeStartOffset);
     DEBUG ((
       DEBUG_INFO,
-      "IORT: Node Indexer = %p, Token = %p, Object = %p,"
-      " Offset = 0x%x, Identifier = 0x%x\n",
+      "IORT: Node Indexer = %p, Token = %p, Object = %p, Offset = 0x%x\n",
       *NodeIndexer,
       (*NodeIndexer)->Token,
       (*NodeIndexer)->Object,
-      (*NodeIndexer)->Offset,
-      (*NodeIndexer)->Identifier
+      (*NodeIndexer)->Offset
       ));
 
     Size += GetSmmuV1V2NodeSize (NodeList);
     (*NodeIndexer)++;
     NodeList++;
   }
-
   return Size;
 }
 
@@ -459,7 +425,7 @@ GetSizeofSmmuV1V2Nodes (
 STATIC
 UINT32
 GetSmmuV3NodeSize (
-  IN  CONST CM_ARM_SMMUV3_NODE  *Node
+  IN  CONST CM_ARM_SMMUV3_NODE  * Node
   )
 {
   ASSERT (Node != NULL);
@@ -468,8 +434,8 @@ GetSmmuV3NodeSize (
      Size of ID mapping array
   */
   return (UINT32)(sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE) +
-                  (Node->IdMappingCount *
-                   sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)));
+                    (Node->IdMappingCount *
+                     sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)));
 }
 
 /** Returns the total size required for the SMMUv3 nodes and
@@ -491,9 +457,9 @@ STATIC
 UINT64
 GetSizeofSmmuV3Nodes (
   IN      CONST UINT32                       NodeStartOffset,
-  IN      CONST CM_ARM_SMMUV3_NODE           *NodeList,
+  IN      CONST CM_ARM_SMMUV3_NODE   *       NodeList,
   IN            UINT32                       NodeCount,
-  IN OUT        IORT_NODE_INDEXER   **CONST  NodeIndexer
+  IN OUT        IORT_NODE_INDEXER   ** CONST NodeIndexer
   )
 {
   UINT64  Size;
@@ -502,26 +468,22 @@ GetSizeofSmmuV3Nodes (
 
   Size = 0;
   while (NodeCount-- != 0) {
-    (*NodeIndexer)->Token      = NodeList->Token;
-    (*NodeIndexer)->Object     = (VOID *)NodeList;
-    (*NodeIndexer)->Offset     = (UINT32)(Size + NodeStartOffset);
-    (*NodeIndexer)->Identifier = NodeList->Identifier;
+    (*NodeIndexer)->Token = NodeList->Token;
+    (*NodeIndexer)->Object = (VOID*)NodeList;
+    (*NodeIndexer)->Offset = (UINT32)(Size + NodeStartOffset);
     DEBUG ((
       DEBUG_INFO,
-      "IORT: Node Indexer = %p, Token = %p, Object = %p,"
-      " Offset = 0x%x, Identifier = 0x%x\n",
+      "IORT: Node Indexer = %p, Token = %p, Object = %p, Offset = 0x%x\n",
       *NodeIndexer,
       (*NodeIndexer)->Token,
       (*NodeIndexer)->Object,
-      (*NodeIndexer)->Offset,
-      (*NodeIndexer)->Identifier
+      (*NodeIndexer)->Offset
       ));
 
     Size += GetSmmuV3NodeSize (NodeList);
     (*NodeIndexer)++;
     NodeList++;
   }
-
   return Size;
 }
 
@@ -534,7 +496,7 @@ GetSizeofSmmuV3Nodes (
 STATIC
 UINT32
 GetPmcgNodeSize (
-  IN  CONST CM_ARM_PMCG_NODE  *Node
+  IN  CONST CM_ARM_PMCG_NODE  * Node
   )
 {
   ASSERT (Node != NULL);
@@ -543,8 +505,8 @@ GetPmcgNodeSize (
      Size of ID mapping array
   */
   return (UINT32)(sizeof (EFI_ACPI_6_0_IO_REMAPPING_PMCG_NODE) +
-                  (Node->IdMappingCount *
-                   sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)));
+                    (Node->IdMappingCount *
+                     sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)));
 }
 
 /** Returns the total size required for the PMCG nodes and
@@ -566,9 +528,9 @@ STATIC
 UINT64
 GetSizeofPmcgNodes (
   IN      CONST UINT32                     NodeStartOffset,
-  IN      CONST CM_ARM_PMCG_NODE           *NodeList,
+  IN      CONST CM_ARM_PMCG_NODE   *       NodeList,
   IN            UINT32                     NodeCount,
-  IN OUT        IORT_NODE_INDEXER **CONST  NodeIndexer
+  IN OUT        IORT_NODE_INDEXER ** CONST NodeIndexer
   )
 {
   UINT64  Size;
@@ -577,104 +539,22 @@ GetSizeofPmcgNodes (
 
   Size = 0;
   while (NodeCount-- != 0) {
-    (*NodeIndexer)->Token      = NodeList->Token;
-    (*NodeIndexer)->Object     = (VOID *)NodeList;
-    (*NodeIndexer)->Offset     = (UINT32)(Size + NodeStartOffset);
-    (*NodeIndexer)->Identifier = NodeList->Identifier;
+    (*NodeIndexer)->Token = NodeList->Token;
+    (*NodeIndexer)->Object = (VOID*)NodeList;
+    (*NodeIndexer)->Offset = (UINT32)(Size + NodeStartOffset);
     DEBUG ((
       DEBUG_INFO,
-      "IORT: Node Indexer = %p, Token = %p, Object = %p,"
-      " Offset = 0x%x, Identifier = 0x%x\n",
+      "IORT: Node Indexer = %p, Token = %p, Object = %p, Offset = 0x%x\n",
       *NodeIndexer,
       (*NodeIndexer)->Token,
       (*NodeIndexer)->Object,
-      (*NodeIndexer)->Offset,
-      (*NodeIndexer)->Identifier
+      (*NodeIndexer)->Offset
       ));
 
     Size += GetPmcgNodeSize (NodeList);
     (*NodeIndexer)++;
     NodeList++;
   }
-
-  return Size;
-}
-
-/** Returns the size of the RMR node.
-
-    @param [in]  Node    Pointer to RMR node.
-
-    @retval Size of the RMR node.
-**/
-STATIC
-UINT32
-GetRmrNodeSize (
-  IN  CONST CM_ARM_RMR_NODE  *Node
-  )
-{
-  ASSERT (Node != NULL);
-
-  /* Size of RMR node +
-     Size of ID mapping array +
-     Size of Memory Range Descriptor array
-  */
-  return (UINT32)(sizeof (EFI_ACPI_6_0_IO_REMAPPING_RMR_NODE) +
-                  (Node->IdMappingCount *
-                   sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)) +
-                  (Node->MemRangeDescCount *
-                   sizeof (EFI_ACPI_6_0_IO_REMAPPING_MEM_RANGE_DESC)));
-}
-
-/** Returns the total size required for the RMR nodes and
-    updates the Node Indexer.
-
-    This function calculates the size required for the node group
-    and also populates the Node Indexer array with offsets for the
-    individual nodes.
-
-    @param [in]       NodeStartOffset Offset from the start of the
-                                      IORT where this node group starts.
-    @param [in]       NodeList        Pointer to RMR node list.
-    @param [in]       NodeCount       Count of the RMR nodes.
-    @param [in, out]  NodeIndexer     Pointer to the next Node Indexer.
-
-    @retval Total size of the RMR nodes.
-**/
-STATIC
-UINT64
-GetSizeofRmrNodes (
-  IN      CONST UINT32                     NodeStartOffset,
-  IN      CONST CM_ARM_RMR_NODE            *NodeList,
-  IN            UINT32                     NodeCount,
-  IN OUT        IORT_NODE_INDEXER **CONST  NodeIndexer
-  )
-{
-  UINT64  Size;
-
-  ASSERT (NodeList != NULL);
-
-  Size = 0;
-  while (NodeCount-- != 0) {
-    (*NodeIndexer)->Token      = NodeList->Token;
-    (*NodeIndexer)->Object     = (VOID *)NodeList;
-    (*NodeIndexer)->Offset     = (UINT32)(Size + NodeStartOffset);
-    (*NodeIndexer)->Identifier = NodeList->Identifier;
-    DEBUG ((
-      DEBUG_INFO,
-      "IORT: Node Indexer = %p, Token = %p, Object = %p,"
-      " Offset = 0x%x, Identifier = 0x%x\n",
-      *NodeIndexer,
-      (*NodeIndexer)->Token,
-      (*NodeIndexer)->Object,
-      (*NodeIndexer)->Offset,
-      (*NodeIndexer)->Identifier
-      ));
-
-    Size += GetRmrNodeSize (NodeList);
-    (*NodeIndexer)++;
-    NodeList++;
-  }
-
   return Size;
 }
 
@@ -693,17 +573,17 @@ GetSizeofRmrNodes (
 STATIC
 EFI_STATUS
 GetNodeOffsetReferencedByToken (
-  IN  IORT_NODE_INDEXER  *NodeIndexer,
-  IN  UINT32             NodeCount,
-  IN  CM_OBJECT_TOKEN    Token,
-  OUT UINT32             *NodeOffset
+  IN  IORT_NODE_INDEXER * NodeIndexer,
+  IN  UINT32              NodeCount,
+  IN  CM_OBJECT_TOKEN     Token,
+  OUT UINT32            * NodeOffset
   )
 {
   DEBUG ((
-    DEBUG_INFO,
-    "IORT: Node Indexer: Search Token = %p\n",
-    Token
-    ));
+      DEBUG_INFO,
+      "IORT: Node Indexer: Search Token = %p\n",
+      Token
+      ));
   while (NodeCount-- != 0) {
     DEBUG ((
       DEBUG_INFO,
@@ -720,10 +600,8 @@ GetNodeOffsetReferencedByToken (
         ));
       return EFI_SUCCESS;
     }
-
     NodeIndexer++;
   }
-
   DEBUG ((
     DEBUG_INFO,
     "IORT: Node Indexer: Token = %p, Not Found\n",
@@ -752,21 +630,21 @@ GetNodeOffsetReferencedByToken (
 STATIC
 EFI_STATUS
 AddIdMappingArray (
-  IN      CONST ACPI_TABLE_GENERATOR                   *CONST  This,
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL   *CONST  CfgMgrProtocol,
-  IN            EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE             *IdMapArray,
+  IN      CONST ACPI_TABLE_GENERATOR                   * CONST This,
+  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL   * CONST CfgMgrProtocol,
+  IN            EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE     *       IdMapArray,
   IN            UINT32                                         IdCount,
   IN      CONST CM_OBJECT_TOKEN                                IdMappingToken
   )
 {
-  EFI_STATUS           Status;
-  CM_ARM_ID_MAPPING    *IdMappings;
-  UINT32               IdMappingCount;
-  ACPI_IORT_GENERATOR  *Generator;
+  EFI_STATUS            Status;
+  CM_ARM_ID_MAPPING   * IdMappings;
+  UINT32                IdMappingCount;
+  ACPI_IORT_GENERATOR * Generator;
 
   ASSERT (IdMapArray != NULL);
 
-  Generator = (ACPI_IORT_GENERATOR *)This;
+  Generator = (ACPI_IORT_GENERATOR*)This;
 
   // Get the Id Mapping Array
   Status = GetEArmObjIdMappingArray (
@@ -795,11 +673,11 @@ AddIdMappingArray (
   // Populate the Id Mapping array
   while (IdCount-- != 0) {
     Status = GetNodeOffsetReferencedByToken (
-               Generator->NodeIndexer,
-               Generator->IortNodeCount,
-               IdMappings->OutputReferenceToken,
-               &IdMapArray->OutputReference
-               );
+              Generator->NodeIndexer,
+              Generator->IortNodeCount,
+              IdMappings->OutputReferenceToken,
+              &IdMapArray->OutputReference
+              );
     if (EFI_ERROR (Status)) {
       DEBUG ((
         DEBUG_ERROR,
@@ -812,10 +690,10 @@ AddIdMappingArray (
       return Status;
     }
 
-    IdMapArray->InputBase  = IdMappings->InputBase;
-    IdMapArray->NumIds     = IdMappings->NumIds;
+    IdMapArray->InputBase = IdMappings->InputBase;
+    IdMapArray->NumIds = IdMappings->NumIds;
     IdMapArray->OutputBase = IdMappings->OutputBase;
-    IdMapArray->Flags      = IdMappings->Flags;
+    IdMapArray->Flags = IdMappings->Flags;
 
     IdMapArray++;
     IdMappings++;
@@ -829,7 +707,6 @@ AddIdMappingArray (
     @param [in]     This             Pointer to the table Generator.
     @param [in]     CfgMgrProtocol   Pointer to the Configuration Manager
                                      Protocol Interface.
-    @param [in]     AcpiTableInfo    Pointer to the ACPI table info structure.
     @param [in]     Iort             Pointer to IORT table structure.
     @param [in]     NodesStartOffset Offset for the start of the ITS Group
                                      Nodes.
@@ -844,27 +721,26 @@ AddIdMappingArray (
 STATIC
 EFI_STATUS
 AddItsGroupNodes (
-  IN  CONST ACPI_TABLE_GENERATOR                  *CONST  This,
-  IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  IN  CONST CM_STD_OBJ_ACPI_TABLE_INFO            *CONST  AcpiTableInfo,
-  IN  CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE               *Iort,
+  IN  CONST ACPI_TABLE_GENERATOR                  * CONST This,
+  IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST CfgMgrProtocol,
+  IN  CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE       *       Iort,
   IN  CONST UINT32                                        NodesStartOffset,
-  IN  CONST CM_ARM_ITS_GROUP_NODE                         *NodeList,
+  IN  CONST CM_ARM_ITS_GROUP_NODE                 *       NodeList,
   IN        UINT32                                        NodeCount
   )
 {
-  EFI_STATUS                          Status;
-  EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE  *ItsGroupNode;
-  UINT32                              *ItsIds;
-  CM_ARM_ITS_IDENTIFIER               *ItsIdentifier;
-  UINT32                              ItsIdentifierCount;
-  UINT32                              IdIndex;
-  UINT64                              NodeLength;
+  EFI_STATUS                            Status;
+  EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE  * ItsGroupNode;
+  UINT32                              * ItsIds;
+  CM_ARM_ITS_IDENTIFIER               * ItsIdentifier;
+  UINT32                                ItsIdentifierCount;
+  UINT32                                IdIndex;
+  UINT64                                NodeLength;
 
   ASSERT (Iort != NULL);
 
-  ItsGroupNode = (EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE *)((UINT8 *)Iort +
-                                                        NodesStartOffset);
+  ItsGroupNode = (EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE*)((UINT8*)Iort +
+                  NodesStartOffset);
 
   while (NodeCount-- != 0) {
     NodeLength = GetItsGroupNodeSize (NodeList);
@@ -881,25 +757,17 @@ AddItsGroupNodes (
     }
 
     // Populate the node header
-    ItsGroupNode->Node.Type          = EFI_ACPI_IORT_TYPE_ITS_GROUP;
-    ItsGroupNode->Node.Length        = (UINT16)NodeLength;
+    ItsGroupNode->Node.Type = EFI_ACPI_IORT_TYPE_ITS_GROUP;
+    ItsGroupNode->Node.Length = (UINT16)NodeLength;
+    ItsGroupNode->Node.Revision = 0;
+    ItsGroupNode->Node.Reserved = EFI_ACPI_RESERVED_DWORD;
     ItsGroupNode->Node.NumIdMappings = 0;
-    ItsGroupNode->Node.IdReference   = 0;
-
-    if (AcpiTableInfo->AcpiTableRevision <
-        EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05)
-    {
-      ItsGroupNode->Node.Revision   = 0;
-      ItsGroupNode->Node.Identifier = EFI_ACPI_RESERVED_DWORD;
-    } else {
-      ItsGroupNode->Node.Revision   = 1;
-      ItsGroupNode->Node.Identifier = NodeList->Identifier;
-    }
+    ItsGroupNode->Node.IdReference = 0;
 
     // IORT specific data
     ItsGroupNode->NumItsIdentifiers = NodeList->ItsIdCount;
-    ItsIds                          = (UINT32 *)((UINT8 *)ItsGroupNode +
-                                                 sizeof (EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE));
+    ItsIds = (UINT32*)((UINT8*)ItsGroupNode +
+      sizeof (EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE));
 
     Status = GetEArmObjGicItsIdentifierArray (
                CfgMgrProtocol,
@@ -930,8 +798,8 @@ AddItsGroupNodes (
     } // ITS identifier array
 
     // Next IORT Group Node
-    ItsGroupNode = (EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE *)((UINT8 *)ItsGroupNode +
-                                                          ItsGroupNode->Node.Length);
+    ItsGroupNode = (EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE*)((UINT8*)ItsGroupNode +
+                    ItsGroupNode->Node.Length);
     NodeList++;
   } // IORT Group Node
 
@@ -946,7 +814,6 @@ AddItsGroupNodes (
     @param [in]     This             Pointer to the table Generator.
     @param [in]     CfgMgrProtocol   Pointer to the Configuration Manager
                                      Protocol Interface.
-    @param [in]     AcpiTableInfo    Pointer to the ACPI table info structure.
     @param [in]     Iort             Pointer to IORT table structure.
     @param [in]     NodesStartOffset Offset for the start of the Named
                                      Component Nodes.
@@ -961,26 +828,25 @@ AddItsGroupNodes (
 STATIC
 EFI_STATUS
 AddNamedComponentNodes (
-  IN      CONST ACPI_TABLE_GENERATOR                   *CONST  This,
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL   *CONST  CfgMgrProtocol,
-  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO             *CONST  AcpiTableInfo,
-  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE                *Iort,
+  IN      CONST ACPI_TABLE_GENERATOR                   * CONST This,
+  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL   * CONST CfgMgrProtocol,
+  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE        *       Iort,
   IN      CONST UINT32                                         NodesStartOffset,
-  IN      CONST CM_ARM_NAMED_COMPONENT_NODE                    *NodeList,
+  IN      CONST CM_ARM_NAMED_COMPONENT_NODE            *       NodeList,
   IN            UINT32                                         NodeCount
   )
 {
-  EFI_STATUS                                 Status;
-  EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE  *NcNode;
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE         *IdMapArray;
-  CHAR8                                      *ObjectName;
-  UINTN                                      ObjectNameLength;
-  UINT64                                     NodeLength;
+  EFI_STATUS                                   Status;
+  EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE  * NcNode;
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE         * IdMapArray;
+  CHAR8                                      * ObjectName;
+  UINTN                                        ObjectNameLength;
+  UINT64                                       NodeLength;
 
   ASSERT (Iort != NULL);
 
-  NcNode = (EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE *)((UINT8 *)Iort +
-                                                         NodesStartOffset);
+  NcNode = (EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE*)((UINT8*)Iort +
+            NodesStartOffset);
 
   while (NodeCount-- != 0) {
     NodeLength = GetNamedComponentNodeSize (NodeList);
@@ -997,36 +863,28 @@ AddNamedComponentNodes (
     }
 
     // Populate the node header
-    NcNode->Node.Type          = EFI_ACPI_IORT_TYPE_NAMED_COMP;
-    NcNode->Node.Length        = (UINT16)NodeLength;
+    NcNode->Node.Type = EFI_ACPI_IORT_TYPE_NAMED_COMP;
+    NcNode->Node.Length = (UINT16)NodeLength;
+    NcNode->Node.Revision = 2;
+    NcNode->Node.Reserved = EFI_ACPI_RESERVED_DWORD;
     NcNode->Node.NumIdMappings = NodeList->IdMappingCount;
 
-    if (AcpiTableInfo->AcpiTableRevision <
-        EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05)
-    {
-      NcNode->Node.Revision   = 2;
-      NcNode->Node.Identifier = EFI_ACPI_RESERVED_DWORD;
-    } else {
-      NcNode->Node.Revision   = 4;
-      NcNode->Node.Identifier = NodeList->Identifier;
-    }
-
-    ObjectNameLength         = AsciiStrLen (NodeList->ObjectName) + 1;
-    NcNode->Node.IdReference = (NodeList->IdMappingCount == 0) ?
-                               0 : ((UINT32)(sizeof (EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE) +
-                                             (ALIGN_VALUE (ObjectNameLength, 4))));
+    ObjectNameLength = AsciiStrLen (NodeList->ObjectName) + 1;
+    NcNode->Node.IdReference =
+      (UINT32)(sizeof (EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE) +
+        (ALIGN_VALUE (ObjectNameLength, 4)));
 
     // Named Component specific data
-    NcNode->Flags             = NodeList->Flags;
-    NcNode->CacheCoherent     = NodeList->CacheCoherent;
-    NcNode->AllocationHints   = NodeList->AllocationHints;
-    NcNode->Reserved          = EFI_ACPI_RESERVED_WORD;
+    NcNode->Flags = NodeList->Flags;
+    NcNode->CacheCoherent = NodeList->CacheCoherent;
+    NcNode->AllocationHints = NodeList->AllocationHints;
+    NcNode->Reserved = EFI_ACPI_RESERVED_WORD;
     NcNode->MemoryAccessFlags = NodeList->MemoryAccessFlags;
-    NcNode->AddressSizeLimit  = NodeList->AddressSizeLimit;
+    NcNode->AddressSizeLimit = NodeList->AddressSizeLimit;
 
     // Copy the object name
-    ObjectName = (CHAR8 *)((UINT8 *)NcNode +
-                           sizeof (EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE));
+    ObjectName = (CHAR8*)((UINT8*)NcNode +
+      sizeof (EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE));
     Status = AsciiStrCpyS (
                ObjectName,
                ObjectNameLength,
@@ -1041,22 +899,11 @@ AddNamedComponentNodes (
       return Status;
     }
 
-    if (NodeList->IdMappingCount > 0) {
-      if (NodeList->IdMappingToken == CM_NULL_TOKEN) {
-        Status = EFI_INVALID_PARAMETER;
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Invalid Id Mapping token,"
-          " Token = 0x%x, Status =%r\n",
-          NodeList->IdMappingToken,
-          Status
-          ));
-        return Status;
-      }
-
+    if ((NodeList->IdMappingCount > 0) &&
+        (NodeList->IdMappingToken != CM_NULL_TOKEN)) {
       // Ids for Named Component
-      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE *)((UINT8 *)NcNode +
-                                                          NcNode->Node.IdReference);
+      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE*)((UINT8*)NcNode +
+                    NcNode->Node.IdReference);
 
       Status = AddIdMappingArray (
                  This,
@@ -1076,8 +923,8 @@ AddNamedComponentNodes (
     }
 
     // Next Named Component Node
-    NcNode = (EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE *)((UINT8 *)NcNode +
-                                                           NcNode->Node.Length);
+    NcNode = (EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE*)((UINT8*)NcNode +
+              NcNode->Node.Length);
     NodeList++;
   } // Named Component Node
 
@@ -1091,7 +938,6 @@ AddNamedComponentNodes (
     @param [in]     This             Pointer to the table Generator.
     @param [in]     CfgMgrProtocol   Pointer to the Configuration Manager
                                      Protocol Interface.
-    @param [in]     AcpiTableInfo    Pointer to the ACPI table info structure.
     @param [in]     Iort             Pointer to IORT table structure.
     @param [in]     NodesStartOffset Offset for the start of the Root Complex
                                      Nodes.
@@ -1106,24 +952,23 @@ AddNamedComponentNodes (
 STATIC
 EFI_STATUS
 AddRootComplexNodes (
-  IN      CONST ACPI_TABLE_GENERATOR                   *CONST  This,
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL   *CONST  CfgMgrProtocol,
-  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO             *CONST  AcpiTableInfo,
-  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE                *Iort,
+  IN      CONST ACPI_TABLE_GENERATOR                   * CONST This,
+  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL   * CONST CfgMgrProtocol,
+  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE        *       Iort,
   IN      CONST UINT32                                         NodesStartOffset,
-  IN      CONST CM_ARM_ROOT_COMPLEX_NODE                       *NodeList,
+  IN      CONST CM_ARM_ROOT_COMPLEX_NODE               *       NodeList,
   IN            UINT32                                         NodeCount
   )
 {
-  EFI_STATUS                          Status;
-  EFI_ACPI_6_0_IO_REMAPPING_RC_NODE   *RcNode;
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE  *IdMapArray;
-  UINT64                              NodeLength;
+  EFI_STATUS                           Status;
+  EFI_ACPI_6_0_IO_REMAPPING_RC_NODE  * RcNode;
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE * IdMapArray;
+  UINT64                               NodeLength;
 
   ASSERT (Iort != NULL);
 
-  RcNode = (EFI_ACPI_6_0_IO_REMAPPING_RC_NODE *)((UINT8 *)Iort +
-                                                 NodesStartOffset);
+  RcNode = (EFI_ACPI_6_0_IO_REMAPPING_RC_NODE*)((UINT8*)Iort +
+            NodesStartOffset);
 
   while (NodeCount-- != 0) {
     NodeLength = GetRootComplexNodeSize (NodeList);
@@ -1140,51 +985,30 @@ AddRootComplexNodes (
     }
 
     // Populate the node header
-    RcNode->Node.Type          = EFI_ACPI_IORT_TYPE_ROOT_COMPLEX;
-    RcNode->Node.Length        = (UINT16)NodeLength;
+    RcNode->Node.Type = EFI_ACPI_IORT_TYPE_ROOT_COMPLEX;
+    RcNode->Node.Length = (UINT16)NodeLength;
+    RcNode->Node.Revision = 1;
+    RcNode->Node.Reserved = EFI_ACPI_RESERVED_DWORD;
     RcNode->Node.NumIdMappings = NodeList->IdMappingCount;
-    RcNode->Node.IdReference   = (NodeList->IdMappingCount == 0) ?
-                                 0 : sizeof (EFI_ACPI_6_0_IO_REMAPPING_RC_NODE);
-
-    if (AcpiTableInfo->AcpiTableRevision <
-        EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05)
-    {
-      RcNode->Node.Revision     = 1;
-      RcNode->Node.Identifier   = EFI_ACPI_RESERVED_DWORD;
-      RcNode->PasidCapabilities = EFI_ACPI_RESERVED_WORD;
-    } else {
-      RcNode->Node.Revision     = 4;
-      RcNode->Node.Identifier   = NodeList->Identifier;
-      RcNode->PasidCapabilities = NodeList->PasidCapabilities;
-      RcNode->Flags             = NodeList->Flags;
-    }
+    RcNode->Node.IdReference = sizeof (EFI_ACPI_6_0_IO_REMAPPING_RC_NODE);
 
     // Root Complex specific data
-    RcNode->CacheCoherent     = NodeList->CacheCoherent;
-    RcNode->AllocationHints   = NodeList->AllocationHints;
-    RcNode->Reserved          = EFI_ACPI_RESERVED_WORD;
+    RcNode->CacheCoherent = NodeList->CacheCoherent;
+    RcNode->AllocationHints = NodeList->AllocationHints;
+    RcNode->Reserved = EFI_ACPI_RESERVED_WORD;
     RcNode->MemoryAccessFlags = NodeList->MemoryAccessFlags;
-    RcNode->AtsAttribute      = NodeList->AtsAttribute;
-    RcNode->PciSegmentNumber  = NodeList->PciSegmentNumber;
+    RcNode->AtsAttribute = NodeList->AtsAttribute;
+    RcNode->PciSegmentNumber = NodeList->PciSegmentNumber;
     RcNode->MemoryAddressSize = NodeList->MemoryAddressSize;
-    RcNode->Reserved1[0]      = EFI_ACPI_RESERVED_BYTE;
+    RcNode->Reserved1[0] = EFI_ACPI_RESERVED_BYTE;
+    RcNode->Reserved1[1] = EFI_ACPI_RESERVED_BYTE;
+    RcNode->Reserved1[2] = EFI_ACPI_RESERVED_BYTE;
 
-    if (NodeList->IdMappingCount > 0) {
-      if (NodeList->IdMappingToken == CM_NULL_TOKEN) {
-        Status = EFI_INVALID_PARAMETER;
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Invalid Id Mapping token,"
-          " Token = 0x%x, Status =%r\n",
-          NodeList->IdMappingToken,
-          Status
-          ));
-        return Status;
-      }
-
+    if ((NodeList->IdMappingCount > 0) &&
+        (NodeList->IdMappingToken != CM_NULL_TOKEN)) {
       // Ids for Root Complex
-      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE *)((UINT8 *)RcNode +
-                                                          RcNode->Node.IdReference);
+      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE*)((UINT8*)RcNode +
+                    RcNode->Node.IdReference);
       Status = AddIdMappingArray (
                  This,
                  CfgMgrProtocol,
@@ -1203,8 +1027,8 @@ AddRootComplexNodes (
     }
 
     // Next Root Complex Node
-    RcNode = (EFI_ACPI_6_0_IO_REMAPPING_RC_NODE *)((UINT8 *)RcNode +
-                                                   RcNode->Node.Length);
+    RcNode = (EFI_ACPI_6_0_IO_REMAPPING_RC_NODE*)((UINT8*)RcNode +
+              RcNode->Node.Length);
     NodeList++;
   } // Root Complex Node
 
@@ -1230,15 +1054,15 @@ AddRootComplexNodes (
 STATIC
 EFI_STATUS
 AddSmmuInterruptArray (
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  IN OUT        EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT            *InterruptArray,
+  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST CfgMgrProtocol,
+  IN OUT        EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT    *       InterruptArray,
   IN            UINT32                                        InterruptCount,
   IN      CONST CM_OBJECT_TOKEN                               InterruptToken
   )
 {
-  EFI_STATUS             Status;
-  CM_ARM_SMMU_INTERRUPT  *SmmuInterrupt;
-  UINT32                 SmmuInterruptCount;
+  EFI_STATUS              Status;
+  CM_ARM_SMMU_INTERRUPT * SmmuInterrupt;
+  UINT32                  SmmuInterruptCount;
 
   ASSERT (InterruptArray != NULL);
 
@@ -1268,7 +1092,7 @@ AddSmmuInterruptArray (
 
   // Populate the Id Mapping array
   while (InterruptCount-- != 0) {
-    InterruptArray->Interrupt      = SmmuInterrupt->Interrupt;
+    InterruptArray->Interrupt = SmmuInterrupt->Interrupt;
     InterruptArray->InterruptFlags = SmmuInterrupt->Flags;
     InterruptArray++;
     SmmuInterrupt++;
@@ -1282,7 +1106,6 @@ AddSmmuInterruptArray (
     @param [in]     This             Pointer to the table Generator.
     @param [in]     CfgMgrProtocol   Pointer to the Configuration Manager
                                      Protocol Interface.
-    @param [in]     AcpiTableInfo    Pointer to the ACPI table info structure.
     @param [in]     Iort             Pointer to IORT table structure.
     @param [in]     NodesStartOffset Offset for the start of the SMMU v1/v2
                                      Nodes.
@@ -1297,28 +1120,26 @@ AddSmmuInterruptArray (
 STATIC
 EFI_STATUS
 AddSmmuV1V2Nodes (
-  IN      CONST ACPI_TABLE_GENERATOR                  *CONST  This,
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO            *CONST  AcpiTableInfo,
-  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE               *Iort,
+  IN      CONST ACPI_TABLE_GENERATOR                  * CONST This,
+  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST CfgMgrProtocol,
+  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE       *       Iort,
   IN      CONST UINT32                                        NodesStartOffset,
-  IN      CONST CM_ARM_SMMUV1_SMMUV2_NODE                     *NodeList,
+  IN      CONST CM_ARM_SMMUV1_SMMUV2_NODE             *       NodeList,
   IN            UINT32                                        NodeCount
   )
 {
-  EFI_STATUS                           Status;
-  EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE  *SmmuNode;
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE   *IdMapArray;
+  EFI_STATUS                            Status;
+  EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE * SmmuNode;
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE  * IdMapArray;
 
-  EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT  *ContextInterruptArray;
-  EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT  *PmuInterruptArray;
-  UINT64                              NodeLength;
-  UINT32                              Offset;
+  EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT  * ContextInterruptArray;
+  EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT  * PmuInterruptArray;
+  UINT64                                NodeLength;
 
   ASSERT (Iort != NULL);
 
-  SmmuNode = (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE *)((UINT8 *)Iort +
-                                                     NodesStartOffset);
+  SmmuNode = (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE*)((UINT8*)Iort +
+              NodesStartOffset);
 
   while (NodeCount-- != 0) {
     NodeLength = GetSmmuV1V2NodeSize (NodeList);
@@ -1334,29 +1155,20 @@ AddSmmuV1V2Nodes (
     }
 
     // Populate the node header
-    SmmuNode->Node.Type          = EFI_ACPI_IORT_TYPE_SMMUv1v2;
-    SmmuNode->Node.Length        = (UINT16)NodeLength;
+    SmmuNode->Node.Type = EFI_ACPI_IORT_TYPE_SMMUv1v2;
+    SmmuNode->Node.Length = (UINT16)NodeLength;
+    SmmuNode->Node.Revision = 0;
+    SmmuNode->Node.Reserved = EFI_ACPI_RESERVED_DWORD;
     SmmuNode->Node.NumIdMappings = NodeList->IdMappingCount;
-    SmmuNode->Node.IdReference   = (NodeList->IdMappingCount == 0) ?
-                                   0 : (sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE) +
-                                        (NodeList->ContextInterruptCount *
-                                         sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT)) +
-                                        (NodeList->PmuInterruptCount *
-                                         sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT)));
-
-    if (AcpiTableInfo->AcpiTableRevision <
-        EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05)
-    {
-      SmmuNode->Node.Revision   = 1;
-      SmmuNode->Node.Identifier = EFI_ACPI_RESERVED_DWORD;
-    } else {
-      SmmuNode->Node.Revision   = 3;
-      SmmuNode->Node.Identifier = NodeList->Identifier;
-    }
+    SmmuNode->Node.IdReference = sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE) +
+      (NodeList->ContextInterruptCount *
+      sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT)) +
+      (NodeList->PmuInterruptCount *
+      sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT));
 
     // SMMU v1/v2 specific data
-    SmmuNode->Base  = NodeList->BaseAddress;
-    SmmuNode->Span  = NodeList->Span;
+    SmmuNode->Base = NodeList->BaseAddress;
+    SmmuNode->Span = NodeList->Span;
     SmmuNode->Model = NodeList->Model;
     SmmuNode->Flags = NodeList->Flags;
 
@@ -1364,74 +1176,47 @@ AddSmmuV1V2Nodes (
     SmmuNode->GlobalInterruptArrayRef =
       OFFSET_OF (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE, SMMU_NSgIrpt);
 
-    Offset = sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE);
     // Context Interrupt
     SmmuNode->NumContextInterrupts = NodeList->ContextInterruptCount;
-    if (NodeList->ContextInterruptCount != 0) {
-      SmmuNode->ContextInterruptArrayRef = Offset;
-      ContextInterruptArray              =
-        (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT *)((UINT8 *)SmmuNode + Offset);
-      Offset += (NodeList->ContextInterruptCount *
-                 sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT));
-    }
+    SmmuNode->ContextInterruptArrayRef =
+      sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE);
+    ContextInterruptArray =
+      (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT*)((UINT8*)SmmuNode +
+      sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE));
 
     // PMU Interrupt
     SmmuNode->NumPmuInterrupts = NodeList->PmuInterruptCount;
-    if (NodeList->PmuInterruptCount != 0) {
-      SmmuNode->PmuInterruptArrayRef = Offset;
-      PmuInterruptArray              =
-        (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT *)((UINT8 *)SmmuNode + Offset);
-    }
+    SmmuNode->PmuInterruptArrayRef = SmmuNode->ContextInterruptArrayRef +
+      (NodeList->ContextInterruptCount *
+      sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT));
+    PmuInterruptArray =
+      (EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT*)((UINT8*)SmmuNode +
+      SmmuNode->PmuInterruptArrayRef);
 
-    SmmuNode->SMMU_NSgIrpt         = NodeList->SMMU_NSgIrpt;
-    SmmuNode->SMMU_NSgIrptFlags    = NodeList->SMMU_NSgIrptFlags;
-    SmmuNode->SMMU_NSgCfgIrpt      = NodeList->SMMU_NSgCfgIrpt;
+    SmmuNode->SMMU_NSgIrpt = NodeList->SMMU_NSgIrpt;
+    SmmuNode->SMMU_NSgIrptFlags = NodeList->SMMU_NSgIrptFlags;
+    SmmuNode->SMMU_NSgCfgIrpt = NodeList->SMMU_NSgCfgIrpt;
     SmmuNode->SMMU_NSgCfgIrptFlags = NodeList->SMMU_NSgCfgIrptFlags;
 
-    if (NodeList->ContextInterruptCount != 0) {
-      if (NodeList->ContextInterruptToken == CM_NULL_TOKEN) {
-        Status = EFI_INVALID_PARAMETER;
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Invalid Context Interrupt token,"
-          " Token = 0x%x, Status =%r\n",
-          NodeList->ContextInterruptToken,
-          Status
-          ));
-        return Status;
-      }
-
-      // Add Context Interrupt Array
-      Status = AddSmmuInterruptArray (
-                 CfgMgrProtocol,
-                 ContextInterruptArray,
-                 SmmuNode->NumContextInterrupts,
-                 NodeList->ContextInterruptToken
-                 );
-      if (EFI_ERROR (Status)) {
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Failed to Context Interrupt Array. Status = %r\n",
-          Status
-          ));
-        return Status;
-      }
+    // Add Context Interrupt Array
+    Status = AddSmmuInterruptArray (
+               CfgMgrProtocol,
+               ContextInterruptArray,
+               SmmuNode->NumContextInterrupts,
+               NodeList->ContextInterruptToken
+               );
+    if (EFI_ERROR (Status)) {
+      DEBUG ((
+        DEBUG_ERROR,
+        "ERROR: IORT: Failed to Context Interrupt Array. Status = %r\n",
+        Status
+        ));
+      return Status;
     }
 
     // Add PMU Interrupt Array
-    if (SmmuNode->NumPmuInterrupts != 0) {
-      if (NodeList->PmuInterruptToken == CM_NULL_TOKEN) {
-        Status = EFI_INVALID_PARAMETER;
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Invalid PMU Interrupt token,"
-          " Token = 0x%x, Status =%r\n",
-          NodeList->PmuInterruptToken,
-          Status
-          ));
-        return Status;
-      }
-
+    if ((SmmuNode->NumPmuInterrupts > 0) &&
+        (NodeList->PmuInterruptToken != CM_NULL_TOKEN)) {
       Status = AddSmmuInterruptArray (
                  CfgMgrProtocol,
                  PmuInterruptArray,
@@ -1448,22 +1233,11 @@ AddSmmuV1V2Nodes (
       }
     }
 
-    if (NodeList->IdMappingCount > 0) {
-      if (NodeList->IdMappingToken == CM_NULL_TOKEN) {
-        Status = EFI_INVALID_PARAMETER;
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Invalid Id Mapping token,"
-          " Token = 0x%x, Status =%r\n",
-          NodeList->IdMappingToken,
-          Status
-          ));
-        return Status;
-      }
-
+    if ((NodeList->IdMappingCount > 0) &&
+        (NodeList->IdMappingToken != CM_NULL_TOKEN)) {
       // Ids for SMMU v1/v2 Node
-      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE *)((UINT8 *)SmmuNode +
-                                                          SmmuNode->Node.IdReference);
+      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE*)((UINT8*)SmmuNode +
+                    SmmuNode->Node.IdReference);
       Status = AddIdMappingArray (
                  This,
                  CfgMgrProtocol,
@@ -1480,10 +1254,9 @@ AddSmmuV1V2Nodes (
         return Status;
       }
     }
-
     // Next SMMU v1/v2 Node
-    SmmuNode = (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE *)((UINT8 *)SmmuNode +
-                                                       SmmuNode->Node.Length);
+    SmmuNode = (EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE*)((UINT8*)SmmuNode +
+                SmmuNode->Node.Length);
     NodeList++;
   } // SMMU v1/v2 Node
 
@@ -1497,7 +1270,6 @@ AddSmmuV1V2Nodes (
     @param [in]     This             Pointer to the table Generator.
     @param [in]     CfgMgrProtocol   Pointer to the Configuration Manager
                                      Protocol Interface.
-    @param [in]     AcpiTableInfo    Pointer to the ACPI table info structure.
     @param [in]     Iort             Pointer to IORT table structure.
     @param [in]     NodesStartOffset Offset for the start of the SMMUv3 Nodes.
     @param [in]     NodeList         Pointer to an array of SMMUv3 Node Objects.
@@ -1510,24 +1282,23 @@ AddSmmuV1V2Nodes (
 STATIC
 EFI_STATUS
 AddSmmuV3Nodes (
-  IN      CONST ACPI_TABLE_GENERATOR                  *CONST  This,
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO            *CONST  AcpiTableInfo,
-  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE               *Iort,
+  IN      CONST ACPI_TABLE_GENERATOR                  * CONST This,
+  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST CfgMgrProtocol,
+  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE       *       Iort,
   IN      CONST UINT32                                        NodesStartOffset,
-  IN      CONST CM_ARM_SMMUV3_NODE                            *NodeList,
+  IN      CONST CM_ARM_SMMUV3_NODE                    *       NodeList,
   IN            UINT32                                        NodeCount
   )
 {
-  EFI_STATUS                            Status;
-  EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE  *SmmuV3Node;
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE    *IdMapArray;
-  UINT64                                NodeLength;
+  EFI_STATUS                             Status;
+  EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE * SmmuV3Node;
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE   * IdMapArray;
+  UINT64                                 NodeLength;
 
   ASSERT (Iort != NULL);
 
-  SmmuV3Node = (EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE *)((UINT8 *)Iort +
-                                                        NodesStartOffset);
+  SmmuV3Node = (EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE*)((UINT8*)Iort +
+                NodesStartOffset);
 
   while (NodeCount-- != 0) {
     NodeLength = GetSmmuV3NodeSize (NodeList);
@@ -1543,32 +1314,24 @@ AddSmmuV3Nodes (
     }
 
     // Populate the node header
-    SmmuV3Node->Node.Type          = EFI_ACPI_IORT_TYPE_SMMUv3;
-    SmmuV3Node->Node.Length        = (UINT16)NodeLength;
+    SmmuV3Node->Node.Type = EFI_ACPI_IORT_TYPE_SMMUv3;
+    SmmuV3Node->Node.Length = (UINT16)NodeLength;
+    SmmuV3Node->Node.Revision = 2;
+    SmmuV3Node->Node.Reserved = EFI_ACPI_RESERVED_DWORD;
     SmmuV3Node->Node.NumIdMappings = NodeList->IdMappingCount;
-    SmmuV3Node->Node.IdReference   = (NodeList->IdMappingCount == 0) ?
-                                     0 : sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE);
-
-    if (AcpiTableInfo->AcpiTableRevision <
-        EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05)
-    {
-      SmmuV3Node->Node.Revision   = 2;
-      SmmuV3Node->Node.Identifier = EFI_ACPI_RESERVED_DWORD;
-    } else {
-      SmmuV3Node->Node.Revision   = 4;
-      SmmuV3Node->Node.Identifier = NodeList->Identifier;
-    }
+    SmmuV3Node->Node.IdReference =
+      sizeof (EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE);
 
     // SMMUv3 specific data
-    SmmuV3Node->Base         = NodeList->BaseAddress;
-    SmmuV3Node->Flags        = NodeList->Flags;
-    SmmuV3Node->Reserved     = EFI_ACPI_RESERVED_WORD;
+    SmmuV3Node->Base = NodeList->BaseAddress;
+    SmmuV3Node->Flags = NodeList->Flags;
+    SmmuV3Node->Reserved = EFI_ACPI_RESERVED_WORD;
     SmmuV3Node->VatosAddress = NodeList->VatosAddress;
-    SmmuV3Node->Model        = NodeList->Model;
-    SmmuV3Node->Event        = NodeList->EventInterrupt;
-    SmmuV3Node->Pri          = NodeList->PriInterrupt;
-    SmmuV3Node->Gerr         = NodeList->GerrInterrupt;
-    SmmuV3Node->Sync         = NodeList->SyncInterrupt;
+    SmmuV3Node->Model = NodeList->Model;
+    SmmuV3Node->Event = NodeList->EventInterrupt;
+    SmmuV3Node->Pri = NodeList->PriInterrupt;
+    SmmuV3Node->Gerr = NodeList->GerrInterrupt;
+    SmmuV3Node->Sync = NodeList->SyncInterrupt;
 
     if ((SmmuV3Node->Flags & EFI_ACPI_IORT_SMMUv3_FLAG_PROXIMITY_DOMAIN) != 0) {
       // The Proximity Domain Valid flag is set to 1
@@ -1578,8 +1341,7 @@ AddSmmuV3Nodes (
     }
 
     if ((SmmuV3Node->Event != 0) && (SmmuV3Node->Pri != 0) &&
-        (SmmuV3Node->Gerr != 0) && (SmmuV3Node->Sync != 0))
-    {
+        (SmmuV3Node->Gerr != 0) && (SmmuV3Node->Sync != 0)) {
       // If all the SMMU control interrupts are GSIV based,
       // the DeviceID mapping index field is ignored.
       SmmuV3Node->DeviceIdMappingIndex = 0;
@@ -1587,22 +1349,11 @@ AddSmmuV3Nodes (
       SmmuV3Node->DeviceIdMappingIndex = NodeList->DeviceIdMappingIndex;
     }
 
-    if (NodeList->IdMappingCount > 0) {
-      if (NodeList->IdMappingToken == CM_NULL_TOKEN) {
-        Status = EFI_INVALID_PARAMETER;
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Invalid Id Mapping token,"
-          " Token = 0x%x, Status =%r\n",
-          NodeList->IdMappingToken,
-          Status
-          ));
-        return Status;
-      }
-
+    if ((NodeList->IdMappingCount > 0) &&
+        (NodeList->IdMappingToken != CM_NULL_TOKEN)) {
       // Ids for SMMUv3 node
-      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE *)((UINT8 *)SmmuV3Node +
-                                                          SmmuV3Node->Node.IdReference);
+      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE*)((UINT8*)SmmuV3Node +
+                    SmmuV3Node->Node.IdReference);
       Status = AddIdMappingArray (
                  This,
                  CfgMgrProtocol,
@@ -1621,8 +1372,8 @@ AddSmmuV3Nodes (
     }
 
     // Next SMMUv3 Node
-    SmmuV3Node = (EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE *)((UINT8 *)SmmuV3Node +
-                                                          SmmuV3Node->Node.Length);
+    SmmuV3Node = (EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE*)((UINT8*)SmmuV3Node +
+                  SmmuV3Node->Node.Length);
     NodeList++;
   } // SMMUv3 Node
 
@@ -1636,7 +1387,6 @@ AddSmmuV3Nodes (
     @param [in]     This             Pointer to the table Generator.
     @param [in]     CfgMgrProtocol   Pointer to the Configuration Manager
                                      Protocol Interface.
-    @param [in]     AcpiTableInfo    Pointer to the ACPI table info structure.
     @param [in]     Iort             Pointer to IORT table structure.
     @param [in]     NodesStartOffset Offset for the start of the PMCG Nodes.
     @param [in]     NodeList         Pointer to an array of PMCG Node Objects.
@@ -1649,26 +1399,25 @@ AddSmmuV3Nodes (
 STATIC
 EFI_STATUS
 AddPmcgNodes (
-  IN      CONST ACPI_TABLE_GENERATOR                  *CONST  This,
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO            *CONST  AcpiTableInfo,
-  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE               *Iort,
+  IN      CONST ACPI_TABLE_GENERATOR                  * CONST This,
+  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST CfgMgrProtocol,
+  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE       *       Iort,
   IN      CONST UINT32                                        NodesStartOffset,
-  IN      CONST CM_ARM_PMCG_NODE                              *NodeList,
+  IN      CONST CM_ARM_PMCG_NODE                      *       NodeList,
   IN            UINT32                                        NodeCount
   )
 {
-  EFI_STATUS                           Status;
-  EFI_ACPI_6_0_IO_REMAPPING_PMCG_NODE  *PmcgNode;
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE   *IdMapArray;
-  ACPI_IORT_GENERATOR                  *Generator;
-  UINT64                               NodeLength;
+  EFI_STATUS                             Status;
+  EFI_ACPI_6_0_IO_REMAPPING_PMCG_NODE  * PmcgNode;
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE   * IdMapArray;
+  ACPI_IORT_GENERATOR                  * Generator;
+  UINT64                                 NodeLength;
 
   ASSERT (Iort != NULL);
 
-  Generator = (ACPI_IORT_GENERATOR *)This;
-  PmcgNode  = (EFI_ACPI_6_0_IO_REMAPPING_PMCG_NODE *)((UINT8 *)Iort +
-                                                      NodesStartOffset);
+  Generator = (ACPI_IORT_GENERATOR*)This;
+  PmcgNode = (EFI_ACPI_6_0_IO_REMAPPING_PMCG_NODE*)((UINT8*)Iort +
+              NodesStartOffset);
 
   while (NodeCount-- != 0) {
     NodeLength = GetPmcgNodeSize (NodeList);
@@ -1684,33 +1433,24 @@ AddPmcgNodes (
     }
 
     // Populate the node header
-    PmcgNode->Node.Type          = EFI_ACPI_IORT_TYPE_PMCG;
-    PmcgNode->Node.Length        = (UINT16)NodeLength;
+    PmcgNode->Node.Type = EFI_ACPI_IORT_TYPE_PMCG;
+    PmcgNode->Node.Length = (UINT16)NodeLength;
+    PmcgNode->Node.Revision = 1;
+    PmcgNode->Node.Reserved = EFI_ACPI_RESERVED_DWORD;
     PmcgNode->Node.NumIdMappings = NodeList->IdMappingCount;
-    PmcgNode->Node.IdReference   = (NodeList->IdMappingCount == 0) ?
-                                   0 : sizeof (EFI_ACPI_6_0_IO_REMAPPING_PMCG_NODE);
-
-    if (AcpiTableInfo->AcpiTableRevision <
-        EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05)
-    {
-      PmcgNode->Node.Revision   = 1;
-      PmcgNode->Node.Identifier = EFI_ACPI_RESERVED_DWORD;
-    } else {
-      PmcgNode->Node.Revision   = 2;
-      PmcgNode->Node.Identifier = NodeList->Identifier;
-    }
+    PmcgNode->Node.IdReference = sizeof (EFI_ACPI_6_0_IO_REMAPPING_PMCG_NODE);
 
     // PMCG specific data
-    PmcgNode->Base                  = NodeList->BaseAddress;
+    PmcgNode->Base = NodeList->BaseAddress;
     PmcgNode->OverflowInterruptGsiv = NodeList->OverflowInterrupt;
-    PmcgNode->Page1Base             = NodeList->Page1BaseAddress;
+    PmcgNode->Page1Base = NodeList->Page1BaseAddress;
 
     Status = GetNodeOffsetReferencedByToken (
-               Generator->NodeIndexer,
-               Generator->IortNodeCount,
-               NodeList->ReferenceToken,
-               &PmcgNode->NodeReference
-               );
+              Generator->NodeIndexer,
+              Generator->IortNodeCount,
+              NodeList->ReferenceToken,
+              &PmcgNode->NodeReference
+              );
     if (EFI_ERROR (Status)) {
       DEBUG ((
         DEBUG_ERROR,
@@ -1723,30 +1463,19 @@ AddPmcgNodes (
       return Status;
     }
 
-    if (NodeList->IdMappingCount > 0) {
-      if (NodeList->IdMappingToken == CM_NULL_TOKEN) {
-        Status = EFI_INVALID_PARAMETER;
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Invalid Id Mapping token,"
-          " Token = 0x%x, Status =%r\n",
-          NodeList->IdMappingToken,
-          Status
-          ));
-        return Status;
-      }
-
+    if ((NodeList->IdMappingCount > 0) &&
+        (NodeList->IdMappingToken != CM_NULL_TOKEN)) {
       // Ids for PMCG node
-      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE *)((UINT8 *)PmcgNode +
-                                                          PmcgNode->Node.IdReference);
+      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE*)((UINT8*)PmcgNode +
+                    PmcgNode->Node.IdReference);
 
       Status = AddIdMappingArray (
-                 This,
-                 CfgMgrProtocol,
-                 IdMapArray,
-                 NodeList->IdMappingCount,
-                 NodeList->IdMappingToken
-                 );
+                This,
+                CfgMgrProtocol,
+                IdMapArray,
+                NodeList->IdMappingCount,
+                NodeList->IdMappingToken
+                );
       if (EFI_ERROR (Status)) {
         DEBUG ((
           DEBUG_ERROR,
@@ -1758,278 +1487,10 @@ AddPmcgNodes (
     }
 
     // Next PMCG Node
-    PmcgNode = (EFI_ACPI_6_0_IO_REMAPPING_PMCG_NODE *)((UINT8 *)PmcgNode +
-                                                       PmcgNode->Node.Length);
+    PmcgNode = (EFI_ACPI_6_0_IO_REMAPPING_PMCG_NODE*)((UINT8*)PmcgNode +
+                PmcgNode->Node.Length);
     NodeList++;
   } // PMCG Node
-
-  return EFI_SUCCESS;
-}
-
-/** Update the Memory Range Descriptor Array.
-
-    This function retrieves the Memory Range Descriptor objects referenced by
-    MemRangeDescToken and updates the Memory Range Descriptor array.
-
-    @param [in]     This             Pointer to the table Generator.
-    @param [in]     CfgMgrProtocol   Pointer to the Configuration Manager
-                                     Protocol Interface.
-    @param [in]     DescArray        Pointer to an array of Memory Range
-                                     Descriptors.
-    @param [in]     DescCount        Number of Id Descriptors.
-    @param [in]     DescToken        Reference Token for retrieving the
-                                     Memory Range Descriptor Array.
-
-    @retval EFI_SUCCESS           Table generated successfully.
-    @retval EFI_INVALID_PARAMETER A parameter is invalid.
-    @retval EFI_NOT_FOUND         The required object was not found.
-**/
-STATIC
-EFI_STATUS
-AddMemRangeDescArray (
-  IN  CONST ACPI_TABLE_GENERATOR                      *CONST  This,
-  IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL      *CONST  CfgMgrProtocol,
-  IN        EFI_ACPI_6_0_IO_REMAPPING_MEM_RANGE_DESC          *DescArray,
-  IN        UINT32                                            DescCount,
-  IN  CONST CM_OBJECT_TOKEN                                   DescToken
-  )
-{
-  EFI_STATUS                      Status;
-  CM_ARM_MEMORY_RANGE_DESCRIPTOR  *MemRangeDesc;
-  UINT32                          MemRangeDescCount;
-
-  ASSERT (DescArray != NULL);
-
-  // Get the Id Mapping Array
-  Status = GetEArmObjMemoryRangeDescriptor (
-             CfgMgrProtocol,
-             DescToken,
-             &MemRangeDesc,
-             &MemRangeDescCount
-             );
-  if (EFI_ERROR (Status)) {
-    DEBUG ((
-      DEBUG_ERROR,
-      "ERROR: IORT: Failed to get Memory Range Descriptor array. Status = %r\n",
-      Status
-      ));
-    return Status;
-  }
-
-  if (MemRangeDescCount < DescCount) {
-    DEBUG ((
-      DEBUG_ERROR,
-      "ERROR: IORT: Failed to get the required number of Memory"
-      " Range Descriptors.\n"
-      ));
-    return EFI_NOT_FOUND;
-  }
-
-  // Populate the Memory Range Descriptor array
-  while (DescCount-- != 0) {
-    DescArray->Base     = MemRangeDesc->BaseAddress;
-    DescArray->Length   = MemRangeDesc->Length;
-    DescArray->Reserved = EFI_ACPI_RESERVED_DWORD;
-
-    DescArray++;
-    MemRangeDesc++;
-  }
-
-  return EFI_SUCCESS;
-}
-
-/** Update the RMR Node Information.
-
-    This function updates the RMR node information in the IORT table.
-
-    @param [in]     This             Pointer to the table Generator.
-    @param [in]     CfgMgrProtocol   Pointer to the Configuration Manager
-                                     Protocol Interface.
-    @param [in]     AcpiTableInfo    Pointer to the ACPI table info structure.
-    @param [in]     Iort             Pointer to IORT table structure.
-    @param [in]     NodesStartOffset Offset for the start of the PMCG Nodes.
-    @param [in]     NodeList         Pointer to an array of PMCG Node Objects.
-    @param [in]     NodeCount        Number of PMCG Node Objects.
-
-    @retval EFI_SUCCESS           Table generated successfully.
-    @retval EFI_INVALID_PARAMETER A parameter is invalid.
-    @retval EFI_NOT_FOUND         The required object was not found.
-**/
-STATIC
-EFI_STATUS
-AddRmrNodes (
-  IN      CONST ACPI_TABLE_GENERATOR                  *CONST  This,
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO            *CONST  AcpiTableInfo,
-  IN      CONST EFI_ACPI_6_0_IO_REMAPPING_TABLE               *Iort,
-  IN      CONST UINT32                                        NodesStartOffset,
-  IN      CONST CM_ARM_RMR_NODE                               *NodeList,
-  IN            UINT32                                        NodeCount
-  )
-{
-  EFI_STATUS                                Status;
-  EFI_ACPI_6_0_IO_REMAPPING_RMR_NODE        *RmrNode;
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE        *IdMapArray;
-  EFI_ACPI_6_0_IO_REMAPPING_MEM_RANGE_DESC  *MemRangeDescArray;
-  UINT64                                    NodeLength;
-
-  ASSERT (Iort != NULL);
-
-  RmrNode = (EFI_ACPI_6_0_IO_REMAPPING_RMR_NODE *)((UINT8 *)Iort +
-                                                   NodesStartOffset);
-
-  while (NodeCount-- != 0) {
-    NodeLength = GetRmrNodeSize (NodeList);
-    if (NodeLength > MAX_UINT16) {
-      Status = EFI_INVALID_PARAMETER;
-      DEBUG ((
-        DEBUG_ERROR,
-        "ERROR: IORT: RMR Node length 0x%lx > MAX_UINT16. Status = %r\n",
-        NodeLength,
-        Status
-        ));
-      return Status;
-    }
-
-    if (NodeList->MemRangeDescCount == 0) {
-      Status = EFI_INVALID_PARAMETER;
-      DEBUG ((
-        DEBUG_ERROR,
-        "ERROR: IORT: Memory Range Desc count = %d. Status = %r\n",
-        NodeList->MemRangeDescCount,
-        Status
-        ));
-      return Status;
-    }
-
-    if (NodeList->MemRangeDescToken == CM_NULL_TOKEN) {
-      Status = EFI_INVALID_PARAMETER;
-      DEBUG ((
-        DEBUG_ERROR,
-        "ERROR: IORT: Invalid Memory Range Descriptor token,"
-        " Token = 0x%x. Status = %r\n",
-        NodeList->MemRangeDescToken,
-        Status
-        ));
-      return Status;
-    }
-
-    // Populate the node header
-    RmrNode->Node.Type          = EFI_ACPI_IORT_TYPE_RMR;
-    RmrNode->Node.Length        = (UINT16)NodeLength;
-    RmrNode->Node.Revision      = 3;
-    RmrNode->Node.Identifier    = NodeList->Identifier;
-    RmrNode->Node.NumIdMappings = NodeList->IdMappingCount;
-    RmrNode->Node.IdReference   = (NodeList->IdMappingCount == 0) ?
-                                  0 : sizeof (EFI_ACPI_6_0_IO_REMAPPING_RMR_NODE);
-
-    // RMR specific data
-    RmrNode->Flags           = NodeList->Flags;
-    RmrNode->NumMemRangeDesc = NodeList->MemRangeDescCount;
-    RmrNode->MemRangeDescRef = (NodeList->MemRangeDescCount == 0) ?
-                               0 : (sizeof (EFI_ACPI_6_0_IO_REMAPPING_RMR_NODE) +
-                                    (NodeList->IdMappingCount *
-                                     sizeof (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)));
-
-    if (NodeList->IdMappingCount > 0) {
-      if (NodeList->IdMappingToken == CM_NULL_TOKEN) {
-        Status = EFI_INVALID_PARAMETER;
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Invalid Id Mapping token,"
-          " Token = 0x%x, Status =%r\n",
-          NodeList->IdMappingToken,
-          Status
-          ));
-        return Status;
-      }
-
-      // Ids for RMR node
-      IdMapArray = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE *)((UINT8 *)RmrNode +
-                                                          RmrNode->Node.IdReference);
-
-      Status = AddIdMappingArray (
-                 This,
-                 CfgMgrProtocol,
-                 IdMapArray,
-                 NodeList->IdMappingCount,
-                 NodeList->IdMappingToken
-                 );
-      if (EFI_ERROR (Status)) {
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: Failed to add Id Mapping Array. Status = %r\n",
-          Status
-          ));
-        return Status;
-      }
-    }
-
-    // Memory Range Descriptors for RMR node
-    MemRangeDescArray = (EFI_ACPI_6_0_IO_REMAPPING_MEM_RANGE_DESC *)(
-                                                                     (UINT8 *)RmrNode +
-                                                                     RmrNode->MemRangeDescRef
-                                                                     );
-
-    Status = AddMemRangeDescArray (
-               This,
-               CfgMgrProtocol,
-               MemRangeDescArray,
-               NodeList->MemRangeDescCount,
-               NodeList->MemRangeDescToken
-               );
-    if (EFI_ERROR (Status)) {
-      DEBUG ((
-        DEBUG_ERROR,
-        "ERROR: IORT: Failed to Memory Range Descriptor Array. Status = %r\n",
-        Status
-        ));
-      return Status;
-    }
-
-    // Next RMR Node
-    RmrNode = (EFI_ACPI_6_0_IO_REMAPPING_RMR_NODE *)((UINT8 *)RmrNode +
-                                                     RmrNode->Node.Length);
-    NodeList++;
-  } // RMR Node
-
-  return EFI_SUCCESS;
-}
-
-/** Validates that the IORT nodes Identifier are unique.
-
-    @param [in]     NodeIndexer      Pointer to the Node Indexer.
-    @param [in]     NodeCount        Number of IORT Nodes.
-
-    @retval EFI_SUCCESS             Success.
-    @retval EFI_INVALID_PARAMETER   Identifier field not unique.
-**/
-STATIC
-EFI_STATUS
-ValidateNodeIdentifiers (
-  IN      CONST IORT_NODE_INDEXER                  *CONST  NodeIndexer,
-  IN            UINT32                                     NodeCount
-  )
-{
-  UINT32  IndexI;
-  UINT32  IndexJ;
-
-  for (IndexI = 0; IndexI < NodeCount; IndexI++) {
-    for (IndexJ = 0; IndexJ < NodeCount; IndexJ++) {
-      if ((IndexI != IndexJ) &&
-          (NodeIndexer[IndexI].Identifier == NodeIndexer[IndexJ].Identifier))
-      {
-        DEBUG ((
-          DEBUG_ERROR,
-          "ERROR: IORT: UID %d of Token %p matches with that of Token %p.\n",
-          NodeIndexer[IndexI].Identifier,
-          NodeIndexer[IndexI].Token,
-          NodeIndexer[IndexJ].Token
-          ));
-        return EFI_INVALID_PARAMETER;
-      }
-    }// IndexJ
-  } // IndexI
 
   return EFI_SUCCESS;
 }
@@ -2060,45 +1521,42 @@ STATIC
 EFI_STATUS
 EFIAPI
 BuildIortTable (
-  IN  CONST ACPI_TABLE_GENERATOR                  *CONST  This,
-  IN  CONST CM_STD_OBJ_ACPI_TABLE_INFO            *CONST  AcpiTableInfo,
-  IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  OUT       EFI_ACPI_DESCRIPTION_HEADER          **CONST  Table
+  IN  CONST ACPI_TABLE_GENERATOR                  * CONST This,
+  IN  CONST CM_STD_OBJ_ACPI_TABLE_INFO            * CONST AcpiTableInfo,
+  IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST CfgMgrProtocol,
+  OUT       EFI_ACPI_DESCRIPTION_HEADER          ** CONST Table
   )
 {
-  EFI_STATUS  Status;
+  EFI_STATUS                             Status;
 
-  UINT64  TableSize;
-  UINT64  NodeSize;
+  UINT64                                 TableSize;
+  UINT64                                 NodeSize;
 
-  UINT32  IortNodeCount;
-  UINT32  ItsGroupNodeCount;
-  UINT32  NamedComponentNodeCount;
-  UINT32  RootComplexNodeCount;
-  UINT32  SmmuV1V2NodeCount;
-  UINT32  SmmuV3NodeCount;
-  UINT32  PmcgNodeCount;
-  UINT32  RmrNodeCount;
+  UINT32                                 IortNodeCount;
+  UINT32                                 ItsGroupNodeCount;
+  UINT32                                 NamedComponentNodeCount;
+  UINT32                                 RootComplexNodeCount;
+  UINT32                                 SmmuV1V2NodeCount;
+  UINT32                                 SmmuV3NodeCount;
+  UINT32                                 PmcgNodeCount;
 
-  UINT32  ItsGroupOffset;
-  UINT32  NamedComponentOffset;
-  UINT32  RootComplexOffset;
-  UINT32  SmmuV1V2Offset;
-  UINT32  SmmuV3Offset;
-  UINT32  PmcgOffset;
-  UINT32  RmrOffset;
+  UINT32                                 ItsGroupOffset;
+  UINT32                                 NamedComponentOffset;
+  UINT32                                 RootComplexOffset;
+  UINT32                                 SmmuV1V2Offset;
+  UINT32                                 SmmuV3Offset;
+  UINT32                                 PmcgOffset;
 
-  CM_ARM_ITS_GROUP_NODE        *ItsGroupNodeList;
-  CM_ARM_NAMED_COMPONENT_NODE  *NamedComponentNodeList;
-  CM_ARM_ROOT_COMPLEX_NODE     *RootComplexNodeList;
-  CM_ARM_SMMUV1_SMMUV2_NODE    *SmmuV1V2NodeList;
-  CM_ARM_SMMUV3_NODE           *SmmuV3NodeList;
-  CM_ARM_PMCG_NODE             *PmcgNodeList;
-  CM_ARM_RMR_NODE              *RmrNodeList;
+  CM_ARM_ITS_GROUP_NODE                * ItsGroupNodeList;
+  CM_ARM_NAMED_COMPONENT_NODE          * NamedComponentNodeList;
+  CM_ARM_ROOT_COMPLEX_NODE             * RootComplexNodeList;
+  CM_ARM_SMMUV1_SMMUV2_NODE            * SmmuV1V2NodeList;
+  CM_ARM_SMMUV3_NODE                   * SmmuV3NodeList;
+  CM_ARM_PMCG_NODE                     * PmcgNodeList;
 
-  EFI_ACPI_6_0_IO_REMAPPING_TABLE  *Iort;
-  IORT_NODE_INDEXER                *NodeIndexer;
-  ACPI_IORT_GENERATOR              *Generator;
+  EFI_ACPI_6_0_IO_REMAPPING_TABLE      * Iort;
+  IORT_NODE_INDEXER                    * NodeIndexer;
+  ACPI_IORT_GENERATOR                  * Generator;
 
   ASSERT (This != NULL);
   ASSERT (AcpiTableInfo != NULL);
@@ -2107,11 +1565,8 @@ BuildIortTable (
   ASSERT (AcpiTableInfo->TableGeneratorId == This->GeneratorID);
   ASSERT (AcpiTableInfo->AcpiTableSignature == This->AcpiTableSignature);
 
-  RmrNodeCount = 0;
-
   if ((AcpiTableInfo->AcpiTableRevision < This->MinAcpiTableRevision) ||
-      (AcpiTableInfo->AcpiTableRevision > This->AcpiTableRevision))
-  {
+      (AcpiTableInfo->AcpiTableRevision > This->AcpiTableRevision)) {
     DEBUG ((
       DEBUG_ERROR,
       "ERROR: IORT: Requested table revision = %d, is not supported."
@@ -2123,18 +1578,8 @@ BuildIortTable (
     return EFI_INVALID_PARAMETER;
   }
 
-  if ((AcpiTableInfo->AcpiTableRevision > EFI_ACPI_IO_REMAPPING_TABLE_REVISION_00) &&
-      (AcpiTableInfo->AcpiTableRevision < EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05))
-  {
-    DEBUG ((
-      DEBUG_ERROR,
-      "ERROR: IORT: Revisions E (1), E.a(2),b(3),c(4) are not supported.\n"
-      ));
-    return EFI_INVALID_PARAMETER;
-  }
-
-  Generator = (ACPI_IORT_GENERATOR *)This;
-  *Table    = NULL;
+  Generator = (ACPI_IORT_GENERATOR*)This;
+  *Table = NULL;
 
   // Get the ITS group node info
   Status = GetEArmObjItsGroup (
@@ -2250,34 +1695,11 @@ BuildIortTable (
   // Add the PMCG node count
   IortNodeCount += PmcgNodeCount;
 
-  if (AcpiTableInfo->AcpiTableRevision >=
-      EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05)
-  {
-    // Get the RMR node info
-    Status = GetEArmObjRmr (
-               CfgMgrProtocol,
-               CM_NULL_TOKEN,
-               &RmrNodeList,
-               &RmrNodeCount
-               );
-    if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
-      DEBUG ((
-        DEBUG_ERROR,
-        "ERROR: IORT: Failed to get RMR Node Info. Status = %r\n",
-        Status
-        ));
-      goto error_handler;
-    }
-
-    // Add the RMR node count
-    IortNodeCount += RmrNodeCount;
-  }
-
   // Allocate Node Indexer array
-  NodeIndexer = (IORT_NODE_INDEXER *)AllocateZeroPool (
-                                       (sizeof (IORT_NODE_INDEXER) *
-                                        IortNodeCount)
-                                       );
+  NodeIndexer = (IORT_NODE_INDEXER*)AllocateZeroPool (
+                                      (sizeof (IORT_NODE_INDEXER) *
+                                       IortNodeCount)
+                                      );
   if (NodeIndexer == NULL) {
     Status = EFI_OUT_OF_RESOURCES;
     DEBUG ((
@@ -2291,7 +1713,7 @@ BuildIortTable (
 
   DEBUG ((DEBUG_INFO, "INFO: NodeIndexer = %p\n", NodeIndexer));
   Generator->IortNodeCount = IortNodeCount;
-  Generator->NodeIndexer   = NodeIndexer;
+  Generator->NodeIndexer = NodeIndexer;
 
   // Calculate the size of the IORT table
   TableSize = sizeof (EFI_ACPI_6_0_IO_REMAPPING_TABLE);
@@ -2315,7 +1737,6 @@ BuildIortTable (
         ));
       goto error_handler;
     }
-
     TableSize += NodeSize;
 
     DEBUG ((
@@ -2346,7 +1767,6 @@ BuildIortTable (
         ));
       goto error_handler;
     }
-
     TableSize += NodeSize;
 
     DEBUG ((
@@ -2377,7 +1797,6 @@ BuildIortTable (
         ));
       goto error_handler;
     }
-
     TableSize += NodeSize;
 
     DEBUG ((
@@ -2408,7 +1827,6 @@ BuildIortTable (
         ));
       goto error_handler;
     }
-
     TableSize += NodeSize;
 
     DEBUG ((
@@ -2439,7 +1857,6 @@ BuildIortTable (
         ));
       goto error_handler;
     }
-
     TableSize += NodeSize;
 
     DEBUG ((
@@ -2470,7 +1887,6 @@ BuildIortTable (
         ));
       goto error_handler;
     }
-
     TableSize += NodeSize;
 
     DEBUG ((
@@ -2479,40 +1895,6 @@ BuildIortTable (
       " PmcgOffset = %d\n",
       PmcgNodeCount,
       PmcgOffset
-      ));
-  }
-
-  // RMR Nodes
-  if ((AcpiTableInfo->AcpiTableRevision >=
-       EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05) &&
-      (RmrNodeCount > 0))
-  {
-    RmrOffset = (UINT32)TableSize;
-    // Size of RMR node list.
-    NodeSize = GetSizeofRmrNodes (
-                 RmrOffset,
-                 RmrNodeList,
-                 RmrNodeCount,
-                 &NodeIndexer
-                 );
-    if (NodeSize > MAX_UINT32) {
-      Status = EFI_INVALID_PARAMETER;
-      DEBUG ((
-        DEBUG_ERROR,
-        "ERROR: IORT: Invalid Size of RMR Nodes. Status = %r\n",
-        Status
-        ));
-      goto error_handler;
-    }
-
-    TableSize += NodeSize;
-
-    DEBUG ((
-      DEBUG_INFO,
-      " RmrNodeCount = %d\n" \
-      " RmrOffset = %d\n",
-      RmrNodeCount,
-      RmrOffset
       ));
   }
 
@@ -2537,23 +1919,8 @@ BuildIortTable (
     goto error_handler;
   }
 
-  // Validate that the identifiers for the nodes are unique
-  if (AcpiTableInfo->AcpiTableRevision >=
-      EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05)
-  {
-    Status = ValidateNodeIdentifiers (Generator->NodeIndexer, IortNodeCount);
-    if (EFI_ERROR (Status)) {
-      DEBUG ((
-        DEBUG_ERROR,
-        "ERROR: IORT: Node Identifier not unique. Status = %r\n",
-        Status
-        ));
-      goto error_handler;
-    }
-  }
-
   // Allocate the Buffer for IORT table
-  *Table = (EFI_ACPI_DESCRIPTION_HEADER *)AllocateZeroPool (TableSize);
+  *Table = (EFI_ACPI_DESCRIPTION_HEADER*)AllocateZeroPool (TableSize);
   if (*Table == NULL) {
     Status = EFI_OUT_OF_RESOURCES;
     DEBUG ((
@@ -2566,7 +1933,7 @@ BuildIortTable (
     goto error_handler;
   }
 
-  Iort = (EFI_ACPI_6_0_IO_REMAPPING_TABLE *)*Table;
+  Iort = (EFI_ACPI_6_0_IO_REMAPPING_TABLE*)*Table;
 
   DEBUG ((
     DEBUG_INFO,
@@ -2592,15 +1959,14 @@ BuildIortTable (
   }
 
   // Update IORT table
-  Iort->NumNodes   = IortNodeCount;
+  Iort->NumNodes = IortNodeCount;
   Iort->NodeOffset = sizeof (EFI_ACPI_6_0_IO_REMAPPING_TABLE);
-  Iort->Reserved   = EFI_ACPI_RESERVED_DWORD;
+  Iort->Reserved = EFI_ACPI_RESERVED_DWORD;
 
   if (ItsGroupNodeCount > 0) {
     Status = AddItsGroupNodes (
                This,
                CfgMgrProtocol,
-               AcpiTableInfo,
                Iort,
                ItsGroupOffset,
                ItsGroupNodeList,
@@ -2620,7 +1986,6 @@ BuildIortTable (
     Status = AddNamedComponentNodes (
                This,
                CfgMgrProtocol,
-               AcpiTableInfo,
                Iort,
                NamedComponentOffset,
                NamedComponentNodeList,
@@ -2640,7 +2005,6 @@ BuildIortTable (
     Status = AddRootComplexNodes (
                This,
                CfgMgrProtocol,
-               AcpiTableInfo,
                Iort,
                RootComplexOffset,
                RootComplexNodeList,
@@ -2660,7 +2024,6 @@ BuildIortTable (
     Status = AddSmmuV1V2Nodes (
                This,
                CfgMgrProtocol,
-               AcpiTableInfo,
                Iort,
                SmmuV1V2Offset,
                SmmuV1V2NodeList,
@@ -2680,7 +2043,6 @@ BuildIortTable (
     Status = AddSmmuV3Nodes (
                This,
                CfgMgrProtocol,
-               AcpiTableInfo,
                Iort,
                SmmuV3Offset,
                SmmuV3NodeList,
@@ -2700,7 +2062,6 @@ BuildIortTable (
     Status = AddPmcgNodes (
                This,
                CfgMgrProtocol,
-               AcpiTableInfo,
                Iort,
                PmcgOffset,
                PmcgNodeList,
@@ -2709,30 +2070,7 @@ BuildIortTable (
     if (EFI_ERROR (Status)) {
       DEBUG ((
         DEBUG_ERROR,
-        "ERROR: IORT: Failed to add PMCG Node. Status = %r\n",
-        Status
-        ));
-      goto error_handler;
-    }
-  }
-
-  if ((AcpiTableInfo->AcpiTableRevision >=
-       EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05) &&
-      (RmrNodeCount > 0))
-  {
-    Status = AddRmrNodes (
-               This,
-               CfgMgrProtocol,
-               AcpiTableInfo,
-               Iort,
-               RmrOffset,
-               RmrNodeList,
-               RmrNodeCount
-               );
-    if (EFI_ERROR (Status)) {
-      DEBUG ((
-        DEBUG_ERROR,
-        "ERROR: IORT: Failed to add RMR Node. Status = %r\n",
+        "ERROR: IORT: Failed to add SMMUv3 Node. Status = %r\n",
         Status
         ));
       goto error_handler;
@@ -2751,7 +2089,6 @@ error_handler:
     FreePool (*Table);
     *Table = NULL;
   }
-
   return Status;
 }
 
@@ -2769,21 +2106,20 @@ error_handler:
 STATIC
 EFI_STATUS
 FreeIortTableResources (
-  IN      CONST ACPI_TABLE_GENERATOR                  *CONST  This,
-  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO            *CONST  AcpiTableInfo,
-  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  *CONST  CfgMgrProtocol,
-  IN OUT        EFI_ACPI_DESCRIPTION_HEADER          **CONST  Table
+  IN      CONST ACPI_TABLE_GENERATOR                  * CONST This,
+  IN      CONST CM_STD_OBJ_ACPI_TABLE_INFO            * CONST AcpiTableInfo,
+  IN      CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST CfgMgrProtocol,
+  IN OUT        EFI_ACPI_DESCRIPTION_HEADER          ** CONST Table
   )
 {
-  ACPI_IORT_GENERATOR  *Generator;
-
+  ACPI_IORT_GENERATOR   * Generator;
   ASSERT (This != NULL);
   ASSERT (AcpiTableInfo != NULL);
   ASSERT (CfgMgrProtocol != NULL);
   ASSERT (AcpiTableInfo->TableGeneratorId == This->GeneratorID);
   ASSERT (AcpiTableInfo->AcpiTableSignature == This->AcpiTableSignature);
 
-  Generator = (ACPI_IORT_GENERATOR *)This;
+  Generator = (ACPI_IORT_GENERATOR*)This;
 
   // Free any memory allocated by the generator
   if (Generator->NodeIndexer != NULL) {
@@ -2804,12 +2140,12 @@ FreeIortTableResources (
 
 /** The IORT Table Generator revision.
 */
-#define IORT_GENERATOR_REVISION  CREATE_REVISION (1, 0)
+#define IORT_GENERATOR_REVISION CREATE_REVISION (1, 0)
 
 /** The interface for the MADT Table Generator.
 */
 STATIC
-ACPI_IORT_GENERATOR  IortGenerator = {
+ACPI_IORT_GENERATOR IortGenerator = {
   // ACPI table generator header
   {
     // Generator ID
@@ -2817,11 +2153,11 @@ ACPI_IORT_GENERATOR  IortGenerator = {
     // Generator Description
     L"ACPI.STD.IORT.GENERATOR",
     // ACPI Table Signature
-    EFI_ACPI_6_4_IO_REMAPPING_TABLE_SIGNATURE,
+    EFI_ACPI_6_2_IO_REMAPPING_TABLE_SIGNATURE,
     // ACPI Table Revision supported by this Generator
-    EFI_ACPI_IO_REMAPPING_TABLE_REVISION_05,
+    EFI_ACPI_IO_REMAPPING_TABLE_REVISION,
     // Minimum supported ACPI Table Revision
-    EFI_ACPI_IO_REMAPPING_TABLE_REVISION_00,
+    EFI_ACPI_IO_REMAPPING_TABLE_REVISION,
     // Creator ID
     TABLE_GENERATOR_CREATOR_ID_ARM,
     // Creator Revision
@@ -2858,12 +2194,11 @@ ACPI_IORT_GENERATOR  IortGenerator = {
 EFI_STATUS
 EFIAPI
 AcpiIortLibConstructor (
-  IN  EFI_HANDLE        ImageHandle,
-  IN  EFI_SYSTEM_TABLE  *SystemTable
+  IN  EFI_HANDLE           ImageHandle,
+  IN  EFI_SYSTEM_TABLE  *  SystemTable
   )
 {
   EFI_STATUS  Status;
-
   Status = RegisterAcpiTableGenerator (&IortGenerator.Header);
   DEBUG ((DEBUG_INFO, "IORT: Register Generator. Status = %r\n", Status));
   ASSERT_EFI_ERROR (Status);
@@ -2882,12 +2217,11 @@ AcpiIortLibConstructor (
 EFI_STATUS
 EFIAPI
 AcpiIortLibDestructor (
-  IN  EFI_HANDLE        ImageHandle,
-  IN  EFI_SYSTEM_TABLE  *SystemTable
+  IN  EFI_HANDLE           ImageHandle,
+  IN  EFI_SYSTEM_TABLE  *  SystemTable
   )
 {
   EFI_STATUS  Status;
-
   Status = DeregisterAcpiTableGenerator (&IortGenerator.Header);
   DEBUG ((DEBUG_INFO, "Iort: Deregister Generator. Status = %r\n", Status));
   ASSERT_EFI_ERROR (Status);

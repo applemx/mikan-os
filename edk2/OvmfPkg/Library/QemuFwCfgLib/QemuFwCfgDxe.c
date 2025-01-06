@@ -19,15 +19,14 @@
 #include <Library/DebugLib.h>
 #include <Library/QemuFwCfgLib.h>
 #include <Library/UefiBootServicesTableLib.h>
-#include <Library/MemEncryptTdxLib.h>
 #include <Library/MemEncryptSevLib.h>
 
 #include "QemuFwCfgLibInternal.h"
 
-STATIC BOOLEAN  mQemuFwCfgSupported = FALSE;
-STATIC BOOLEAN  mQemuFwCfgDmaSupported;
+STATIC BOOLEAN mQemuFwCfgSupported = FALSE;
+STATIC BOOLEAN mQemuFwCfgDmaSupported;
 
-STATIC EDKII_IOMMU_PROTOCOL  *mIoMmuProtocol;
+STATIC EDKII_IOMMU_PROTOCOL        *mIoMmuProtocol;
 
 /**
   Returns a boolean indicating if the firmware configuration interface
@@ -48,20 +47,21 @@ QemuFwCfgIsAvailable (
   return InternalQemuFwCfgIsAvailable ();
 }
 
+
 RETURN_STATUS
 EFIAPI
 QemuFwCfgInitialize (
   VOID
   )
 {
-  UINT32  Signature;
-  UINT32  Revision;
+  UINT32 Signature;
+  UINT32 Revision;
 
   //
   // Enable the access routines while probing to see if it is supported.
   // For probing we always use the IO Port (IoReadFifo8()) access method.
   //
-  mQemuFwCfgSupported    = TRUE;
+  mQemuFwCfgSupported = TRUE;
   mQemuFwCfgDmaSupported = FALSE;
 
   QemuFwCfgSelectItem (QemuFwCfgItemSignature);
@@ -72,8 +72,7 @@ QemuFwCfgInitialize (
   DEBUG ((DEBUG_INFO, "FW CFG Revision: 0x%x\n", Revision));
   if ((Signature != SIGNATURE_32 ('Q', 'E', 'M', 'U')) ||
       (Revision < 1)
-      )
-  {
+     ) {
     DEBUG ((DEBUG_INFO, "QemuFwCfg interface not supported.\n"));
     mQemuFwCfgSupported = FALSE;
     return RETURN_SUCCESS;
@@ -86,25 +85,19 @@ QemuFwCfgInitialize (
     DEBUG ((DEBUG_INFO, "QemuFwCfg interface (DMA) is supported.\n"));
   }
 
-  if (mQemuFwCfgDmaSupported && (MemEncryptSevIsEnabled () || (MemEncryptTdxIsEnabled ()))) {
-    EFI_STATUS  Status;
+  if (mQemuFwCfgDmaSupported && MemEncryptSevIsEnabled ()) {
+    EFI_STATUS   Status;
 
     //
     // IoMmuDxe driver must have installed the IOMMU protocol. If we are not
     // able to locate the protocol then something must have gone wrong.
     //
-    Status = gBS->LocateProtocol (
-                    &gEdkiiIoMmuProtocolGuid,
-                    NULL,
-                    (VOID **)&mIoMmuProtocol
-                    );
+    Status = gBS->LocateProtocol (&gEdkiiIoMmuProtocolGuid, NULL,
+                    (VOID **)&mIoMmuProtocol);
     if (EFI_ERROR (Status)) {
-      DEBUG ((
-        DEBUG_ERROR,
-        "QemuFwCfgDma %a:%a Failed to locate IOMMU protocol.\n",
-        gEfiCallerBaseName,
-        __FUNCTION__
-        ));
+      DEBUG ((DEBUG_ERROR,
+        "QemuFwCfgSevDma %a:%a Failed to locate IOMMU protocol.\n",
+        gEfiCallerBaseName, __FUNCTION__));
       ASSERT (FALSE);
       CpuDeadLoop ();
     }
@@ -112,6 +105,7 @@ QemuFwCfgInitialize (
 
   return RETURN_SUCCESS;
 }
+
 
 /**
   Returns a boolean indicating if the firmware configuration interface is
@@ -154,8 +148,8 @@ InternalQemuFwCfgDmaIsAvailable (
 STATIC
 VOID
 AllocFwCfgDmaAccessBuffer (
-  OUT   VOID  **Access,
-  OUT   VOID  **MapInfo
+  OUT   VOID     **Access,
+  OUT   VOID     **MapInfo
   )
 {
   UINTN                 Size;
@@ -165,7 +159,7 @@ AllocFwCfgDmaAccessBuffer (
   EFI_PHYSICAL_ADDRESS  DmaAddress;
   VOID                  *Mapping;
 
-  Size     = sizeof (FW_CFG_DMA_ACCESS);
+  Size = sizeof (FW_CFG_DMA_ACCESS);
   NumPages = EFI_SIZE_TO_PAGES (Size);
 
   //
@@ -182,12 +176,9 @@ AllocFwCfgDmaAccessBuffer (
                              EDKII_IOMMU_ATTRIBUTE_DUAL_ADDRESS_CYCLE
                              );
   if (EFI_ERROR (Status)) {
-    DEBUG ((
-      DEBUG_ERROR,
-      "%a:%a failed to allocate FW_CFG_DMA_ACCESS\n",
-      gEfiCallerBaseName,
-      __FUNCTION__
-      ));
+    DEBUG ((DEBUG_ERROR,
+      "%a:%a failed to allocate FW_CFG_DMA_ACCESS\n", gEfiCallerBaseName,
+      __FUNCTION__));
     ASSERT (FALSE);
     CpuDeadLoop ();
   }
@@ -211,12 +202,9 @@ AllocFwCfgDmaAccessBuffer (
                              );
   if (EFI_ERROR (Status)) {
     mIoMmuProtocol->FreeBuffer (mIoMmuProtocol, NumPages, HostAddress);
-    DEBUG ((
-      DEBUG_ERROR,
-      "%a:%a failed to Map() FW_CFG_DMA_ACCESS\n",
-      gEfiCallerBaseName,
-      __FUNCTION__
-      ));
+    DEBUG ((DEBUG_ERROR,
+      "%a:%a failed to Map() FW_CFG_DMA_ACCESS\n", gEfiCallerBaseName,
+      __FUNCTION__));
     ASSERT (FALSE);
     CpuDeadLoop ();
   }
@@ -224,19 +212,14 @@ AllocFwCfgDmaAccessBuffer (
   if (Size < sizeof (FW_CFG_DMA_ACCESS)) {
     mIoMmuProtocol->Unmap (mIoMmuProtocol, Mapping);
     mIoMmuProtocol->FreeBuffer (mIoMmuProtocol, NumPages, HostAddress);
-    DEBUG ((
-      DEBUG_ERROR,
-      "%a:%a failed to Map() - requested 0x%Lx got 0x%Lx\n",
-      gEfiCallerBaseName,
-      __FUNCTION__,
-      (UINT64)sizeof (FW_CFG_DMA_ACCESS),
-      (UINT64)Size
-      ));
+    DEBUG ((DEBUG_ERROR,
+      "%a:%a failed to Map() - requested 0x%Lx got 0x%Lx\n", gEfiCallerBaseName,
+      __FUNCTION__, (UINT64)sizeof (FW_CFG_DMA_ACCESS), (UINT64)Size));
     ASSERT (FALSE);
     CpuDeadLoop ();
   }
 
-  *Access  = HostAddress;
+  *Access = HostAddress;
   *MapInfo = Mapping;
 }
 
@@ -248,8 +231,8 @@ AllocFwCfgDmaAccessBuffer (
 STATIC
 VOID
 FreeFwCfgDmaAccessBuffer (
-  IN  VOID  *Access,
-  IN  VOID  *Mapping
+  IN  VOID    *Access,
+  IN  VOID    *Mapping
   )
 {
   UINTN       NumPages;
@@ -259,26 +242,18 @@ FreeFwCfgDmaAccessBuffer (
 
   Status = mIoMmuProtocol->Unmap (mIoMmuProtocol, Mapping);
   if (EFI_ERROR (Status)) {
-    DEBUG ((
-      DEBUG_ERROR,
-      "%a:%a failed to UnMap() Mapping 0x%Lx\n",
-      gEfiCallerBaseName,
-      __FUNCTION__,
-      (UINT64)(UINTN)Mapping
-      ));
+    DEBUG ((DEBUG_ERROR,
+      "%a:%a failed to UnMap() Mapping 0x%Lx\n", gEfiCallerBaseName,
+      __FUNCTION__, (UINT64)(UINTN)Mapping));
     ASSERT (FALSE);
     CpuDeadLoop ();
   }
 
   Status = mIoMmuProtocol->FreeBuffer (mIoMmuProtocol, NumPages, Access);
   if (EFI_ERROR (Status)) {
-    DEBUG ((
-      DEBUG_ERROR,
-      "%a:%a failed to Free() 0x%Lx\n",
-      gEfiCallerBaseName,
-      __FUNCTION__,
-      (UINT64)(UINTN)Access
-      ));
+    DEBUG ((DEBUG_ERROR,
+      "%a:%a failed to Free() 0x%Lx\n", gEfiCallerBaseName, __FUNCTION__,
+      (UINT64)(UINTN)Access));
     ASSERT (FALSE);
     CpuDeadLoop ();
   }
@@ -299,51 +274,41 @@ MapFwCfgDmaDataBuffer (
   OUT VOID                  **MapInfo
   )
 {
-  EFI_STATUS            Status;
-  UINTN                 NumberOfBytes;
-  VOID                  *Mapping;
-  EFI_PHYSICAL_ADDRESS  PhysicalAddress;
+  EFI_STATUS              Status;
+  UINTN                   NumberOfBytes;
+  VOID                    *Mapping;
+  EFI_PHYSICAL_ADDRESS    PhysicalAddress;
 
   NumberOfBytes = Size;
-  Status        = mIoMmuProtocol->Map (
-                                    mIoMmuProtocol,
-                                    (IsWrite ?
-                                     EdkiiIoMmuOperationBusMasterRead64 :
-                                     EdkiiIoMmuOperationBusMasterWrite64),
-                                    HostAddress,
-                                    &NumberOfBytes,
-                                    &PhysicalAddress,
-                                    &Mapping
-                                    );
+  Status = mIoMmuProtocol->Map (
+                             mIoMmuProtocol,
+                             (IsWrite ?
+                              EdkiiIoMmuOperationBusMasterRead64 :
+                              EdkiiIoMmuOperationBusMasterWrite64),
+                             HostAddress,
+                             &NumberOfBytes,
+                             &PhysicalAddress,
+                             &Mapping
+                             );
   if (EFI_ERROR (Status)) {
-    DEBUG ((
-      DEBUG_ERROR,
-      "%a:%a failed to Map() Address 0x%Lx Size 0x%Lx\n",
-      gEfiCallerBaseName,
-      __FUNCTION__,
-      (UINT64)(UINTN)HostAddress,
-      (UINT64)Size
-      ));
+    DEBUG ((DEBUG_ERROR,
+      "%a:%a failed to Map() Address 0x%Lx Size 0x%Lx\n", gEfiCallerBaseName,
+      __FUNCTION__, (UINT64)(UINTN)HostAddress, (UINT64)Size));
     ASSERT (FALSE);
     CpuDeadLoop ();
   }
 
   if (NumberOfBytes < Size) {
     mIoMmuProtocol->Unmap (mIoMmuProtocol, Mapping);
-    DEBUG ((
-      DEBUG_ERROR,
-      "%a:%a failed to Map() - requested 0x%x got 0x%Lx\n",
-      gEfiCallerBaseName,
-      __FUNCTION__,
-      Size,
-      (UINT64)NumberOfBytes
-      ));
+    DEBUG ((DEBUG_ERROR,
+      "%a:%a failed to Map() - requested 0x%x got 0x%Lx\n", gEfiCallerBaseName,
+      __FUNCTION__, Size, (UINT64)NumberOfBytes));
     ASSERT (FALSE);
     CpuDeadLoop ();
   }
 
   *DeviceAddress = PhysicalAddress;
-  *MapInfo       = Mapping;
+  *MapInfo = Mapping;
 }
 
 STATIC
@@ -356,13 +321,9 @@ UnmapFwCfgDmaDataBuffer (
 
   Status = mIoMmuProtocol->Unmap (mIoMmuProtocol, Mapping);
   if (EFI_ERROR (Status)) {
-    DEBUG ((
-      DEBUG_ERROR,
-      "%a:%a failed to UnMap() Mapping 0x%Lx\n",
-      gEfiCallerBaseName,
-      __FUNCTION__,
-      (UINT64)(UINTN)Mapping
-      ));
+    DEBUG ((DEBUG_ERROR,
+      "%a:%a failed to UnMap() Mapping 0x%Lx\n", gEfiCallerBaseName,
+      __FUNCTION__, (UINT64)(UINTN)Mapping));
     ASSERT (FALSE);
     CpuDeadLoop ();
   }
@@ -385,37 +346,35 @@ UnmapFwCfgDmaDataBuffer (
 **/
 VOID
 InternalQemuFwCfgDmaBytes (
-  IN     UINT32  Size,
-  IN OUT VOID    *Buffer OPTIONAL,
-  IN     UINT32  Control
+  IN     UINT32   Size,
+  IN OUT VOID     *Buffer OPTIONAL,
+  IN     UINT32   Control
   )
 {
-  volatile FW_CFG_DMA_ACCESS  LocalAccess;
-  volatile FW_CFG_DMA_ACCESS  *Access;
-  UINT32                      AccessHigh, AccessLow;
-  UINT32                      Status;
-  VOID                        *AccessMapping, *DataMapping;
-  VOID                        *DataBuffer;
+  volatile FW_CFG_DMA_ACCESS LocalAccess;
+  volatile FW_CFG_DMA_ACCESS *Access;
+  UINT32                     AccessHigh, AccessLow;
+  UINT32                     Status;
+  VOID                       *AccessMapping, *DataMapping;
+  VOID                       *DataBuffer;
 
-  ASSERT (
-    Control == FW_CFG_DMA_CTL_WRITE || Control == FW_CFG_DMA_CTL_READ ||
-    Control == FW_CFG_DMA_CTL_SKIP
-    );
+  ASSERT (Control == FW_CFG_DMA_CTL_WRITE || Control == FW_CFG_DMA_CTL_READ ||
+    Control == FW_CFG_DMA_CTL_SKIP);
 
   if (Size == 0) {
     return;
   }
 
-  Access        = &LocalAccess;
+  Access = &LocalAccess;
   AccessMapping = NULL;
-  DataMapping   = NULL;
-  DataBuffer    = Buffer;
+  DataMapping = NULL;
+  DataBuffer = Buffer;
 
   //
-  // When SEV or TDX is enabled, map Buffer to DMA address before issuing the DMA
+  // When SEV is enabled, map Buffer to DMA address before issuing the DMA
   // request
   //
-  if (MemEncryptSevIsEnabled () || MemEncryptTdxIsEnabled ()) {
+  if (MemEncryptSevIsEnabled ()) {
     VOID                  *AccessBuffer;
     EFI_PHYSICAL_ADDRESS  DataBufferAddress;
 
@@ -438,7 +397,7 @@ InternalQemuFwCfgDmaBytes (
         &DataMapping
         );
 
-      DataBuffer = (VOID *)(UINTN)DataBufferAddress;
+      DataBuffer = (VOID *) (UINTN) DataBufferAddress;
     }
   }
 
@@ -457,7 +416,7 @@ InternalQemuFwCfgDmaBytes (
   //
   AccessHigh = (UINT32)RShiftU64 ((UINTN)Access, 32);
   AccessLow  = (UINT32)(UINTN)Access;
-  IoWrite32 (FW_CFG_IO_DMA_ADDRESS, SwapBytes32 (AccessHigh));
+  IoWrite32 (FW_CFG_IO_DMA_ADDRESS,     SwapBytes32 (AccessHigh));
   IoWrite32 (FW_CFG_IO_DMA_ADDRESS + 4, SwapBytes32 (AccessLow));
 
   //

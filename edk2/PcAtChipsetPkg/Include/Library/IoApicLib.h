@@ -8,7 +8,6 @@
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
-
 #ifndef __IO_APIC_LIB_H__
 #define __IO_APIC_LIB_H__
 
@@ -97,5 +96,4 @@ IoApicConfigureInterrupt (
   IN BOOLEAN  LevelTriggered,
   IN BOOLEAN  AssertionLevel
   );
-
 #endif

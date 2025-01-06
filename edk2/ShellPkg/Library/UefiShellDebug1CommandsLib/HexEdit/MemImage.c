@@ -8,23 +8,23 @@
 
 #include "HexEditor.h"
 
-extern EFI_HANDLE  HImageHandleBackup;
+extern EFI_HANDLE                 HImageHandleBackup;
 
-extern HEFI_EDITOR_BUFFER_IMAGE  HBufferImage;
+extern HEFI_EDITOR_BUFFER_IMAGE   HBufferImage;
 
-extern BOOLEAN  HBufferImageNeedRefresh;
-extern BOOLEAN  HBufferImageOnlyLineNeedRefresh;
-extern BOOLEAN  HBufferImageMouseNeedRefresh;
+extern BOOLEAN                    HBufferImageNeedRefresh;
+extern BOOLEAN                    HBufferImageOnlyLineNeedRefresh;
+extern BOOLEAN                    HBufferImageMouseNeedRefresh;
 
 extern HEFI_EDITOR_GLOBAL_EDITOR  HMainEditor;
 
-HEFI_EDITOR_MEM_IMAGE  HMemImage;
-HEFI_EDITOR_MEM_IMAGE  HMemImageBackupVar;
+HEFI_EDITOR_MEM_IMAGE             HMemImage;
+HEFI_EDITOR_MEM_IMAGE             HMemImageBackupVar;
 
 //
 // for basic initialization of HDiskImage
 //
-HEFI_EDITOR_MEM_IMAGE  HMemImageConst = {
+HEFI_EDITOR_MEM_IMAGE             HMemImageConst = {
   NULL,
   0,
   0
@@ -49,10 +49,10 @@ HMemImageInit (
   CopyMem (&HMemImage, &HMemImageConst, sizeof (HMemImage));
 
   Status = gBS->LocateProtocol (
-                  &gEfiCpuIo2ProtocolGuid,
-                  NULL,
-                  (VOID **)&HMemImage.IoFncs
-                  );
+                &gEfiCpuIo2ProtocolGuid,
+                NULL,
+                (VOID**)&HMemImage.IoFncs
+                );
   if (!EFI_ERROR (Status)) {
     return EFI_SUCCESS;
   } else {
@@ -88,12 +88,13 @@ HMemImageBackup (
 **/
 EFI_STATUS
 HMemImageSetMemOffsetSize (
-  IN UINTN  Offset,
-  IN UINTN  Size
+  IN UINTN Offset,
+  IN UINTN Size
   )
 {
-  HMemImage.Offset = Offset;
-  HMemImage.Size   = Size;
+
+  HMemImage.Offset  = Offset;
+  HMemImage.Size    = Size;
 
   return EFI_SUCCESS;
 }
@@ -111,31 +112,32 @@ HMemImageSetMemOffsetSize (
 **/
 EFI_STATUS
 HMemImageRead (
-  IN UINTN    Offset,
-  IN UINTN    Size,
-  IN BOOLEAN  Recover
+  IN UINTN     Offset,
+  IN UINTN     Size,
+  IN BOOLEAN   Recover
   )
 {
-  EFI_STATUS        Status;
-  void              *Buffer;
-  CHAR16            *Str;
-  HEFI_EDITOR_LINE  *Line;
+
+  EFI_STATUS                      Status;
+  void                            *Buffer;
+  CHAR16                          *Str;
+  HEFI_EDITOR_LINE                *Line;
 
   HBufferImage.BufferType = FileTypeMemBuffer;
 
-  Buffer = AllocateZeroPool (Size);
+  Buffer                  = AllocateZeroPool (Size);
   if (Buffer == NULL) {
     StatusBarSetStatusString (L"Read Memory Failed");
     return EFI_OUT_OF_RESOURCES;
   }
 
   Status = HMemImage.IoFncs->Mem.Read (
-                                   HMemImage.IoFncs,
-                                   EfiCpuIoWidthUint8,
-                                   Offset,
-                                   Size,
-                                   Buffer
-                                   );
+                                  HMemImage.IoFncs,
+                                  EfiCpuIoWidthUint8,
+                                  Offset,
+                                  Size,
+                                  Buffer
+                                  );
 
   if (EFI_ERROR (Status)) {
     FreePool (Buffer);
@@ -153,22 +155,22 @@ HMemImageRead (
     return Status;
   }
 
-  Status = HMemImageSetMemOffsetSize (Offset, Size);
+  Status  = HMemImageSetMemOffsetSize (Offset, Size);
 
   HBufferImage.DisplayPosition.Row    = 2;
   HBufferImage.DisplayPosition.Column = 10;
 
-  HBufferImage.MousePosition.Row    = 2;
-  HBufferImage.MousePosition.Column = 10;
+  HBufferImage.MousePosition.Row      = 2;
+  HBufferImage.MousePosition.Column   = 10;
 
-  HBufferImage.LowVisibleRow = 1;
-  HBufferImage.HighBits      = TRUE;
+  HBufferImage.LowVisibleRow          = 1;
+  HBufferImage.HighBits               = TRUE;
 
-  HBufferImage.BufferPosition.Row    = 1;
-  HBufferImage.BufferPosition.Column = 1;
+  HBufferImage.BufferPosition.Row     = 1;
+  HBufferImage.BufferPosition.Column  = 1;
 
   if (!Recover) {
-    Str = CatSPrint (NULL, L"%d Lines Read", HBufferImage.NumLines);
+    Str = CatSPrint(NULL, L"%d Lines Read", HBufferImage.NumLines);
     if (Str == NULL) {
       StatusBarSetStatusString (L"Read Memory Failed");
       return EFI_OUT_OF_RESOURCES;
@@ -179,6 +181,7 @@ HMemImageRead (
 
     HMainEditor.SelectStart = 0;
     HMainEditor.SelectEnd   = 0;
+
   }
 
   //
@@ -205,6 +208,7 @@ HMemImageRead (
   HBufferImageMouseNeedRefresh    = TRUE;
 
   return EFI_SUCCESS;
+
 }
 
 /**
@@ -219,12 +223,13 @@ HMemImageRead (
 **/
 EFI_STATUS
 HMemImageSave (
-  IN UINTN  Offset,
-  IN UINTN  Size
+  IN UINTN Offset,
+  IN UINTN Size
   )
 {
-  EFI_STATUS  Status;
-  VOID        *Buffer;
+
+  EFI_STATUS                      Status;
+  VOID                            *Buffer;
 
   //
   // not modified, so directly return
@@ -235,7 +240,7 @@ HMemImageSave (
 
   HBufferImage.BufferType = FileTypeMemBuffer;
 
-  Buffer = AllocateZeroPool (Size);
+  Buffer                  = AllocateZeroPool (Size);
 
   if (Buffer == NULL) {
     return EFI_OUT_OF_RESOURCES;
@@ -246,24 +251,22 @@ HMemImageSave (
     FreePool (Buffer);
     return Status;
   }
-
   //
   // write back to memory
   //
   Status = HMemImage.IoFncs->Mem.Write (
-                                   HMemImage.IoFncs,
-                                   EfiCpuIoWidthUint8,
-                                   Offset,
-                                   Size,
-                                   Buffer
-                                   );
+                                  HMemImage.IoFncs,
+                                  EfiCpuIoWidthUint8,
+                                  Offset,
+                                  Size,
+                                  Buffer
+                                  );
 
   FreePool (Buffer);
 
   if (EFI_ERROR (Status)) {
     return EFI_LOAD_ERROR;
   }
-
   //
   // now not modified
   //
@@ -271,3 +274,5 @@ HMemImageSave (
 
   return EFI_SUCCESS;
 }
+
+

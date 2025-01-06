@@ -7,6 +7,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
 
+
 #include <PiMm.h>
 
 #include <Library/StandaloneMmCoreEntryPoint.h>
@@ -16,7 +17,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 //
 // Cache copy of HobList pointer.
 //
-VOID  *gHobList = NULL;
+VOID *gHobList = NULL;
 
 /**
   The entry point of PE/COFF Image for the STANDALONE MM Core.
@@ -50,6 +51,7 @@ _ModuleEntryPoint (
   // TODO: Set page table here?? AARCH64 has this step for some reason
   //
 }
+
 
 /**
   Required by the EBC compiler and identical in functionality to _ModuleEntryPoint().

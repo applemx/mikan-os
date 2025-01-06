@@ -6,7 +6,6 @@
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
-
 #ifndef EDKII_REDFISH_CREDENTIAL_DXE_H_
 #define EDKII_REDFISH_CREDENTIAL_DXE_H_
 
@@ -46,10 +45,10 @@
 EFI_STATUS
 EFIAPI
 RedfishCredentialGetAuthInfo (
-  IN  EDKII_REDFISH_CREDENTIAL_PROTOCOL  *This,
-  OUT EDKII_REDFISH_AUTH_METHOD          *AuthMethod,
-  OUT CHAR8                              **UserId,
-  OUT CHAR8                              **Password
+  IN  EDKII_REDFISH_CREDENTIAL_PROTOCOL    *This,
+  OUT EDKII_REDFISH_AUTH_METHOD            *AuthMethod,
+  OUT CHAR8                                **UserId,
+  OUT CHAR8                                **Password
   );
 
 /**
@@ -70,8 +69,7 @@ RedfishCredentialGetAuthInfo (
 EFI_STATUS
 EFIAPI
 RedfishCredentialStopService (
-  IN     EDKII_REDFISH_CREDENTIAL_PROTOCOL           *This,
-  IN     EDKII_REDFISH_CREDENTIAL_STOP_SERVICE_TYPE  ServiceStopType
+  IN     EDKII_REDFISH_CREDENTIAL_PROTOCOL    *This,
+  IN     EDKII_REDFISH_CREDENTIAL_STOP_SERVICE_TYPE ServiceStopType
   );
-
 #endif

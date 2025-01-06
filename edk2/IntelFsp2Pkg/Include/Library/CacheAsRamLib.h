@@ -17,7 +17,8 @@
 VOID
 EFIAPI
 DisableCacheAsRam (
-  IN BOOLEAN  DisableCar
+  IN BOOLEAN                   DisableCar
   );
 
 #endif
+

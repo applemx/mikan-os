@@ -1,6 +1,6 @@
 ;------------------------------------------------------------------------------
 ;
-; Copyright (c) 2006 - 2022, Intel Corporation. All rights reserved.<BR>
+; Copyright (c) 2006, Intel Corporation. All rights reserved.<BR>
 ; SPDX-License-Identifier: BSD-2-Clause-Patent
 ;
 ; Module Name:
@@ -27,6 +27,9 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmReadMm2)
 ASM_PFX(AsmReadMm2):
-    movq    rax, mm2
+    ;
+    ; 64-bit MASM doesn't support MMX instructions, so use opcode here
+    ;
+    DB      0x48, 0xf, 0x7e, 0xd0
     ret
 

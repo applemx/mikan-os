@@ -7,10 +7,7 @@
 **/
 #include "BaseLibInternals.h"
 
-extern VOID
-RiscVDisableSupervisorModeInterrupts (
-  VOID
-  );
+extern VOID RiscVDisableSupervisorModeInterrupts (VOID);
 
 /**
   Disables CPU interrupts.
@@ -24,3 +21,4 @@ DisableInterrupts (
 {
   RiscVDisableSupervisorModeInterrupts ();
 }
+

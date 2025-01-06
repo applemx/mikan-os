@@ -939,6 +939,7 @@ MODEL_META_DATA_CONDITIONAL_STATEMENT_ENDIF = 5014
 TOOL_FAMILY_LIST = ["MSFT",
                     "INTEL",
                     "GCC",
+                    "RVCT"
                     ]
 
 TYPE_HOB_SECTION = 'HOB'

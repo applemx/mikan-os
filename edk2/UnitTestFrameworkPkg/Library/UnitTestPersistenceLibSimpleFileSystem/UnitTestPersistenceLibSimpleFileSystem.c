@@ -29,7 +29,7 @@
 
 **/
 STATIC
-EFI_DEVICE_PATH_PROTOCOL *
+EFI_DEVICE_PATH_PROTOCOL*
 GetCacheFileDevicePath (
   IN UNIT_TEST_FRAMEWORK_HANDLE  FrameworkHandle
   )
@@ -44,7 +44,7 @@ GetCacheFileDevicePath (
   UINTN                      CacheFilePathLength;
   EFI_DEVICE_PATH_PROTOCOL   *CacheFileDevicePath;
 
-  Framework           = (UNIT_TEST_FRAMEWORK *)FrameworkHandle;
+  Framework           = (UNIT_TEST_FRAMEWORK*)FrameworkHandle;
   AppPath             = NULL;
   CacheFilePath       = NULL;
   TestName            = NULL;
@@ -56,7 +56,7 @@ GetCacheFileDevicePath (
   Status = gBS->HandleProtocol (
                   gImageHandle,
                   &gEfiLoadedImageProtocolGuid,
-                  (VOID **)&LoadedImage
+                  (VOID**)&LoadedImage
                   );
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_WARN, "%a - Failed to locate DevicePath for loaded image. %r\n", __FUNCTION__, Status));
@@ -67,11 +67,10 @@ GetCacheFileDevicePath (
   // Before we can start, change test name from ASCII to Unicode.
   //
   CacheFilePathLength = AsciiStrLen (Framework->ShortTitle) + 1;
-  TestName            = AllocatePool (CacheFilePathLength * sizeof (CHAR16));
+  TestName = AllocatePool (CacheFilePathLength * sizeof(CHAR16));
   if (!TestName) {
     goto Exit;
   }
-
   AsciiStrToUnicodeStrS (Framework->ShortTitle, TestName, CacheFilePathLength);
 
   //
@@ -83,7 +82,7 @@ GetCacheFileDevicePath (
   // PathCleanUpDirectories (FileNameCopy);
   //     if (PathRemoveLastItem (FileNameCopy)) {
   //
-  AppPath              = ConvertDevicePathToText (LoadedImage->FilePath, TRUE, TRUE); // NOTE: This must be freed.
+  AppPath = ConvertDevicePathToText (LoadedImage->FilePath, TRUE, TRUE);    // NOTE: This must be freed.
   DirectorySlashOffset = StrLen (AppPath);
   //
   // Make sure we didn't get any weird data.
@@ -100,7 +99,6 @@ GetCacheFileDevicePath (
     if (AppPath[DirectorySlashOffset] == L'\\') {
       break;
     }
-
     DirectorySlashOffset--;
   } while (DirectorySlashOffset > 0);
 
@@ -117,11 +115,11 @@ GetCacheFileDevicePath (
   //
   // Now we know some things, we're ready to produce our output string, I think.
   //
-  CacheFilePathLength  = DirectorySlashOffset + 1;
+  CacheFilePathLength = DirectorySlashOffset + 1;
   CacheFilePathLength += StrLen (TestName);
   CacheFilePathLength += StrLen (CACHE_FILE_SUFFIX);
   CacheFilePathLength += 1;   // Don't forget the NULL terminator.
-  CacheFilePath        = AllocateZeroPool (CacheFilePathLength * sizeof (CHAR16));
+  CacheFilePath       = AllocateZeroPool (CacheFilePathLength * sizeof (CHAR16));
   if (!CacheFilePath) {
     goto Exit;
   }
@@ -131,7 +129,7 @@ GetCacheFileDevicePath (
   //
   StrnCpyS (CacheFilePath, CacheFilePathLength, AppPath, DirectorySlashOffset + 1);  // Copy the path for the parent directory.
   StrCatS (CacheFilePath, CacheFilePathLength, TestName);                            // Copy the base name for the test cache.
-  StrCatS (CacheFilePath, CacheFilePathLength, CACHE_FILE_SUFFIX);                   // Copy the file suffix.
+  StrCatS (CacheFilePath, CacheFilePathLength, CACHE_FILE_SUFFIX);                          // Copy the file suffix.
 
   //
   // Finally, try to create the device path for the thing thing.
@@ -145,11 +143,9 @@ Exit:
   if (AppPath != NULL) {
     FreePool (AppPath);
   }
-
   if (CacheFilePath != NULL) {
     FreePool (CacheFilePath);
   }
-
   if (TestName != NULL) {
     FreePool (TestName);
   }
@@ -233,7 +229,7 @@ SaveUnitTestCache (
   //
   // Check the inputs for sanity.
   //
-  if ((FrameworkHandle == NULL) || (SaveData == NULL)) {
+  if (FrameworkHandle == NULL || SaveData == NULL) {
     return EFI_INVALID_PARAMETER;
   }
 
@@ -244,7 +240,7 @@ SaveUnitTestCache (
   FileDevicePath = GetCacheFileDevicePath (FrameworkHandle);
 
   //
-  // First lets open the file if it exists so we can delete it...This is the work around for truncation
+  //First lets open the file if it exists so we can delete it...This is the work around for truncation
   //
   Status = ShellOpenFileByDevicePath (
              &FileDevicePath,
@@ -288,7 +284,7 @@ SaveUnitTestCache (
              SaveData
              );
 
-  if (EFI_ERROR (Status) || (WriteCount != SaveData->SaveStateSize)) {
+  if (EFI_ERROR (Status) || WriteCount != SaveData->SaveStateSize) {
     DEBUG ((DEBUG_ERROR, "%a - Writing to file failed! %r\n", __FUNCTION__, Status));
   } else {
     DEBUG ((DEBUG_INFO, "%a - SUCCESS!\n", __FUNCTION__));
@@ -342,7 +338,7 @@ LoadUnitTestCache (
   //
   // Check the inputs for sanity.
   //
-  if ((FrameworkHandle == NULL) || (SaveData == NULL)) {
+  if (FrameworkHandle == NULL || SaveData == NULL) {
     return EFI_INVALID_PARAMETER;
   }
 
@@ -381,7 +377,7 @@ LoadUnitTestCache (
   // Now that we know the size, let's allocated a buffer to hold the contents.
   //
   FileSize = (UINTN)LargeFileSize;    // You know what... if it's too large, this lib don't care.
-  Buffer   = AllocatePool (FileSize);
+  Buffer = AllocatePool (FileSize);
   if (Buffer == NULL) {
     DEBUG ((DEBUG_ERROR, "%a - Failed to allocate a pool to hold the file contents! %r\n", __FUNCTION__, Status));
     Status = EFI_OUT_OF_RESOURCES;
@@ -403,7 +399,6 @@ Exit:
   if (FileDevicePath != NULL) {
     FreePool (FileDevicePath);
   }
-
   if (IsFileOpened) {
     ShellCloseFile (&FileHandle);
   }
@@ -411,7 +406,7 @@ Exit:
   //
   // If we're returning an error, make sure
   // the state is sane.
-  if (EFI_ERROR (Status) && (Buffer != NULL)) {
+  if (EFI_ERROR (Status) && Buffer != NULL) {
     FreePool (Buffer);
     Buffer = NULL;
   }

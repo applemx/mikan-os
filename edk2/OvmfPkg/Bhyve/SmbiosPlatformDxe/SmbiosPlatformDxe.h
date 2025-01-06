@@ -21,6 +21,7 @@
 #include <Library/MemoryAllocationLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 
+
 /**
   Locates the bhyve SMBIOS data if it exists
 
@@ -31,6 +32,7 @@ SMBIOS_TABLE_ENTRY_POINT *
 GetBhyveSmbiosTables (
   VOID
   );
+
 
 /**
   Validates the SMBIOS entry point structure

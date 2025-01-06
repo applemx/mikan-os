@@ -11,7 +11,6 @@
 #include <Library/DebugLib.h>
 
 VOID
-EFIAPI
 ReportPrint (
   IN CONST CHAR8  *Format,
   ...
@@ -28,7 +27,6 @@ ReportPrint (
   } else {
     DEBUG ((DEBUG_INFO, String));
   }
-
   VA_END (Marker);
 }
 

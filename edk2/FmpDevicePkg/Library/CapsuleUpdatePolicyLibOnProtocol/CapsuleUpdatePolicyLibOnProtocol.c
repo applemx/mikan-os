@@ -36,7 +36,6 @@ LookupCapsuleUpdatePolicyProtocol (
   if (mCapsuleUpdatePolicy != NULL) {
     return TRUE;
   }
-
   Status = gBS->LocateProtocol (
                   &gEdkiiCapsuleUpdatePolicyProtocolGuid,
                   NULL,
@@ -46,7 +45,6 @@ LookupCapsuleUpdatePolicyProtocol (
     mCapsuleUpdatePolicy = NULL;
     return FALSE;
   }
-
   return TRUE;
 }
 
@@ -72,7 +70,6 @@ CheckSystemPower (
   if (LookupCapsuleUpdatePolicyProtocol ()) {
     return mCapsuleUpdatePolicy->CheckSystemPower (mCapsuleUpdatePolicy, Good);
   }
-
   *Good = TRUE;
   return EFI_SUCCESS;
 }
@@ -93,13 +90,12 @@ CheckSystemPower (
 EFI_STATUS
 EFIAPI
 CheckSystemThermal (
-  OUT BOOLEAN  *Good
+  OUT BOOLEAN   *Good
   )
 {
   if (LookupCapsuleUpdatePolicyProtocol ()) {
     return mCapsuleUpdatePolicy->CheckSystemThermal (mCapsuleUpdatePolicy, Good);
   }
-
   *Good = TRUE;
   return EFI_SUCCESS;
 }
@@ -120,13 +116,12 @@ CheckSystemThermal (
 EFI_STATUS
 EFIAPI
 CheckSystemEnvironment (
-  OUT BOOLEAN  *Good
+  OUT BOOLEAN   *Good
   )
 {
   if (LookupCapsuleUpdatePolicyProtocol ()) {
     return mCapsuleUpdatePolicy->CheckSystemEnvironment (mCapsuleUpdatePolicy, Good);
   }
-
   *Good = TRUE;
   return EFI_SUCCESS;
 }
@@ -150,7 +145,6 @@ IsLowestSupportedVersionCheckRequired (
   if (LookupCapsuleUpdatePolicyProtocol ()) {
     return mCapsuleUpdatePolicy->IsLowestSupportedVersionCheckRequired (mCapsuleUpdatePolicy);
   }
-
   return TRUE;
 }
 
@@ -173,6 +167,5 @@ IsLockFmpDeviceAtLockEventGuidRequired (
   if (LookupCapsuleUpdatePolicyProtocol ()) {
     return mCapsuleUpdatePolicy->IsLockFmpDeviceAtLockEventGuidRequired (mCapsuleUpdatePolicy);
   }
-
   return TRUE;
 }

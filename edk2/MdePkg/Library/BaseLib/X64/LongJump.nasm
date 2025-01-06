@@ -1,6 +1,6 @@
 ;------------------------------------------------------------------------------
 ;
-; Copyright (c) 2006 - 2022, Intel Corporation. All rights reserved.<BR>
+; Copyright (c) 2006 - 2019, Intel Corporation. All rights reserved.<BR>
 ; SPDX-License-Identifier: BSD-2-Clause-Patent
 ;
 ; Module Name:
@@ -41,12 +41,12 @@ ASM_PFX(InternalLongJump):
     push    rdx                          ; save rdx
 
     mov     rdx, [rcx + 0xF8]            ; rdx = target SSP
-    rdsspq  rax
+    READSSP_RAX
     sub     rdx, rax                     ; rdx = delta
     mov     rax, rdx                     ; rax = delta
 
     shr     rax, 3                       ; rax = delta/sizeof(UINT64)
-    incsspq rax
+    INCSSP_RAX
 
     pop     rdx                          ; restore rdx
 CetDone:

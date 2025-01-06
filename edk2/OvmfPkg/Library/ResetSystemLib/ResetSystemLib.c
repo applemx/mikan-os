@@ -52,6 +52,7 @@ ResetWarm (
   CpuDeadLoop ();
 }
 
+
 /**
   This function causes a systemwide reset. The exact type of the reset is
   defined by the EFI_GUID that follows the Null-terminated Unicode string
@@ -67,8 +68,8 @@ ResetWarm (
 VOID
 EFIAPI
 ResetPlatformSpecific (
-  IN UINTN  DataSize,
-  IN VOID   *ResetData
+  IN UINTN   DataSize,
+  IN VOID    *ResetData
   )
 {
   ResetCold ();
@@ -90,30 +91,30 @@ ResetPlatformSpecific (
 VOID
 EFIAPI
 ResetSystem (
-  IN EFI_RESET_TYPE  ResetType,
-  IN EFI_STATUS      ResetStatus,
-  IN UINTN           DataSize,
-  IN VOID            *ResetData OPTIONAL
+  IN EFI_RESET_TYPE               ResetType,
+  IN EFI_STATUS                   ResetStatus,
+  IN UINTN                        DataSize,
+  IN VOID                         *ResetData OPTIONAL
   )
 {
   switch (ResetType) {
-    case EfiResetWarm:
-      ResetWarm ();
-      break;
+  case EfiResetWarm:
+    ResetWarm ();
+    break;
 
-    case EfiResetCold:
-      ResetCold ();
-      break;
+  case EfiResetCold:
+    ResetCold ();
+    break;
 
-    case EfiResetShutdown:
-      ResetShutdown ();
-      break;
+  case EfiResetShutdown:
+    ResetShutdown ();
+    break;
 
-    case EfiResetPlatformSpecific:
-      ResetPlatformSpecific (DataSize, ResetData);
-      break;
+  case EfiResetPlatformSpecific:
+    ResetPlatformSpecific (DataSize, ResetData);
+    break;
 
-    default:
-      break;
+  default:
+    break;
   }
 }

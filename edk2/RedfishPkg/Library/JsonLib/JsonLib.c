@@ -5,7 +5,7 @@
   https://jansson.readthedocs.io/en/2.13/apiref.html
 
   Copyright (c) 2018 - 2019, Intel Corporation. All rights reserved.<BR>
- (C) Copyright 2021 Hewlett Packard Enterprise Development LP<BR>
+ (C) Copyright 2020 Hewlett Packard Enterprise Development LP<BR>
 
     SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
@@ -36,7 +36,7 @@ JsonValueInitArray (
   VOID
   )
 {
-  return (EDKII_JSON_VALUE)json_array ();
+  return (EDKII_JSON_VALUE)json_array();
 }
 
 /**
@@ -58,7 +58,7 @@ JsonValueInitObject (
   VOID
   )
 {
-  return (EDKII_JSON_VALUE)json_object ();
+  return (EDKII_JSON_VALUE)json_object();
 }
 
 /**
@@ -83,10 +83,10 @@ JsonValueInitObject (
 EDKII_JSON_VALUE
 EFIAPI
 JsonValueInitAsciiString (
-  IN    CONST CHAR8  *String
+  IN    CONST CHAR8    *String
   )
 {
-  UINTN  Index;
+  UINTN    Index;
 
   if (String == NULL) {
     return NULL;
@@ -124,11 +124,11 @@ JsonValueInitAsciiString (
 EDKII_JSON_VALUE
 EFIAPI
 JsonValueInitUnicodeString (
-  IN    CHAR16  *String
+  IN    CHAR16    *String
   )
 {
-  EFI_STATUS  Status;
-  CHAR8       *Utf8Str;
+  EFI_STATUS    Status;
+  CHAR8         *Utf8Str;
 
   if (String == NULL) {
     return NULL;
@@ -154,13 +154,13 @@ JsonValueInitUnicodeString (
 
   @param[in]   Value       The integer to initialize to JSON value
 
-  @retval      The created JSON value which contains a JSON integer or NULL.
+  @retval      The created JSON value which contains a JSON number or NULL.
 
 **/
 EDKII_JSON_VALUE
 EFIAPI
-JsonValueInitInteger (
-  IN    INT64  Value
+JsonValueInitNumber (
+  IN    INT64    Value
   )
 {
   return (EDKII_JSON_VALUE)json_integer (Value);
@@ -180,46 +180,10 @@ JsonValueInitInteger (
 EDKII_JSON_VALUE
 EFIAPI
 JsonValueInitBoolean (
-  IN    BOOLEAN  Value
+  IN    BOOLEAN    Value
   )
 {
   return (EDKII_JSON_VALUE)json_boolean (Value);
-}
-
-/**
-  The function is used to initialize a JSON value which contains a TRUE JSON value,
-  or NULL on error.
-
-  NULL JSON value is kept as static value, and no need to do any cleanup work.
-
-  @retval      The created JSON TRUE value.
-
-**/
-EDKII_JSON_VALUE
-EFIAPI
-JsonValueInitTrue (
-  VOID
-  )
-{
-  return (EDKII_JSON_VALUE)json_true ();
-}
-
-/**
-  The function is used to initialize a JSON value which contains a FALSE JSON value,
-  or NULL on error.
-
-  NULL JSON value is kept as static value, and no need to do any cleanup work.
-
-  @retval      The created JSON FALSE value.
-
-**/
-EDKII_JSON_VALUE
-EFIAPI
-JsonValueInitFalse (
-  VOID
-  )
-{
-  return (EDKII_JSON_VALUE)json_false ();
 }
 
 /**
@@ -237,7 +201,7 @@ JsonValueInitNull (
   VOID
   )
 {
-  return (EDKII_JSON_VALUE)json_null ();
+  return (EDKII_JSON_VALUE)json_null();
 }
 
 /**
@@ -263,10 +227,10 @@ JsonValueInitNull (
 VOID
 EFIAPI
 JsonValueFree (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  json_decref ((json_t *)Json);
+  json_decref((json_t *)Json);
 }
 
 /**
@@ -289,10 +253,10 @@ JsonValueFree (
 EDKII_JSON_VALUE
 EFIAPI
 JsonValueClone (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  return (EDKII_JSON_VALUE)json_deep_copy ((json_t *)Json);
+  return (EDKII_JSON_VALUE)json_deep_copy ((json_t *) Json);
 }
 
 /**
@@ -307,10 +271,10 @@ JsonValueClone (
 BOOLEAN
 EFIAPI
 JsonValueIsArray (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  return json_is_array ((json_t *)Json);
+  return json_is_array ((json_t *) Json);
 }
 
 /**
@@ -325,10 +289,10 @@ JsonValueIsArray (
 BOOLEAN
 EFIAPI
 JsonValueIsObject (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  return json_is_object ((json_t *)Json);
+  return json_is_object ((json_t *) Json);
 }
 
 /**
@@ -344,28 +308,10 @@ JsonValueIsObject (
 BOOLEAN
 EFIAPI
 JsonValueIsString (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  return json_is_string ((json_t *)Json);
-}
-
-/**
-  The function is used to return if the provided JSON value contains a JSON integer.
-
-  @param[in]   Json             The provided JSON value.
-
-  @retval      TRUE             The JSON value is contains JSON integer.
-  @retval      FALSE            The JSON value doesn't contain a JSON integer.
-
-**/
-BOOLEAN
-EFIAPI
-JsonValueIsInteger (
-  IN    EDKII_JSON_VALUE  Json
-  )
-{
-  return json_is_integer ((json_t *)Json);
+  return json_is_string ((json_t *) Json);
 }
 
 /**
@@ -380,10 +326,10 @@ JsonValueIsInteger (
 BOOLEAN
 EFIAPI
 JsonValueIsNumber (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  return json_is_number ((json_t *)Json);
+  return json_is_integer ((json_t *) Json);
 }
 
 /**
@@ -398,54 +344,10 @@ JsonValueIsNumber (
 BOOLEAN
 EFIAPI
 JsonValueIsBoolean (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  return json_is_boolean ((json_t *)Json);
-}
-
-/**
-  The function is used to return if the provided JSON value contains a TRUE value.
-
-  @param[in]   Json             The provided JSON value.
-
-  @retval      TRUE             The JSON value contains a TRUE value.
-  @retval      FALSE            The JSON value doesn't contain a TRUE value.
-
-**/
-BOOLEAN
-EFIAPI
-JsonValueIsTrue (
-  IN    EDKII_JSON_VALUE  Json
-  )
-{
-  if (json_is_true ((json_t *)Json)) {
-    return TRUE;
-  }
-
-  return FALSE;
-}
-
-/**
-  The function is used to return if the provided JSON value contains a FALSE value.
-
-  @param[in]   Json             The provided JSON value.
-
-  @retval      TRUE             The JSON value contains a FALSE value.
-  @retval      FALSE            The JSON value doesn't contain a FALSE value.
-
-**/
-BOOLEAN
-EFIAPI
-JsonValueIsFalse (
-  IN    EDKII_JSON_VALUE  Json
-  )
-{
-  if (json_is_false ((json_t *)Json)) {
-    return TRUE;
-  }
-
-  return FALSE;
+  return json_is_boolean ((json_t *) Json);
 }
 
 /**
@@ -460,10 +362,10 @@ JsonValueIsFalse (
 BOOLEAN
 EFIAPI
 JsonValueIsNull (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  return json_is_null ((json_t *)Json);
+  return json_is_null ((json_t *) Json);
 }
 
 /**
@@ -479,10 +381,10 @@ JsonValueIsNull (
 EDKII_JSON_ARRAY
 EFIAPI
 JsonValueGetArray (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  if ((Json == NULL) || !JsonValueIsArray (Json)) {
+  if (Json == NULL || !JsonValueIsArray (Json)) {
     return NULL;
   }
 
@@ -502,10 +404,10 @@ JsonValueGetArray (
 EDKII_JSON_OBJECT
 EFIAPI
 JsonValueGetObject (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  if ((Json == NULL) || !JsonValueIsObject (Json)) {
+  if (Json == NULL || !JsonValueIsObject (Json)) {
     return NULL;
   }
 
@@ -525,13 +427,13 @@ JsonValueGetObject (
 CONST CHAR8 *
 EFIAPI
 JsonValueGetAsciiString (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  CONST CHAR8  *AsciiStr;
-  UINTN        Index;
+  CONST CHAR8    *AsciiStr;
+  UINTN          Index;
 
-  AsciiStr = json_string_value ((json_t *)Json);
+  AsciiStr = json_string_value ((json_t *) Json);
   if (AsciiStr == NULL) {
     return NULL;
   }
@@ -559,22 +461,22 @@ JsonValueGetAsciiString (
   @retval      Return the associated Unicode string in JSON value or NULL.
 
 **/
-CHAR16 *
+CHAR16*
 EFIAPI
 JsonValueGetUnicodeString (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  EFI_STATUS   Status;
-  CONST CHAR8  *Utf8Str;
-  CHAR16       *Ucs2Str;
+  EFI_STATUS     Status;
+  CONST CHAR8    *Utf8Str;
+  CHAR16         *Ucs2Str;
 
-  Utf8Str = json_string_value ((json_t *)Json);
+  Utf8Str = json_string_value ((json_t *) Json);
   if (Utf8Str == NULL) {
     return NULL;
   }
 
-  Status = UTF8StrToUCS2 ((CHAR8 *)Utf8Str, &Ucs2Str);
+  Status = UTF8StrToUCS2 ((CHAR8*)Utf8Str, &Ucs2Str);
   if (EFI_ERROR (Status)) {
     return NULL;
   }
@@ -583,28 +485,28 @@ JsonValueGetUnicodeString (
 }
 
 /**
-  The function is used to retrieve the associated integer in a integer type JSON value.
+  The function is used to retrieve the associated integer in a number type JSON value.
 
-  The input JSON value should not be NULL or contain no JSON integer, otherwise it will
+  The input JSON value should not be NULL or contain no JSON number, otherwise it will
   ASSERT() and return 0.
 
   @param[in]   Json             The provided JSON value.
 
-  @retval      Return the associated integer in JSON value.
+  @retval      Return the associated number in JSON value.
 
 **/
 INT64
 EFIAPI
-JsonValueGetInteger (
-  IN    EDKII_JSON_VALUE  Json
+JsonValueGetNumber (
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  ASSERT (Json != NULL && JsonValueIsInteger (Json));
-  if ((Json == NULL) || !JsonValueIsInteger (Json)) {
+  ASSERT (Json != NULL && JsonValueIsNumber (Json));
+  if (Json == NULL || !JsonValueIsNumber (Json)) {
     return 0;
   }
 
-  return json_integer_value ((json_t *)Json);
+  return json_integer_value ((json_t *) Json);
 }
 
 /**
@@ -621,15 +523,15 @@ JsonValueGetInteger (
 BOOLEAN
 EFIAPI
 JsonValueGetBoolean (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
   ASSERT (Json != NULL && JsonValueIsBoolean (Json));
-  if ((Json == NULL) || !JsonValueIsBoolean (Json)) {
+  if (Json == NULL || !JsonValueIsBoolean (Json)) {
     return FALSE;
   }
 
-  return json_is_true ((json_t *)Json);
+  return json_is_true ((json_t *) Json);
 }
 
 /**
@@ -642,10 +544,10 @@ JsonValueGetBoolean (
   @retval      Return the associated Ascii string in JSON value or NULL on errors.
 
 **/
-CONST CHAR8 *
+CONST CHAR8*
 EFIAPI
 JsonValueGetString (
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_VALUE    Json
   )
 {
   return json_string_value ((const json_t *)Json);
@@ -663,10 +565,10 @@ JsonValueGetString (
 UINTN
 EFIAPI
 JsonObjectSize (
-  IN    EDKII_JSON_OBJECT  JsonObject
+  IN    EDKII_JSON_OBJECT    JsonObject
   )
 {
-  return json_object_size ((json_t *)JsonObject);
+  return json_object_size ((json_t *) JsonObject);
 }
 
 /**
@@ -682,23 +584,24 @@ JsonObjectSize (
                JsonObj is not an JSON object, key count is zero or on other errors.
 
 **/
-CHAR8 **
+CHAR8**
 JsonObjectGetKeys (
-  IN    EDKII_JSON_OBJECT  JsonObj,
-  OUT   UINTN              *KeyCount
+  IN    EDKII_JSON_OBJECT    JsonObj,
+  OUT   UINTN                *KeyCount
   )
 {
-  UINTN             Index;
-  CONST CHAR8       **KeyArray;
-  CONST CHAR8       *Key;
-  EDKII_JSON_VALUE  Value;
 
-  if ((JsonObj == NULL) || (KeyCount == NULL)) {
+  UINTN               Index;
+  CONST CHAR8         **KeyArray;
+  CONST CHAR8         *Key;
+  EDKII_JSON_VALUE    Value;
+
+  if (JsonObj == NULL || KeyCount == NULL) {
     return NULL;
   }
 
   Index = 0;
-  json_object_foreach (JsonObj, Key, Value) {
+  json_object_foreach(JsonObj, Key, Value) {
     Index++;
   }
   if (Index == 0) {
@@ -707,7 +610,7 @@ JsonObjectGetKeys (
   }
 
   *KeyCount = Index;
-  KeyArray  = (CONST CHAR8 **)AllocateZeroPool (*KeyCount * sizeof (CHAR8 *));
+  KeyArray = (CONST CHAR8 **) AllocateZeroPool (*KeyCount * sizeof (CHAR8 *));
   if (KeyArray == NULL) {
     return NULL;
   }
@@ -715,7 +618,7 @@ JsonObjectGetKeys (
   Key   = NULL;
   Value = NULL;
   Index = 0;
-  json_object_foreach ((json_t *)JsonObj, Key, Value) {
+  json_object_foreach((json_t *) JsonObj, Key, Value) {
     KeyArray[Index] = Key;
     Index++;
   }
@@ -742,8 +645,8 @@ JsonObjectGetKeys (
 EDKII_JSON_VALUE
 EFIAPI
 JsonObjectGetValue (
-  IN    CONST EDKII_JSON_OBJECT  JsonObj,
-  IN    CONST CHAR8              *Key
+  IN    CONST EDKII_JSON_OBJECT    JsonObj,
+  IN    CONST CHAR8                *Key
   )
 {
   return (EDKII_JSON_VALUE)json_object_get ((const json_t *)JsonObj, (const char *)Key);
@@ -770,12 +673,12 @@ JsonObjectGetValue (
 EFI_STATUS
 EFIAPI
 JsonObjectSetValue (
-  IN    EDKII_JSON_OBJECT  JsonObj,
-  IN    CONST CHAR8        *Key,
-  IN    EDKII_JSON_VALUE   Json
+  IN    EDKII_JSON_OBJECT    JsonObj,
+  IN    CONST CHAR8          *Key,
+  IN    EDKII_JSON_VALUE     Json
   )
 {
-  if (json_object_set ((json_t *)JsonObj, Key, (json_t *)Json) != 0) {
+  if (json_object_set ((json_t *) JsonObj, Key, (json_t *) Json) != 0) {
     return EFI_ABORTED;
   } else {
     return EFI_SUCCESS;
@@ -794,10 +697,10 @@ JsonObjectSetValue (
 UINTN
 EFIAPI
 JsonArrayCount (
-  IN    EDKII_JSON_ARRAY  JsonArray
+  IN    EDKII_JSON_ARRAY    JsonArray
   )
 {
-  return json_array_size ((json_t *)JsonArray);
+  return json_array_size ((json_t *) JsonArray);
 }
 
 /**
@@ -819,11 +722,11 @@ JsonArrayCount (
 EDKII_JSON_VALUE
 EFIAPI
 JsonArrayGetValue (
-  IN    EDKII_JSON_ARRAY  JsonArray,
-  IN    UINTN             Index
+  IN    EDKII_JSON_ARRAY    JsonArray,
+  IN    UINTN               Index
   )
 {
-  return (EDKII_JSON_VALUE)json_array_get ((json_t *)JsonArray, Index);
+  return (EDKII_JSON_VALUE)json_array_get ((json_t *) JsonArray, Index);
 }
 
 /**
@@ -842,11 +745,11 @@ JsonArrayGetValue (
 EFI_STATUS
 EFIAPI
 JsonArrayAppendValue (
-  IN    EDKII_JSON_ARRAY  JsonArray,
-  IN    EDKII_JSON_VALUE  Json
+  IN    EDKII_JSON_ARRAY    JsonArray,
+  IN    EDKII_JSON_VALUE    Json
   )
 {
-  if (json_array_append ((json_t *)JsonArray, (json_t *)Json) != 0) {
+  if (json_array_append ((json_t *) JsonArray, (json_t *) Json) != 0) {
     return EFI_ABORTED;
   } else {
     return EFI_SUCCESS;
@@ -870,11 +773,11 @@ JsonArrayAppendValue (
 EFI_STATUS
 EFIAPI
 JsonArrayRemoveValue (
-  IN    EDKII_JSON_ARRAY  JsonArray,
-  IN    UINTN             Index
+  IN    EDKII_JSON_ARRAY    JsonArray,
+  IN    UINTN               Index
   )
 {
-  if (json_array_remove ((json_t *)JsonArray, Index) != 0) {
+  if (json_array_remove ((json_t *) JsonArray, Index) != 0) {
     return EFI_ABORTED;
   } else {
     return EFI_SUCCESS;
@@ -906,15 +809,14 @@ JsonArrayRemoveValue (
 CHAR8 *
 EFIAPI
 JsonDumpString (
-  IN    EDKII_JSON_VALUE  JsonValue,
-  IN    UINTN             Flags
+  IN    EDKII_JSON_VALUE    JsonValue,
+  IN    UINTN               Flags
   )
 {
-  if (JsonValue == NULL) {
-    return NULL;
-  }
-
-  return json_dumps ((json_t *)JsonValue, Flags);
+    if (JsonValue == NULL) {
+      return NULL;
+    }
+    return json_dumps((json_t *)JsonValue, Flags);
 }
 
 /**
@@ -928,8 +830,6 @@ JsonDumpString (
   Caller needs to cleanup the root value by calling JsonValueFree().
 
   @param[in]   String        The NULL terminated CHAR8 string to convert.
-  @param[in]   Flags         Flags for loading JSON string.
-  @param[in]   Error         Returned error status.
 
   @retval      Array JSON value or object JSON value, or NULL when any error occurs.
 
@@ -937,12 +837,12 @@ JsonDumpString (
 EDKII_JSON_VALUE
 EFIAPI
 JsonLoadString (
-  IN    CONST CHAR8       *String,
-  IN    UINT64            Flags,
-  IN    EDKII_JSON_ERROR  *Error
+  IN    CONST CHAR8*    String
   )
 {
-  return (EDKII_JSON_VALUE)json_loads ((const char *)String, Flags, (json_error_t *)Error);
+  json_error_t    JsonError;
+
+  return (EDKII_JSON_VALUE) json_loads ((const char *)String, 0, &JsonError);
 }
 
 /**
@@ -967,13 +867,13 @@ JsonLoadString (
 EDKII_JSON_VALUE
 EFIAPI
 JsonLoadBuffer (
-  IN    CONST CHAR8        *Buffer,
+  IN    CONST CHAR8       *Buffer,
   IN    UINTN              BufferLen,
   IN    UINTN              Flags,
   IN OUT EDKII_JSON_ERROR  *Error
   )
 {
-  return json_loadb (Buffer, BufferLen, Flags, (json_error_t *)Error);
+  return json_loadb(Buffer, BufferLen, Flags, (json_error_t *)Error);
 }
 
 /**
@@ -992,7 +892,7 @@ JsonLoadBuffer (
 VOID
 EFIAPI
 JsonDecreaseReference (
-  IN EDKII_JSON_VALUE  JsonValue
+  IN EDKII_JSON_VALUE JsonValue
   )
 {
   json_decref (JsonValue);
@@ -1013,7 +913,7 @@ JsonDecreaseReference (
 EDKII_JSON_VALUE
 EFIAPI
 JsonIncreaseReference (
-  IN EDKII_JSON_VALUE  JsonValue
+  IN EDKII_JSON_VALUE JsonValue
   )
 {
   return json_incref (JsonValue);
@@ -1029,7 +929,7 @@ JsonIncreaseReference (
 VOID *
 EFIAPI
 JsonObjectIterator (
-  IN EDKII_JSON_VALUE  JsonValue
+  IN EDKII_JSON_VALUE JsonValue
   )
 {
   return json_object_iter (JsonValue);
@@ -1044,10 +944,10 @@ JsonObjectIterator (
 EDKII_JSON_VALUE
 EFIAPI
 JsonObjectIteratorValue (
-  IN VOID  *Iterator
+  IN VOID *Iterator
   )
 {
-  return json_object_iter_value (Iterator);
+  return json_object_iter_value(Iterator);
 }
 
 /**
@@ -1059,43 +959,12 @@ JsonObjectIteratorValue (
   @retval      Iterator pointer
 **/
 VOID *
-EFIAPI
 JsonObjectIteratorNext (
-  IN EDKII_JSON_VALUE  JsonValue,
-  IN VOID              *Iterator
+  IN EDKII_JSON_VALUE JsonValue,
+  IN VOID             *Iterator
   )
 {
-  return json_object_iter_next (JsonValue, Iterator);
-}
-
-/**
-  Returns the key of iterator pointing.
-
-  @param[in]   Iterator   Iterator pointer
-  @retval      Key
-**/
-CHAR8 *
-EFIAPI
-JsonObjectIteratorKey (
-  IN VOID  *Iterator
-  )
-{
-  return (CHAR8 *)json_object_iter_key (Iterator);
-}
-
-/**
-  Returns the pointer of iterator by key.
-
-  @param[in]   Key   The key of interator pointer.
-  @retval      Pointer to interator
-**/
-VOID *
-EFIAPI
-JsonObjectKeyToIterator (
-  IN CHAR8  *Key
-  )
-{
-  return json_object_key_to_iter (Key);
+  return json_object_iter_next(JsonValue, Iterator);
 }
 
 /**
@@ -1107,7 +976,7 @@ JsonObjectKeyToIterator (
 EDKII_JSON_TYPE
 EFIAPI
 JsonGetType (
-  IN EDKII_JSON_VALUE  JsonValue
+  IN EDKII_JSON_VALUE JsonValue
   )
 {
   return ((json_t *)JsonValue)->type;

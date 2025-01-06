@@ -11,6 +11,7 @@
 
 **/
 
+
 /**
   Setup all the hardware needed for the debug agents timer.
 
@@ -24,6 +25,7 @@ DebugAgentTimerIntialize (
   )
 {
 }
+
 
 /**
   Set the period for the debug agent timer. Zero means disable the timer.
@@ -39,6 +41,7 @@ DebugAgentTimerSetPeriod (
 {
 }
 
+
 /**
   Perform End Of Interrupt for the debug agent timer. This is called in the
   interrupt handler after the interrupt has been processed.
@@ -51,3 +54,4 @@ DebugAgentTimerEndOfInterrupt (
   )
 {
 }
+

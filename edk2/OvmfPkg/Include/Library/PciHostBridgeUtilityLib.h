@@ -13,7 +13,9 @@
 #ifndef __PCI_HOST_BRIDGE_UTILITY_LIB_H__
 #define __PCI_HOST_BRIDGE_UTILITY_LIB_H__
 
+
 #include <Library/PciHostBridgeLib.h>
+
 
 /**
   Utility function to initialize a PCI_ROOT_BRIDGE structure.
@@ -65,20 +67,21 @@
 EFI_STATUS
 EFIAPI
 PciHostBridgeUtilityInitRootBridge (
-  IN  UINT64                    Supports,
-  IN  UINT64                    Attributes,
-  IN  UINT64                    AllocAttributes,
-  IN  BOOLEAN                   DmaAbove4G,
-  IN  BOOLEAN                   NoExtendedConfigSpace,
-  IN  UINT8                     RootBusNumber,
-  IN  UINT8                     MaxSubBusNumber,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *Io,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *Mem,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *MemAbove4G,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *PMem,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *PMemAbove4G,
-  OUT PCI_ROOT_BRIDGE           *RootBus
+  IN  UINT64                   Supports,
+  IN  UINT64                   Attributes,
+  IN  UINT64                   AllocAttributes,
+  IN  BOOLEAN                  DmaAbove4G,
+  IN  BOOLEAN                  NoExtendedConfigSpace,
+  IN  UINT8                    RootBusNumber,
+  IN  UINT8                    MaxSubBusNumber,
+  IN  PCI_ROOT_BRIDGE_APERTURE *Io,
+  IN  PCI_ROOT_BRIDGE_APERTURE *Mem,
+  IN  PCI_ROOT_BRIDGE_APERTURE *MemAbove4G,
+  IN  PCI_ROOT_BRIDGE_APERTURE *PMem,
+  IN  PCI_ROOT_BRIDGE_APERTURE *PMemAbove4G,
+  OUT PCI_ROOT_BRIDGE          *RootBus
   );
+
 
 /**
   Utility function to uninitialize a PCI_ROOT_BRIDGE structure set up with
@@ -92,8 +95,9 @@ PciHostBridgeUtilityInitRootBridge (
 VOID
 EFIAPI
 PciHostBridgeUtilityUninitRootBridge (
-  IN PCI_ROOT_BRIDGE  *RootBus
+  IN PCI_ROOT_BRIDGE *RootBus
   );
+
 
 /**
   Utility function to return all the root bridge instances in an array.
@@ -127,19 +131,20 @@ PciHostBridgeUtilityUninitRootBridge (
 PCI_ROOT_BRIDGE *
 EFIAPI
 PciHostBridgeUtilityGetRootBridges (
-  OUT UINTN                     *Count,
-  IN  UINT64                    Attributes,
-  IN  UINT64                    AllocationAttributes,
-  IN  BOOLEAN                   DmaAbove4G,
-  IN  BOOLEAN                   NoExtendedConfigSpace,
-  IN  UINTN                     BusMin,
-  IN  UINTN                     BusMax,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *Io,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *Mem,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *MemAbove4G,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *PMem,
-  IN  PCI_ROOT_BRIDGE_APERTURE  *PMemAbove4G
+  OUT UINTN                    *Count,
+  IN  UINT64                   Attributes,
+  IN  UINT64                   AllocationAttributes,
+  IN  BOOLEAN                  DmaAbove4G,
+  IN  BOOLEAN                  NoExtendedConfigSpace,
+  IN  UINTN                    BusMin,
+  IN  UINTN                    BusMax,
+  IN  PCI_ROOT_BRIDGE_APERTURE *Io,
+  IN  PCI_ROOT_BRIDGE_APERTURE *Mem,
+  IN  PCI_ROOT_BRIDGE_APERTURE *MemAbove4G,
+  IN  PCI_ROOT_BRIDGE_APERTURE *PMem,
+  IN  PCI_ROOT_BRIDGE_APERTURE *PMemAbove4G
   );
+
 
 /**
   Utility function to free root bridge instances array from
@@ -151,9 +156,10 @@ PciHostBridgeUtilityGetRootBridges (
 VOID
 EFIAPI
 PciHostBridgeUtilityFreeRootBridges (
-  IN PCI_ROOT_BRIDGE  *Bridges,
-  IN UINTN            Count
+  IN PCI_ROOT_BRIDGE *Bridges,
+  IN UINTN           Count
   );
+
 
 /**
   Utility function to inform the platform that the resource conflict happens.
@@ -174,5 +180,6 @@ EFIAPI
 PciHostBridgeUtilityResourceConflict (
   IN VOID  *Configuration
   );
+
 
 #endif // __PCI_HOST_BRIDGE_UTILITY_LIB_H__

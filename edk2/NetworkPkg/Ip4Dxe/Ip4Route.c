@@ -7,6 +7,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 #include "Ip4Impl.h"
 
+
 /**
   Allocate a route entry then initialize it with the Dest/Netmask
   and Gateway.
@@ -21,12 +22,12 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 IP4_ROUTE_ENTRY *
 Ip4CreateRouteEntry (
-  IN IP4_ADDR  Dest,
-  IN IP4_ADDR  Netmask,
-  IN IP4_ADDR  GateWay
+  IN IP4_ADDR               Dest,
+  IN IP4_ADDR               Netmask,
+  IN IP4_ADDR               GateWay
   )
 {
-  IP4_ROUTE_ENTRY  *RtEntry;
+  IP4_ROUTE_ENTRY           *RtEntry;
 
   RtEntry = AllocatePool (sizeof (IP4_ROUTE_ENTRY));
 
@@ -45,6 +46,7 @@ Ip4CreateRouteEntry (
   return RtEntry;
 }
 
+
 /**
   Free the route table entry. It is reference counted.
 
@@ -53,7 +55,7 @@ Ip4CreateRouteEntry (
 **/
 VOID
 Ip4FreeRouteEntry (
-  IN IP4_ROUTE_ENTRY  *RtEntry
+  IN IP4_ROUTE_ENTRY    *RtEntry
   )
 {
   ASSERT (RtEntry->RefCnt > 0);
@@ -62,6 +64,7 @@ Ip4FreeRouteEntry (
     FreePool (RtEntry);
   }
 }
+
 
 /**
   Allocate and initialize an IP4 route cache entry.
@@ -78,13 +81,13 @@ Ip4FreeRouteEntry (
 **/
 IP4_ROUTE_CACHE_ENTRY *
 Ip4CreateRouteCacheEntry (
-  IN IP4_ADDR  Dst,
-  IN IP4_ADDR  Src,
-  IN IP4_ADDR  GateWay,
-  IN UINTN     Tag
+  IN IP4_ADDR               Dst,
+  IN IP4_ADDR               Src,
+  IN IP4_ADDR               GateWay,
+  IN UINTN                  Tag
   )
 {
-  IP4_ROUTE_CACHE_ENTRY  *RtCacheEntry;
+  IP4_ROUTE_CACHE_ENTRY     *RtCacheEntry;
 
   RtCacheEntry = AllocatePool (sizeof (IP4_ROUTE_CACHE_ENTRY));
 
@@ -102,6 +105,7 @@ Ip4CreateRouteCacheEntry (
 
   return RtCacheEntry;
 }
+
 
 /**
   Free the route cache entry. It is reference counted.
@@ -121,6 +125,7 @@ Ip4FreeRouteCacheEntry (
   }
 }
 
+
 /**
   Initialize an empty route cache table.
 
@@ -129,15 +134,16 @@ Ip4FreeRouteCacheEntry (
 **/
 VOID
 Ip4InitRouteCache (
-  IN OUT IP4_ROUTE_CACHE  *RtCache
+  IN OUT IP4_ROUTE_CACHE        *RtCache
   )
 {
-  UINT32  Index;
+  UINT32                    Index;
 
   for (Index = 0; Index < IP4_ROUTE_CACHE_HASH_VALUE; Index++) {
     InitializeListHead (&(RtCache->CacheBucket[Index]));
   }
 }
+
 
 /**
   Clean up a route cache, that is free all the route cache
@@ -148,13 +154,13 @@ Ip4InitRouteCache (
 **/
 VOID
 Ip4CleanRouteCache (
-  IN IP4_ROUTE_CACHE  *RtCache
+  IN IP4_ROUTE_CACHE        *RtCache
   )
 {
-  LIST_ENTRY             *Entry;
-  LIST_ENTRY             *Next;
-  IP4_ROUTE_CACHE_ENTRY  *RtCacheEntry;
-  UINT32                 Index;
+  LIST_ENTRY                *Entry;
+  LIST_ENTRY                *Next;
+  IP4_ROUTE_CACHE_ENTRY     *RtCacheEntry;
+  UINT32                    Index;
 
   for (Index = 0; Index < IP4_ROUTE_CACHE_HASH_VALUE; Index++) {
     NET_LIST_FOR_EACH_SAFE (Entry, Next, &(RtCache->CacheBucket[Index])) {
@@ -165,6 +171,8 @@ Ip4CleanRouteCache (
     }
   }
 }
+
+
 
 /**
   Create an empty route table, includes its internal route cache
@@ -178,8 +186,8 @@ Ip4CreateRouteTable (
   VOID
   )
 {
-  IP4_ROUTE_TABLE  *RtTable;
-  UINT32           Index;
+  IP4_ROUTE_TABLE           *RtTable;
+  UINT32                    Index;
 
   RtTable = AllocatePool (sizeof (IP4_ROUTE_TABLE));
 
@@ -200,6 +208,7 @@ Ip4CreateRouteTable (
   return RtTable;
 }
 
+
 /**
   Free the route table and its associated route cache. Route
   table is reference counted.
@@ -209,18 +218,18 @@ Ip4CreateRouteTable (
 **/
 VOID
 Ip4FreeRouteTable (
-  IN IP4_ROUTE_TABLE  *RtTable
+  IN IP4_ROUTE_TABLE        *RtTable
   )
 {
-  LIST_ENTRY       *Entry;
-  LIST_ENTRY       *Next;
-  IP4_ROUTE_ENTRY  *RtEntry;
-  UINT32           Index;
+  LIST_ENTRY                *Entry;
+  LIST_ENTRY                *Next;
+  IP4_ROUTE_ENTRY           *RtEntry;
+  UINT32                    Index;
 
   ASSERT (RtTable->RefCnt > 0);
 
   if (--RtTable->RefCnt > 0) {
-    return;
+    return ;
   }
 
   //
@@ -240,6 +249,8 @@ Ip4FreeRouteTable (
   FreePool (RtTable);
 }
 
+
+
 /**
   Remove all the cache entries bearing the Tag. When a route cache
   entry is created, it is tagged with the address of route entry
@@ -252,17 +263,18 @@ Ip4FreeRouteTable (
 **/
 VOID
 Ip4PurgeRouteCache (
-  IN OUT IP4_ROUTE_CACHE  *RtCache,
-  IN     UINTN            Tag
+  IN OUT IP4_ROUTE_CACHE        *RtCache,
+  IN     UINTN                  Tag
   )
 {
-  LIST_ENTRY             *Entry;
-  LIST_ENTRY             *Next;
-  IP4_ROUTE_CACHE_ENTRY  *RtCacheEntry;
-  UINT32                 Index;
+  LIST_ENTRY                *Entry;
+  LIST_ENTRY                *Next;
+  IP4_ROUTE_CACHE_ENTRY     *RtCacheEntry;
+  UINT32                    Index;
 
   for (Index = 0; Index < IP4_ROUTE_CACHE_HASH_VALUE; Index++) {
     NET_LIST_FOR_EACH_SAFE (Entry, Next, &RtCache->CacheBucket[Index]) {
+
       RtCacheEntry = NET_LIST_USER_STRUCT (Entry, IP4_ROUTE_CACHE_ENTRY, Link);
 
       if (RtCacheEntry->Tag == Tag) {
@@ -272,6 +284,7 @@ Ip4PurgeRouteCache (
     }
   }
 }
+
 
 /**
   Add a route entry to the route table. All the IP4_ADDRs are in
@@ -289,15 +302,15 @@ Ip4PurgeRouteCache (
 **/
 EFI_STATUS
 Ip4AddRoute (
-  IN OUT IP4_ROUTE_TABLE  *RtTable,
-  IN     IP4_ADDR         Dest,
-  IN     IP4_ADDR         Netmask,
-  IN     IP4_ADDR         Gateway
+  IN OUT IP4_ROUTE_TABLE        *RtTable,
+  IN     IP4_ADDR               Dest,
+  IN     IP4_ADDR               Netmask,
+  IN     IP4_ADDR               Gateway
   )
 {
-  LIST_ENTRY       *Head;
-  LIST_ENTRY       *Entry;
-  IP4_ROUTE_ENTRY  *RtEntry;
+  LIST_ENTRY                *Head;
+  LIST_ENTRY                *Entry;
+  IP4_ROUTE_ENTRY           *RtEntry;
 
   //
   // All the route entries with the same netmask length are
@@ -335,6 +348,7 @@ Ip4AddRoute (
   return EFI_SUCCESS;
 }
 
+
 /**
   Remove a route entry and all the route caches spawn from it.
 
@@ -350,16 +364,16 @@ Ip4AddRoute (
 **/
 EFI_STATUS
 Ip4DelRoute (
-  IN OUT IP4_ROUTE_TABLE  *RtTable,
-  IN     IP4_ADDR         Dest,
-  IN     IP4_ADDR         Netmask,
-  IN     IP4_ADDR         Gateway
+  IN OUT IP4_ROUTE_TABLE      *RtTable,
+  IN     IP4_ADDR             Dest,
+  IN     IP4_ADDR             Netmask,
+  IN     IP4_ADDR             Gateway
   )
 {
-  LIST_ENTRY       *Head;
-  LIST_ENTRY       *Entry;
-  LIST_ENTRY       *Next;
-  IP4_ROUTE_ENTRY  *RtEntry;
+  LIST_ENTRY                *Head;
+  LIST_ENTRY                *Entry;
+  LIST_ENTRY                *Next;
+  IP4_ROUTE_ENTRY           *RtEntry;
 
   Head = &(RtTable->RouteArea[NetGetMaskLength (Netmask)]);
 
@@ -367,9 +381,9 @@ Ip4DelRoute (
     RtEntry = NET_LIST_USER_STRUCT (Entry, IP4_ROUTE_ENTRY, Link);
 
     if (IP4_NET_EQUAL (RtEntry->Dest, Dest, Netmask) && (RtEntry->NextHop == Gateway)) {
-      Ip4PurgeRouteCache (&RtTable->Cache, (UINTN)RtEntry);
+      Ip4PurgeRouteCache (&RtTable->Cache, (UINTN) RtEntry);
       RemoveEntryList (Entry);
-      Ip4FreeRouteEntry (RtEntry);
+      Ip4FreeRouteEntry  (RtEntry);
 
       RtTable->TotalNum--;
       return EFI_SUCCESS;
@@ -378,6 +392,7 @@ Ip4DelRoute (
 
   return EFI_NOT_FOUND;
 }
+
 
 /**
   Find a route cache with the dst and src. This is used by ICMP
@@ -395,14 +410,14 @@ Ip4DelRoute (
 **/
 IP4_ROUTE_CACHE_ENTRY *
 Ip4FindRouteCache (
-  IN IP4_ROUTE_TABLE  *RtTable,
-  IN IP4_ADDR         Dest,
-  IN IP4_ADDR         Src
+  IN IP4_ROUTE_TABLE        *RtTable,
+  IN IP4_ADDR               Dest,
+  IN IP4_ADDR               Src
   )
 {
-  LIST_ENTRY             *Entry;
-  IP4_ROUTE_CACHE_ENTRY  *RtCacheEntry;
-  UINT32                 Index;
+  LIST_ENTRY                *Entry;
+  IP4_ROUTE_CACHE_ENTRY     *RtCacheEntry;
+  UINT32                    Index;
 
   Index = IP4_ROUTE_CACHE_HASH (Dest, Src);
 
@@ -417,6 +432,7 @@ Ip4FindRouteCache (
 
   return NULL;
 }
+
 
 /**
   Search the route table for a most specific match to the Dst. It searches
@@ -436,14 +452,14 @@ Ip4FindRouteCache (
 **/
 IP4_ROUTE_ENTRY *
 Ip4FindRouteEntry (
-  IN IP4_ROUTE_TABLE  *RtTable,
-  IN IP4_ADDR         Dst
+  IN IP4_ROUTE_TABLE        *RtTable,
+  IN IP4_ADDR               Dst
   )
 {
-  LIST_ENTRY       *Entry;
-  IP4_ROUTE_ENTRY  *RtEntry;
-  IP4_ROUTE_TABLE  *Table;
-  INTN             Index;
+  LIST_ENTRY                *Entry;
+  IP4_ROUTE_ENTRY           *RtEntry;
+  IP4_ROUTE_TABLE           *Table;
+  INTN                      Index;
 
   RtEntry = NULL;
 
@@ -460,8 +476,10 @@ Ip4FindRouteEntry (
     }
   }
 
+
   return NULL;
 }
+
 
 /**
   Search the route table to route the packet. Return/create a route
@@ -482,26 +500,26 @@ Ip4FindRouteEntry (
 **/
 IP4_ROUTE_CACHE_ENTRY *
 Ip4Route (
-  IN IP4_ROUTE_TABLE  *RtTable,
-  IN IP4_ADDR         Dest,
-  IN IP4_ADDR         Src,
-  IN IP4_ADDR         SubnetMask,
-  IN BOOLEAN          AlwaysTryDestAddr
+  IN IP4_ROUTE_TABLE        *RtTable,
+  IN IP4_ADDR               Dest,
+  IN IP4_ADDR               Src,
+  IN IP4_ADDR               SubnetMask,
+  IN BOOLEAN                AlwaysTryDestAddr
   )
 {
-  LIST_ENTRY             *Head;
-  LIST_ENTRY             *Entry;
-  LIST_ENTRY             *Next;
-  IP4_ROUTE_CACHE_ENTRY  *RtCacheEntry;
-  IP4_ROUTE_CACHE_ENTRY  *Cache;
-  IP4_ROUTE_ENTRY        *RtEntry;
-  IP4_ADDR               NextHop;
-  UINT32                 Count;
+  LIST_ENTRY                *Head;
+  LIST_ENTRY                *Entry;
+  LIST_ENTRY                *Next;
+  IP4_ROUTE_CACHE_ENTRY     *RtCacheEntry;
+  IP4_ROUTE_CACHE_ENTRY     *Cache;
+  IP4_ROUTE_ENTRY           *RtEntry;
+  IP4_ADDR                  NextHop;
+  UINT32                    Count;
 
   ASSERT (RtTable != NULL);
 
-  Head         = &RtTable->Cache.CacheBucket[IP4_ROUTE_CACHE_HASH (Dest, Src)];
-  RtCacheEntry = Ip4FindRouteCache (RtTable, Dest, Src);
+  Head          = &RtTable->Cache.CacheBucket[IP4_ROUTE_CACHE_HASH (Dest, Src)];
+  RtCacheEntry  = Ip4FindRouteCache (RtTable, Dest, Src);
 
   //
   // If found, promote the cache entry to the head of the hash bucket. LRU
@@ -534,7 +552,7 @@ Ip4Route (
   // When using /32 subnet mask, the packet will always be sent to the direct
   // destination first, if we can't find a matching route cache.
   //
-  if ((SubnetMask == IP4_ALLONE_ADDRESS) || ((RtEntry->Flag & IP4_DIRECT_ROUTE) != 0)) {
+  if (SubnetMask == IP4_ALLONE_ADDRESS || ((RtEntry->Flag & IP4_DIRECT_ROUTE) != 0)) {
     NextHop = Dest;
   } else {
     NextHop = RtEntry->NextHop;
@@ -549,7 +567,7 @@ Ip4Route (
   // For /32 subnet mask, the default route in RtEntry will be used if failed
   // to send the packet to driect destination address.
   //
-  RtCacheEntry = Ip4CreateRouteCacheEntry (Dest, Src, NextHop, (UINTN)RtEntry);
+  RtCacheEntry = Ip4CreateRouteCacheEntry (Dest, Src, NextHop, (UINTN) RtEntry);
 
   if (RtCacheEntry == NULL) {
     return NULL;
@@ -578,6 +596,7 @@ Ip4Route (
   return RtCacheEntry;
 }
 
+
 /**
   Build a EFI_IP4_ROUTE_TABLE to be returned to the caller of
   GetModeData. The EFI_IP4_ROUTE_TABLE is clumsy to use in the
@@ -591,15 +610,15 @@ Ip4Route (
 **/
 EFI_STATUS
 Ip4BuildEfiRouteTable (
-  IN IP4_PROTOCOL  *IpInstance
+  IN IP4_PROTOCOL           *IpInstance
   )
 {
-  LIST_ENTRY           *Entry;
-  IP4_ROUTE_TABLE      *RtTable;
-  IP4_ROUTE_ENTRY      *RtEntry;
-  EFI_IP4_ROUTE_TABLE  *Table;
-  UINT32               Count;
-  INT32                Index;
+  LIST_ENTRY                *Entry;
+  IP4_ROUTE_TABLE           *RtTable;
+  IP4_ROUTE_ENTRY           *RtEntry;
+  EFI_IP4_ROUTE_TABLE       *Table;
+  UINT32                    Count;
+  INT32                     Index;
 
   RtTable = IpInstance->RouteTable;
 

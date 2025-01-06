@@ -40,9 +40,9 @@ READ_LOCK_STATUS   = TRUE
 
   INF MdeModulePkg/Core/Dxe/DxeMain.inf
   INF MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
-  INF OvmfPkg/Fdt/VirtioFdtDxe/VirtioFdtDxe.inf
-  INF EmbeddedPkg/Drivers/FdtClientDxe/FdtClientDxe.inf
-  INF OvmfPkg/Fdt/HighMemDxe/HighMemDxe.inf
+  INF ArmVirtPkg/VirtioFdtDxe/VirtioFdtDxe.inf
+  INF ArmVirtPkg/FdtClientDxe/FdtClientDxe.inf
+  INF ArmVirtPkg/HighMemDxe/HighMemDxe.inf
 
   #
   # PI DXE Drivers producing Architectural Protocols (EFI Services)
@@ -99,6 +99,9 @@ READ_LOCK_STATUS   = TRUE
   INF OvmfPkg/VirtioScsiDxe/VirtioScsi.inf
   INF OvmfPkg/VirtioRngDxe/VirtioRng.inf
 
+  #
+  # UEFI application (Shell Embedded Boot Loader)
+  #
   INF ShellPkg/Application/Shell/Shell.inf
   INF ShellPkg/DynamicCommand/TftpDynamicCommand/TftpDynamicCommand.inf
   INF ShellPkg/DynamicCommand/HttpDynamicCommand/HttpDynamicCommand.inf
@@ -145,7 +148,7 @@ READ_LOCK_STATUS   = TRUE
 !if $(ARCH) == AARCH64
   INF MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
   INF MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
-  INF OvmfPkg/AcpiPlatformDxe/AcpiPlatformDxe.inf
+  INF OvmfPkg/AcpiPlatformDxe/QemuFwCfgAcpiPlatformDxe.inf
 
   #
   # EBC support

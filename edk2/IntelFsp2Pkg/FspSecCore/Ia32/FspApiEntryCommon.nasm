@@ -1,13 +1,11 @@
 ;; @file
 ;  Provide FSP API entry points.
 ;
-; Copyright (c) 2016 - 2022, Intel Corporation. All rights reserved.<BR>
+; Copyright (c) 2016 - 2020, Intel Corporation. All rights reserved.<BR>
 ; SPDX-License-Identifier: BSD-2-Clause-Patent
 ;;
 
     SECTION .text
-
-STACK_SAVED_EAX_OFFSET       EQU   4 * 7 ; size of a general purpose register * eax index
 
 ;
 ; Following functions will be provided in C
@@ -54,7 +52,7 @@ FspApiCommon1:
   add    esp, 8
   cmp    eax, 0
   jz     FspApiCommon2
-  mov    dword  [esp + STACK_SAVED_EAX_OFFSET], eax
+  mov    dword  [esp + (4 * 7)], eax
   popad
 exit:
   ret

@@ -23,8 +23,6 @@
 
 [Sources]
   SecMain.c
-  AmdSev.c
-  AmdSev.h
 
 [Sources.IA32]
   Ia32/SecEntry.nasm
@@ -44,7 +42,6 @@
   BaseMemoryLib
   PeiServicesLib
   PcdLib
-  CpuLib
   UefiCpuLib
   DebugAgentLib
   IoLib
@@ -53,14 +50,10 @@
   PeCoffExtraActionLib
   ExtractGuidedSectionLib
   LocalApicLib
-  MemEncryptSevLib
   CpuExceptionHandlerLib
-  CcProbeLib
 
 [Ppis]
   gEfiTemporaryRamSupportPpiGuid                # PPI ALWAYS_PRODUCED
-  gEfiPeiMpInitLibMpDepPpiGuid
-  gEfiPeiMpInitLibUpDepPpiGuid
 
 [Pcd]
   gUefiCpuPkgTokenSpaceGuid.PcdSevEsWorkAreaBase
@@ -77,13 +70,6 @@
   gUefiOvmfPkgTokenSpaceGuid.PcdGuidedExtractHandlerTableSize
   gUefiOvmfPkgTokenSpaceGuid.PcdOvmfDecompressionScratchEnd
   gEfiMdeModulePkgTokenSpaceGuid.PcdInitValueInTempStack
-  gUefiOvmfPkgTokenSpaceGuid.PcdOvmfConfidentialComputingWorkAreaHeader
-  gUefiOvmfPkgTokenSpaceGuid.PcdOvmfWorkAreaBase
-  gUefiOvmfPkgTokenSpaceGuid.PcdOvmfSecValidatedStart
-  gUefiOvmfPkgTokenSpaceGuid.PcdOvmfSecValidatedEnd
-  gUefiOvmfPkgTokenSpaceGuid.PcdOvmfSecGhcbBackupBase
-  gUefiOvmfPkgTokenSpaceGuid.PcdTdxAcceptPageSize
-  gUefiOvmfPkgTokenSpaceGuid.PcdOvmfWorkAreaBase
 
 [FeaturePcd]
   gUefiOvmfPkgTokenSpaceGuid.PcdSmmSmramRequire
