@@ -1,0 +1,8 @@
+[http]
+	postBuffer = 524288000
+	version = HTTP/1.1
+[core]
+	compression = 0
+[user]
+	name = applemx
+	email = 0db4jx4f2pj162@gmail.com

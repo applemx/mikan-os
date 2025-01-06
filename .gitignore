@@ -1,0 +1,12 @@
+# Build artifacts
+*.o
+*.bin
+*.iso
+disk.img
+
+# Temporary files
+*.log
+*.tmp
+
+disk.img
+disk.img

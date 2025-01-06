@@ -1,0 +1,15 @@
+#!/bin/sh
+if [ -z "$GIT_SSH_OPTS" ]; then
+    BASEOPTS=""
+else
+    BASEOPTS=$GIT_SSH_OPTS
+fi
+
+# Let ssh fail rather than prompt
+BASEOPTS="$BASEOPTS -o BatchMode=yes"
+
+if [ -z "$GIT_KEY" ]; then
+    ssh $BASEOPTS "$@"
+else
+    ssh -i "$GIT_KEY" -o IdentitiesOnly=yes $BASEOPTS "$@"
+fi
